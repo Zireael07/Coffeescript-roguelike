@@ -7,6 +7,7 @@ import {ActionProcessor} from './action_processor.js'
 import { State } from './js_game_vars.js';
 
 
+import { draw } from './index.js'
 
 console.log("Game...");
 
@@ -34,10 +35,24 @@ function setup() {
 
 //setup();  
 
+
+var act_and_update = function (action) {
+    //console.log(action);
+    var processor = State.world.get_processor(ActionProcessor)
+    //console.log(processor)
+    processor.action = action
+     //run the systems
+    State.world.process()
+
+    //redraw
+    draw()
+};
+
+
 var get_position = function () {
     for (var [ent, pos] of State.world.get_component (Position)) {
       return pos;
     }
 };
 
-export { get_position, setup }
+export { get_position, setup, act_and_update }
