@@ -1,0 +1,70 @@
+<div id="output">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+    <!-- simple HTML console-->
+    <div id="console" style="font-family: monospace;">
+
+          </td>
+          <td style="vertical-align: top;">
+            <div> HP: 20/20 </div>
+            <div style="background-color: red; width: 100px; height: 20px;"></div>
+            <p>Position: x {{position.x }}  y {{ position.y }}</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    </div>
+  
+    <div id="keypad" class="keypad">
+  
+        <table id="main">
+  
+        <tbody>
+  
+        <tr>
+  
+          <!-- button tag can be buggy so we use input type=button -->
+  
+          <!-- using hex values for Unicode characters -->
+  
+          <td><input id="go_nw" class="keypad_btn" type="button" value="&#9700" > </td>
+  
+          <!-- for consistency -->
+  
+          <td><input id="go_n" class="keypad_btn" type="button" value="&#9650"> </td>
+  
+          <td><input id="go_ne" class="keypad_btn" type="button" value="&#9701" > </td>
+  
+          </tr>
+  
+          <tr>
+  
+          <td><input id="go_w" class="keypad_btn" type="button" value= "&#9664"> </td>
+  
+          <!-- midline ellipsis -->
+  
+          <td><input id="go_wait" class="keypad_btn" type="button" value= "&#8943"> </td>
+  
+          <td><input id="go_e" class="keypad_btn" type="button" value= "&#9654"> </td>
+  
+          </tr>
+  
+          <tr>
+  
+          <td><input id="go_sw" class="keypad_btn" type="button" value= "&#9699"> </td>
+  
+          <!-- for consistency -->
+  
+          <td><input id="go_s" class="keypad_btn" type="button" value= "&#9660"> </td>
+  
+          <td><input id="go_se" class="keypad_btn" type="button" value="&#9698"> </td>
+  
+        </tr>
+  
+        </tbody>
+  
+        </table>
+      </div>
