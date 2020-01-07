@@ -1,7 +1,7 @@
 //ES 6 feature - import
 import { setup, get_position } from "./game.js"
 import { setup_keypad } from "./keypad.js";
-
+import { get_terminal, redraw_terminal } from "./renderer.js";
 
 ready(fn)
 
@@ -16,11 +16,15 @@ function ready(fn) {
 
 function fn(){
     console.log("Running ready function...")
-    setup()
+    setup();
+
+    var pos = get_position();
+    var term = get_terminal()
+    
+    term[pos.x][pos.y] = ['@', [255, 255, 255]]
 
     nunjucks.configure('templates', { autoescape: true });
-
-    var maintem = nunjucks.render('main.html', { position: get_position() })
+    var maintem = nunjucks.render('main.html', { position: pos, terminal: term })
     //force updates the whole page
     //document.write(
     $('#output').html(maintem)
@@ -31,7 +35,9 @@ function fn(){
 
 
 function draw() {
-  var maintem = nunjucks.render('main.html', { position: get_position() })
+  var pos = get_position()
+  var term = redraw_terminal(pos)[0];
+  var maintem = nunjucks.render('main.html', { position: pos, terminal: term })
   //force updates the whole page
   //document.write(
   $('#output').html(maintem)
