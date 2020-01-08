@@ -13,4 +13,8 @@ class Velocity {
     }
   }
 
-  export { Velocity, Position }
+class Player {
+  constructor() {}
+}
+
+  export { Velocity, Position, Player }
