@@ -6,6 +6,7 @@ import {ActionProcessor} from './action_processor.js'
 
 import { State } from './js_game_vars.js';
 
+import { map_create } from './arena_map.js';
 
 import { draw } from './index.js'
 
@@ -27,9 +28,13 @@ function setup() {
     world.add_component(player, new Position(2,2))
     world.add_component(player, new Velocity())
 
+    //generate map
+    var map = map_create([[12, 14], [16,18]])
+
+
     // Save state 
     State.world = world
-
+    State.map = map
     
 };  
 
@@ -55,4 +60,8 @@ var get_position = function () {
     }
 };
 
-export { get_position, setup, act_and_update }
+var get_map = function() {
+    return State.map;
+}
+
+export { get_position, get_map, setup, act_and_update }
