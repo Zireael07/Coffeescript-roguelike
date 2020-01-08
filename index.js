@@ -1,5 +1,5 @@
 //ES 6 feature - import
-import { setup, get_position, get_map } from "./game.js"
+import { setup, get_position, get_map, get_fov } from "./game.js"
 import { setup_keypad } from "./keypad.js";
 import { get_terminal, redraw_terminal } from "./renderer.js";
 
@@ -19,7 +19,7 @@ function fn(){
     setup();
 
     var pos = get_position();
-    var term = get_terminal(get_map())
+    var term = get_terminal(get_map(), get_fov())
     
     term[pos.x][pos.y] = ['@', [255, 255, 255]]
 
@@ -36,7 +36,7 @@ function fn(){
 
 function draw() {
   var pos = get_position()
-  var term = redraw_terminal(pos, get_map())[0];
+  var term = redraw_terminal(pos, get_map(), get_fov())[0];
   var maintem = nunjucks.render('main.html', { position: pos, terminal: term })
   //force updates the whole page
   //document.write(
