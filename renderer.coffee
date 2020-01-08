@@ -1,14 +1,16 @@
+import {TileTypes } from './enums.js'
 
 # console is a reserved name in JS
-redraw_terminal = (position) ->
-    terminal = get_terminal()
+redraw_terminal = (position, inc_map) ->
+    terminal = get_terminal(inc_map)
     # draw player
     terminal[position.x][position.y] = ['@', [255, 255, 255]]
 
     return [terminal]
 
-get_terminal = ->
-    console.log("Terminal...")
+get_terminal = (inc_map) ->
+    #console.log("Terminal...")
+    #console.log inc_map
     # dummy
     mapa = []
     for x in [0..21]
@@ -17,6 +19,14 @@ get_terminal = ->
             mapa[x].push ["&nbsp;", [255,255,255]]
 
     #mapa = ((["&nbsp;", [255,255,255]] for num in [0..21]) for num in [0..21])
+
+    # draw map
+    x_max = (inc_map.length-1)
+    y_max = (inc_map[0].length-1)
+    for x in [0..x_max]
+        for y in [0..y_max]
+            #console.log TileTypes.data[inc_map[x][y]].map_str
+            mapa[x][y] = [ TileTypes.data[inc_map[x][y]].map_str, [255,255, 255] ]
 
     #console.log(mapa)
 
