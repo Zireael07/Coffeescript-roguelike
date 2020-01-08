@@ -1,6 +1,7 @@
-# import { get_components } from './ecs.js'
-
 import {Position, Velocity } from './components.js'
+
+import {TileTypes } from './enums.js'
+import { State } from './js_game_vars.js';
 
 class MovementProcessor
     # constructor ->
@@ -17,12 +18,24 @@ class MovementProcessor
             #console.log "Components: " + comps
             [vel, pos] = comps
             #console.log "Vel: " + vel + " pos: " + pos
-            pos.x += vel.dx
-            pos.y += vel.dy
+            tx = pos.x + vel.dx
+            ty = pos.y + vel.dy
             #console.log "x: " + pos.x + " y: " + pos.y
 
             vel.dx = 0
             vel.dy = 0
+
+             # don't walk out of map
+            if tx < 0 or tx > 19 or ty < 0 or tx > 19
+                continue
+
+            # check for unwalkable tiles
+            if TileTypes.data[State.map[tx][ty]].block_path
+                continue
+
+            pos.x = tx
+            pos.y = ty
+
             return # avoid implicit return
 
 export { MovementProcessor }
