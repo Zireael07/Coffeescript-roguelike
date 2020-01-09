@@ -1,9 +1,26 @@
 import {TileTypes } from './enums.js'
 import { State } from './js_game_vars.js';
 
+import {Position, Renderable } from './components.js'
+
 # console is a reserved name in JS
 redraw_terminal = (position, inc_map, fov) ->
     terminal = get_terminal(inc_map, fov)
+
+    # draw other entities
+    for [ent, comps] in State.world.get_components(Position, Renderable)
+        [pos, visual] = comps
+
+        #console.log visual + " x : " + pos.x + " y :" + pos.y
+
+        # if not in fov
+        unless fov[pos.x][pos.y] == 1
+            # skip
+            continue
+
+        # draw
+        terminal[pos.x][pos.y] = [visual.char, visual.color, "normal" ]
+
     # draw player
     terminal[position.x][position.y] = ['@', [255, 255, 255], "normal" ]
 

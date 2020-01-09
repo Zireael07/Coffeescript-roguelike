@@ -1,4 +1,4 @@
-import {Position, Velocity } from './components.js'
+import {Position, Velocity, TurnComponent } from './components.js'
 
 import {TileTypes } from './enums.js'
 import { State } from './js_game_vars.js';
@@ -14,10 +14,14 @@ class MovementProcessor
 
     process: ->
         # destructuring assignment
-        for [ent, comps] in @world.get_components(Velocity, Position)
+        for [ent, comps] in @world.get_components(TurnComponent, Velocity, Position)
             #console.log "Components: " + comps
-            [vel, pos] = comps
+            [turn, vel, pos] = comps
             #console.log "Vel: " + vel + " pos: " + pos
+            if vel.dx == 0 and vel.dy == 0
+                # skip entity
+                continue
+                
             tx = pos.x + vel.dx
             ty = pos.y + vel.dy
             #console.log "x: " + pos.x + " y: " + pos.y

@@ -38,10 +38,14 @@ class World
             if processor instanceof processor_type
                 return processor
 
-    create_entity: (entity, components...) ->
+    create_entity: (components) ->
         @next_entity_id += 1
-        for component in components
-            this.add_components(component)
+        console.log components
+        # prevent crash
+        unless components == undefined
+            for component in components
+                console.log component
+                this.add_component(@next_entity_id, component)
 
         return @next_entity_id
 
@@ -102,14 +106,14 @@ class World
         lists = []
         # Gets an iterator for multiple component types
         lists.push @components[ct] for ct in component_types
-        console.log "Lists: " + lists
+        #console.log "Lists: " + lists
         inters = intersect_lists(lists)
-        console.log "Intersection: " + inters
+        #console.log "Intersection: " + inters
         for entity in inters
-            console.log "Ent in inters: " + entity
+            #console.log "Ent in inters: " + entity
             ret = []
             ret.push @entities[entity][ct] for ct in component_types
-            console.log ret
+            #console.log ret
             yield [entity, ret ]
 
     # public API

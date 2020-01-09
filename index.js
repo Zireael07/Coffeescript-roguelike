@@ -19,9 +19,7 @@ function fn(){
     setup();
 
     var pos = get_position();
-    var term = get_terminal(get_map(), get_fov())
-    
-    term[pos.x][pos.y] = ['@', [255, 255, 255], "normal" ]
+    var term = redraw_terminal(pos, get_map(), get_fov())[0];
 
     nunjucks.configure('templates', { autoescape: true });
     var maintem = nunjucks.render('main.html', { position: pos, terminal: term })

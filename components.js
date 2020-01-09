@@ -17,4 +17,15 @@ class Player {
   constructor() {}
 }
 
-  export { Velocity, Position, Player }
+class TurnComponent {
+  constructor() {}
+}
+
+class Renderable {
+  constructor(char="h", color=[255,255,255]) {
+    this.char = char;
+    this.color = color;
+  }
+}
+
+  export { Velocity, Position, Player, TurnComponent, Renderable }

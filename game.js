@@ -1,6 +1,6 @@
 import { World } from './ecs.js';
 
-import {Velocity, Position, Player} from './components.js'
+import {Velocity, Position, Player, TurnComponent, Renderable} from './components.js'
 import { MovementProcessor } from './movement_processor.js'
 import {ActionProcessor} from './action_processor.js'
 import { FovProcessor, init_FOV, init_explored, transparent, explore } from './fov_processor.js'
@@ -35,10 +35,25 @@ function setup() {
     world.add_processor (fov_processor);
 
     // Create entities and assign components
-    var player = world.create_entity()
+    var player = world.create_entity([])
     world.add_component(player, new Position(2,2))
     world.add_component(player, new Velocity())
     world.add_component(player, new Player())
+    world.add_component(player, new TurnComponent())
+
+
+    // Create some npcs
+    let npc = world.create_entity(
+        [new Position(4, 4),
+        new Renderable('h', [255, 255, 255]),
+        new Velocity()]
+    ) 
+
+    npc = world.create_entity(
+        [new Position(12, 6),
+        new Renderable('h', [255, 255, 255]),
+        new Velocity()]
+    ) 
 
     //generate map
     var map = map_create([[12, 14], [16,18]])
@@ -73,7 +88,9 @@ var act_and_update = function (action) {
 
 
 var get_position = function () {
-    for (var [ent, pos] of State.world.get_component (Position)) {
+    var player, pos;
+    for (var [ent, comps] of State.world.get_components(Player, Position)) {
+      [player, pos] = comps
       return pos;
     }
 };
