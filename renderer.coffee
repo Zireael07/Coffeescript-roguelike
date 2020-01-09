@@ -1,10 +1,11 @@
 import {TileTypes } from './enums.js'
+import { State } from './js_game_vars.js';
 
 # console is a reserved name in JS
 redraw_terminal = (position, inc_map, fov) ->
     terminal = get_terminal(inc_map, fov)
     # draw player
-    terminal[position.x][position.y] = ['@', [255, 255, 255]]
+    terminal[position.x][position.y] = ['@', [255, 255, 255], "normal" ]
 
     return [terminal]
 
@@ -27,12 +28,14 @@ get_terminal = (inc_map, fov) ->
         for y in [0..y_max]
             if fov[x][y] == 1 # visible
                 #console.log TileTypes.data[inc_map[x][y]].map_str
-                mapa[x][y] = [ TileTypes.data[inc_map[x][y]].map_str, [255,255, 255] ]
+                mapa[x][y] = [ TileTypes.data[inc_map[x][y]].map_str, [255,255, 255], "normal" ]
+            # debug
+            else if State.explored[x][y] == 1
+                mapa[x][y] = [ TileTypes.data[inc_map[x][y]].map_str, [255, 255, 255], "explored" ]
 
     #console.log(mapa)
 
     return mapa
-
 
 #get_terminal()
 

@@ -1,0 +1,12 @@
+.explored {
+    color: #b3b3b3;
+    background-color: black;
+    font-weight:bold;
+}
+
+.normal {
+    color: white;
+    background-color: black;
+    font-weight:bold;
+}
+

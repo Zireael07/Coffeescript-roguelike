@@ -4,6 +4,7 @@ let State = {
     world: null,
     map: null,
     fov: null,
+    explored: null,
 };
 
 export { State };

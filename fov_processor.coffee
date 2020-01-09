@@ -10,6 +10,8 @@ import { State } from './js_game_vars.js';
 
 explore = (x,y) ->
     State.fov[x][y] = 1
+    State.explored[x][y] = 1
+    #console.log State.explored[x][y]
     return 
 
 block_sight = (x,y) ->
@@ -26,6 +28,15 @@ init_FOV = ->
             fov[x].push [0]
 
     return fov
+
+init_explored = ->
+    explored = []
+    for x in [0..20]
+        explored.push []
+        for y in [0..20]
+            explored[x].push [0]
+
+    return explored
 
 update_FOV = (src_x, src_y, fov_ob) ->
 
@@ -57,4 +68,4 @@ class FovProcessor
             update_FOV(pos.x, pos.y, this.fov_ob)
 
 
-export { FovProcessor, init_FOV, explore, block_sight, transparent, update_FOV }
+export { FovProcessor, init_FOV, init_explored, explore, block_sight, transparent, update_FOV }

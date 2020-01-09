@@ -3,7 +3,7 @@ import { World } from './ecs.js';
 import {Velocity, Position, Player} from './components.js'
 import { MovementProcessor } from './movement_processor.js'
 import {ActionProcessor} from './action_processor.js'
-import { FovProcessor, init_FOV, transparent, explore } from './fov_processor.js'
+import { FovProcessor, init_FOV, init_explored, transparent, explore } from './fov_processor.js'
 
 import { State } from './js_game_vars.js';
 
@@ -23,6 +23,8 @@ function setup() {
     var fov_ob = new PermissiveFov(20, 20, transparent)
     var fov = init_FOV();
     State.fov = fov
+    var explored = init_explored();
+    State.explored = explored
 
     //processors
     var movement_processor = new MovementProcessor ();
