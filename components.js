@@ -1,7 +1,8 @@
 // Velocity component
 class Velocity {
-    constructor() {
-      this.dx = this.dy = 0;
+    constructor(dx=0, dy=0) {
+      this.dx = dx;
+      this.dy = dy;
     }
   }
   
@@ -28,4 +29,8 @@ class Renderable {
   }
 }
 
-  export { Velocity, Position, Player, TurnComponent, Renderable }
+class NPC {
+  constructor() {}
+}
+
+  export { Velocity, Position, Player, TurnComponent, Renderable, NPC }

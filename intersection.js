@@ -1,5 +1,5 @@
 function intersect(...sets) {
-    console.log("Intersecting ... " + sets);
+    //console.log("Intersecting ... " + sets);
     if (!sets.length) return new Set();
     
     const i = sets.reduce((m, s, i) => s.size < sets[m].size ? i : m, 0);
@@ -10,18 +10,24 @@ function intersect(...sets) {
             //console.log(val);
             res.add(val);
 
-    console.log(res);
+    //console.log(res);
     return res;
 }
 
 //https://stackoverflow.com/a/37067050
 function intersect_lists(lists) {
-    console.log("Intersecting .... " + lists);
+    //console.log("Intersecting .... " + lists);
 
     var int = lists.reduce((p,c) => p.filter(e => c.includes(e)));
 
-    console.log(int);
+    //console.log(int);
     return int;
 }
 
-export { intersect_lists }
+function remove_list(list, item) {
+    const newlist = list.filter(it => it !== item)
+
+    return newlist;
+}
+
+export { intersect_lists, remove_list }

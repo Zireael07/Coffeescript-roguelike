@@ -1,10 +1,12 @@
 # based on Python's Esper module
 
-import { intersect_lists } from './intersection.js'
+import { intersect_lists, remove_list } from './intersection.js'
 
 class World
     constructor: () ->
         @processors = []
+        # for processors added on the fly
+        @to_execute = []
         @next_entity_id = 0
         @components = {}
         @entities = {}
@@ -22,6 +24,16 @@ class World
         processor.world = this
         @processors.push(processor)
 
+    add_and_run_processor: (processor) ->
+        # Add a processor to the world
+        processor.world = this
+
+        @processors.push(processor)
+        @to_execute.push(processor)
+
+        console.log "Added a processor..."
+        return
+
     remove_processor: (processor_type) ->
         # Remove processor by type
         for processor in @processors
@@ -29,7 +41,11 @@ class World
             if processor instanceof processor_type 
                 processor.world = null
                 # remove from array
-                @processors.filter(item => item != processor) # !== in JS
+                #@processors.filter(item => item != processor) # !== in JS
+                @processors = remove_list(@processors, processor)
+                #console.log @processors
+
+        return # avoid implicit return
     
     get_processor: (processor_type) ->
         for processor in @processors
@@ -40,11 +56,11 @@ class World
 
     create_entity: (components) ->
         @next_entity_id += 1
-        console.log components
+        #console.log components
         # prevent crash
         unless components == undefined
             for component in components
-                console.log component
+                #console.log component
                 this.add_component(@next_entity_id, component)
 
         return @next_entity_id
@@ -81,9 +97,13 @@ class World
 
         @entities[entity][component_type] = component
 
-    remove_component: (entity, component_type) ->
+    remove_component: (entity, component) ->
         # Remove a component by type
-        @components[component_type].delete entity
+        component_type = component.name # get our %$^#$ type
+        #console.log component_type
+        #console.log @components[component_type]
+        #@components[component_type].filter(item => item != entity)
+        @components[component_type] = remove_list(@components[component_type], entity)
 
         if not @components[component_type]
             delete @components[component_type]
@@ -92,6 +112,8 @@ class World
 
         if not @entities[entity]
             delete @entities[entity]
+
+        return # avoid implicit return
 
     # internals
     get_int_component: (component_type) ->
@@ -133,7 +155,8 @@ class World
         #Finalize deletion of any Entities that are marked dead
         for entity in @dead_entities
             for component_type in @entities[entity]
-                @components[component_type].delete entity
+                #@components[component_type].delete entity
+                @components[component_type].filter(item => item != entity)
 
                 if not @components[component_type]
                     delete @components[component_type]
@@ -144,7 +167,16 @@ class World
 
     _process: ->
         for processor in @processors
+            #console.log processor
             processor.process()
+
+    _execute: () ->
+        console.log "Executing..."
+        # any that were added on the fly
+        for processor in @to_execute
+            console.log processor + " to execute "
+            processor.process()
+            @to_execute = remove_list(@to_execute, processor)
 
         return # avoid implicit return
 
@@ -154,6 +186,7 @@ class World
         
         this.clear_dead_entities()
         this._process()
+        this._execute()
         return # avoid implicit return
 
 export { World }    

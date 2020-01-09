@@ -1,9 +1,11 @@
 import { World } from './ecs.js';
 
-import {Velocity, Position, Player, TurnComponent, Renderable} from './components.js'
+import {Velocity, Position, Player, TurnComponent, Renderable, NPC} from './components.js'
 import { MovementProcessor } from './movement_processor.js'
 import {ActionProcessor} from './action_processor.js'
 import { FovProcessor, init_FOV, init_explored, transparent, explore } from './fov_processor.js'
+import { AIProcessor } from './ai_processor.js'
+
 
 import { State } from './js_game_vars.js';
 
@@ -37,7 +39,7 @@ function setup() {
     // Create entities and assign components
     var player = world.create_entity([])
     world.add_component(player, new Position(2,2))
-    world.add_component(player, new Velocity())
+    //world.add_component(player, new Velocity())
     world.add_component(player, new Player())
     world.add_component(player, new TurnComponent())
 
@@ -46,13 +48,15 @@ function setup() {
     let npc = world.create_entity(
         [new Position(4, 4),
         new Renderable('h', [255, 255, 255]),
-        new Velocity()]
+        new Velocity(),
+        new NPC()
+      ]
     ) 
 
     npc = world.create_entity(
         [new Position(12, 6),
         new Renderable('h', [255, 255, 255]),
-        new Velocity()]
+        new Velocity(), new NPC()]
     ) 
 
     //generate map

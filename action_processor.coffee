@@ -1,6 +1,5 @@
-#import { get_component } from './ecs.js'
-
-import { Velocity } from './components.js'
+import { TurnComponent, Velocity } from './components.js'
+import { AIProcessor } from './ai_processor.js'
 
 class ActionProcessor
     # constructor ->
@@ -19,11 +18,17 @@ class ActionProcessor
 
         _move = @action['move']
 
-        for [ent, vel] in @world.get_component(Velocity)
+        for [ent, turn] in @world.get_component(TurnComponent)
             if _move
                 [dx, dy] = _move
-                vel.dx = dx
-                vel.dy = dy
-                return # avoid coffeescript's implicit return
+                @world.add_component(ent, new Velocity(dx, dy))
+
+
+            # no longer our turn, AI now acts
+            @world.remove_component(ent, TurnComponent)
+            @world.add_and_run_processor(new AIProcessor())
+            #console.log @world.processors
+            
+            return # avoid coffeescript's implicit return
 
 export { ActionProcessor }
