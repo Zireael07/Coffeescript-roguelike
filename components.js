@@ -33,4 +33,23 @@ class NPC {
   constructor() {}
 }
 
-  export { Velocity, Position, Player, TurnComponent, Renderable, NPC }
+class TileBlocker {
+  constructor() {}
+}
+
+class Combat {
+  constructor(target) {
+    this.target_id = target;
+  }
+}
+
+class Stats {
+  constructor(hp, power) {
+    this.hp = hp;
+    this.max_hp = hp;
+    this.power = power;
+  }
+}
+
+  export { Velocity, Position, Player, TurnComponent, Renderable, TileBlocker,
+    NPC, Combat, Stats }

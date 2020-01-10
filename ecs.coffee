@@ -80,6 +80,8 @@ class World
         # useful for saving state
 
     has_component: (entity, component_type) ->
+        #console.log(component_type)
+        #console.log(component_type in @entities[entity])
         component_type in @entities[entity]
 
     add_component: (entity, component) ->
@@ -120,6 +122,10 @@ class World
 
     # internals
     get_int_component: (component_type) ->
+        #console.log component_type of @components
+        # crash fix
+        unless component_type of @components
+            return null
         #console.log "Get int for: " + component_type
         #console.log "Get internal: " + @components[component_type]
         for entity in @components[component_type]
@@ -145,7 +151,9 @@ class World
     get_component: (component_typeclass) ->
         #console.log "Getting... " + component_typeclass.name
         component_type = component_typeclass.name #get our %$^$ type
-        query for query from this.get_int_component(component_type)
+        res = this.get_int_component(component_type)
+        #console.log(res)
+        query for query from res
 
     get_components: (component_typesclass...) ->
         component_types = []

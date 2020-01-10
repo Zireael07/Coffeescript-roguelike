@@ -1,4 +1,4 @@
-import {Position, Velocity } from './components.js'
+import {Position, Velocity, TileBlocker, Combat } from './components.js'
 
 import {TileTypes } from './enums.js'
 import { State } from './js_game_vars.js';
@@ -24,7 +24,7 @@ class MovementProcessor
                 
             tx = pos.x + vel.dx
             ty = pos.y + vel.dy
-            #console.log "x: " + pos.x + " y: " + pos.y
+            #console.log "tx: " + tx + " ty: " + ty
 
             vel.dx = 0
             vel.dy = 0
@@ -37,9 +37,21 @@ class MovementProcessor
             if TileTypes.data[State.map[tx][ty]].block_path
                 continue
 
-            pos.x = tx
-            pos.y = ty
+            # check for entities
+            for [ent_target, comps] in @world.get_components(TileBlocker, Position)
+                [blocker, pos_tg] = comps
+                if pos_tg.x == tx and pos_tg.y == ty
+                    # Trigger a bump attack here
+                    console.log("Attacking " + ent_target + " @ " + pos_tg)
+                    @world.add_component(ent, new Combat(ent_target))
 
-            return # avoid implicit return
+            # move (if no combat going on)
+            console.log @world.component_for_entity(ent, Combat)
+            unless @world.component_for_entity(ent, Combat)
+                console.log ("move...")
+                pos.x = tx
+                pos.y = ty
+
+        return # avoid implicit return
 
 export { MovementProcessor }
