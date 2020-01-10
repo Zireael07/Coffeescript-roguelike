@@ -17,7 +17,7 @@ class DeathProcessor
             #console.log "Dead... " + ent
             [name, dead] = comps
             if @world.component_for_entity(ent, Player)
-                console.log("Player is DEAD!")
+                State.messages.push ("You are DEAD!")
                 # skip
                 continue
             

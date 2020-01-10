@@ -46,7 +46,7 @@ class MovementProcessor
                     @world.add_component(ent, new Combat(ent_target))
 
             # move (if no combat going on)
-            console.log @world.component_for_entity(ent, Combat)
+            #console.log @world.component_for_entity(ent, Combat)
             unless @world.component_for_entity(ent, Combat)
                 console.log ("move...")
                 pos.x = tx

@@ -1,10 +1,10 @@
 import { World } from './ecs.js';
 
-import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name} from './components.js'
+import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name, Dead} from './components.js'
 import { MovementProcessor } from './movement_processor.js'
 import {ActionProcessor} from './action_processor.js'
 import { FovProcessor, init_FOV, init_explored, transparent, explore } from './fov_processor.js'
-//import { AIProcessor } from './ai_processor.js'
+import { AIProcessor } from './ai_processor.js'
 import { CombatProcessor } from './combat_processor.js'
 import { DeathProcessor } from './death_processor.js'
 
@@ -31,12 +31,14 @@ function setup() {
 
     //processors
     var movement_processor = new MovementProcessor ();
+    var ai_processor = new AIProcessor();
     var action_processor = new ActionProcessor ();
     var combat_processor = new CombatProcessor();
     var death_processor = new DeathProcessor();
     var fov_processor = new FovProcessor (fov_ob);
   	world.add_processor (action_processor);
     world.add_processor (movement_processor);
+    world.add_processor(ai_processor);
     world.add_processor(combat_processor);
     world.add_processor(death_processor)
     world.add_processor (fov_processor);
@@ -91,6 +93,13 @@ function setup() {
 
 
 var act_and_update = function (action) {
+    //abort early if dead
+    if (!is_player_alive()){
+      console.log("Abort early, player dead")
+      return;
+    }
+
+
     //console.log(action);
     var processor = State.world.get_processor(ActionProcessor)
     //console.log(processor)
@@ -117,6 +126,15 @@ var get_map = function() {
 
 var get_fov = function() {
   return State.fov;
+}
+
+var is_player_alive = function() {
+  var alive;
+  for (var [ent, comps] of State.world.get_components(Player, Position)){
+    alive = !State.world.component_for_entity(ent, Dead);
+    console.log("Alive? " + alive);
+    return alive;
+  }
 }
 
 export { get_position, get_map, get_fov, setup, act_and_update }

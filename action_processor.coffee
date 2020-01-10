@@ -26,7 +26,7 @@ class ActionProcessor
 
             # no longer our turn, AI now acts
             @world.remove_component(ent, TurnComponent)
-            @world.add_and_run_processor(new AIProcessor())
+            #@world.add_and_run_processor(new AIProcessor())
             #console.log @world.processors
             
             return # avoid coffeescript's implicit return
