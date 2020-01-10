@@ -69,7 +69,10 @@ class World
         # Perform delayed deletion
         @dead_entities.push entity
 
-    component_for_entity: (entity, component_type) ->
+    component_for_entity: (entity, component) ->
+        component_type = component.name #get our %$^$ type
+        #console.log component_type
+        #console.log @entities[entity][component_type]
         @entities[entity][component_type]
 
     #components_for_entity: (entity) ->
