@@ -31,7 +31,7 @@ class World
         @processors.push(processor)
         @to_execute.push(processor)
 
-        console.log "Added a processor..."
+        #console.log "Added a processor..."
         return
 
     remove_processor: (processor_type) ->
@@ -67,7 +67,7 @@ class World
 
     delete_entity: (entity) ->
         # Perform delayed deletion
-        @dead_entities.push entity
+        @dead_entities.add entity
 
     component_for_entity: (entity, component) ->
         component_type = component.name #get our %$^$ type
@@ -164,17 +164,23 @@ class World
 
     clear_dead_entities: ->
         #Finalize deletion of any Entities that are marked dead
-        for entity in @dead_entities
-            for component_type in @entities[entity]
+        for entity from @dead_entities # it's a set!
+            #console.log ("Clearing dead..." + entity)
+            #console.log @entities[entity]
+            for component_type of @entities[entity] # object presence 
+                #console.log "Removing from component " + component_type + " lists... " + entity
                 #@components[component_type].delete entity
-                @components[component_type].filter(item => item != entity)
+                @components[component_type] = remove_list(@components[component_type], entity)
 
                 if not @components[component_type]
                     delete @components[component_type]
 
             delete @entities[entity]
+            #console.log @entities
 
         @dead_entities.length = 0
+
+        return # avoid implicit return
 
     _process: ->
         for processor in @processors
@@ -182,7 +188,7 @@ class World
             processor.process()
 
     _execute: () ->
-        console.log "Executing..."
+        #console.log "Executing..."
         # any that were added on the fly
         for processor in @to_execute
             console.log processor + " to execute "

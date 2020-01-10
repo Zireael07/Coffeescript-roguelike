@@ -1,11 +1,12 @@
 import { World } from './ecs.js';
 
-import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker} from './components.js'
+import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name} from './components.js'
 import { MovementProcessor } from './movement_processor.js'
 import {ActionProcessor} from './action_processor.js'
 import { FovProcessor, init_FOV, init_explored, transparent, explore } from './fov_processor.js'
 //import { AIProcessor } from './ai_processor.js'
 import { CombatProcessor } from './combat_processor.js'
+import { DeathProcessor } from './death_processor.js'
 
 import { State } from './js_game_vars.js';
 
@@ -32,10 +33,12 @@ function setup() {
     var movement_processor = new MovementProcessor ();
     var action_processor = new ActionProcessor ();
     var combat_processor = new CombatProcessor();
+    var death_processor = new DeathProcessor();
     var fov_processor = new FovProcessor (fov_ob);
   	world.add_processor (action_processor);
     world.add_processor (movement_processor);
     world.add_processor(combat_processor);
+    world.add_processor(death_processor)
     world.add_processor (fov_processor);
 
     // Create entities and assign components
@@ -43,6 +46,7 @@ function setup() {
     world.add_component(player, new Position(2,2))
     //world.add_component(player, new Velocity())
     world.add_component(player, new Player())
+    world.add_component(player, new Name("Player"))
     world.add_component(player, new TurnComponent())
     world.add_component(player, new Stats(20, 4))
 
@@ -53,6 +57,7 @@ function setup() {
         new Renderable('h', [255, 255, 255]),
         new Velocity(),
         new NPC(),
+        new Name("human"),
         new TileBlocker(),
         new Stats(11, 2)
       ]
@@ -61,7 +66,7 @@ function setup() {
     npc = world.create_entity(
         [new Position(12, 6),
         new Renderable('h', [255, 255, 255]),
-        new Velocity(), new NPC(), new TileBlocker(),
+        new Velocity(), new NPC(), new Name("human"), new TileBlocker(),
         new Stats(11, 2)]
     ) 
 
@@ -76,6 +81,7 @@ function setup() {
 
     // Save state 
     State.world = world
+    State.messages = []
 
     //State.fov = fov
     

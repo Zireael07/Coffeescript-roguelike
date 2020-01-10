@@ -1,7 +1,7 @@
 import {TileTypes } from './enums.js'
 import { State } from './js_game_vars.js';
 
-import {Position, Renderable } from './components.js'
+import {Position, Renderable, Dead } from './components.js'
 
 # console is a reserved name in JS
 redraw_terminal = (position, inc_map, fov) ->
@@ -15,6 +15,10 @@ redraw_terminal = (position, inc_map, fov) ->
 
         # if not in fov
         unless fov[pos.x][pos.y] == 1
+            # skip
+            continue
+        # if dead
+        if State.world.component_for_entity(ent, Dead)
             # skip
             continue
 
@@ -54,6 +58,16 @@ get_terminal = (inc_map, fov) ->
 
     return mapa
 
+get_messages = ->
+    drawn = null
+    if State.messages.length < 5
+        drawn = State.messages
+    else
+        #slicing
+        drawn = State.messages.slice(-5)
+
+    return drawn 
+
 #get_terminal()
 
-export { get_terminal, redraw_terminal }
+export { get_terminal, redraw_terminal, get_messages }

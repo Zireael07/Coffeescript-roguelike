@@ -51,5 +51,17 @@ class Stats {
   }
 }
 
+class Name {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+class Dead {
+  constructor() {}
+}
+
+
+
   export { Velocity, Position, Player, TurnComponent, Renderable, TileBlocker,
-    NPC, Combat, Stats }
+    NPC, Combat, Stats, Name, Dead }

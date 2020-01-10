@@ -18,6 +18,15 @@ function intersect(...sets) {
 function intersect_lists(lists) {
     //console.log("Intersecting .... " + lists);
 
+    //fix crashes with one list being empty
+    for (var i = 0; i < lists.length; i++){
+        var list = lists[i];
+        if (list == undefined){
+            console.log("Empty list passed...")
+            return [] // return empty list
+        }
+    }
+
     var int = lists.reduce((p,c) => p.filter(e => c.includes(e)));
 
     //console.log(int);

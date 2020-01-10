@@ -25,6 +25,13 @@
     </table>
   
     </div>
+    <div id="messages" style="font-family: monospace; padding-top: 20px;">
+      {%for message in messages %}
+      <div>
+      <span style="background-color: black; color:white">{{message}}</span>
+      </div>
+      {%endfor%}
+      </div>
   
     <div id="keypad" class="keypad">
   

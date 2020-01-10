@@ -5,6 +5,7 @@ let State = {
     map: null,
     fov: null,
     explored: null,
+    messages: null,
 };
 
 export { State };
