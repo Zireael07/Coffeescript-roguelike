@@ -16,8 +16,8 @@
     </div>
           </td>
           <td style="vertical-align: top;">
-            <div> HP: 20/20 </div>
-            <div style="background-color: red; width: 100px; height: 20px;"></div>
+            <div> HP: {{stats.hp}}/{{stats.max_hp}} </div>
+            <div style="background-color: red; height: 20px; width: {{ stats.hp*5}}px;"></div>
             <p>Position: x {{position.x }}  y {{ position.y }}</p>
           </td>
         </tr>
@@ -28,7 +28,7 @@
     <div id="messages" style="font-family: monospace; padding-top: 20px;">
       {%for message in messages %}
       <div>
-      <span style="background-color: black; color:white">{{message}}</span>
+      <span style="background-color: black; color:rgb({{message[1]}})">{{message[0]}}</span>
       </div>
       {%endfor%}
       </div>

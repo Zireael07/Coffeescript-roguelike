@@ -120,6 +120,14 @@ var get_position = function () {
     }
 };
 
+var get_stats = function() {
+    var player, stats;
+    for (var [ent, comps] of State.world.get_components(Player, Stats)){
+      [player, stats] = comps
+      return stats;
+    }
+}
+
 var get_map = function() {
     return State.map;
 }
@@ -137,4 +145,4 @@ var is_player_alive = function() {
   }
 }
 
-export { get_position, get_map, get_fov, setup, act_and_update }
+export { get_position, get_stats, get_map, get_fov, setup, act_and_update }

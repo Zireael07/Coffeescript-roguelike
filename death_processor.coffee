@@ -17,11 +17,11 @@ class DeathProcessor
             #console.log "Dead... " + ent
             [name, dead] = comps
             if @world.component_for_entity(ent, Player)
-                State.messages.push ("You are DEAD!")
+                State.messages.push (["You are DEAD!", [255,0,0]])
                 # skip
                 continue
             
-            State.messages.push name.name + " is dead!"
+            State.messages.push [name.name + " is dead!", [127,127,127]]
             # delete from ECS
             @world.delete_entity(ent)
 

@@ -1,4 +1,4 @@
-import {Combat, Stats, Name, Dead } from './components.js'
+import {Combat, Stats, Name, Dead, Player } from './components.js'
 import { State } from './js_game_vars.js';
 
 class CombatProcessor
@@ -31,7 +31,15 @@ class CombatProcessor
             attacker_name = @world.component_for_entity(attacker_id, Name)
             target_name = @world.component_for_entity(target_id, Name)
 
-            State.messages.push attacker_name.name + " attacks " + target_name.name + " for " + attacker_stats.power + " damage!"
+            # color
+            player_hit = @world.component_for_entity(target_id, Player)
+            color = [255,255,255]
+            if player_hit
+                color = [255,0,0]
+            else
+                color = [127, 127, 127] # libtcod light gray
+
+            State.messages.push [attacker_name.name + " attacks " + target_name.name + " for " + attacker_stats.power + " damage!", color]
 
             # cleanup
             @world.remove_component(ent, Combat)
