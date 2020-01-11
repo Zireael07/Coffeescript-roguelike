@@ -42,6 +42,15 @@ function setup_keypad() {
         act_and_update({'pick_up': true});
     })
 
+    $("#inven").click(function(e) {
+        console.log("Clicked inven");
+        $(".modal").attr("style", "display:block")
+    });
+    $("#close_btn").click(function(e) {
+        console.log("Clicked close")
+        $(".modal").attr("style", "display:none");
+    });
+
 }
 
 //});

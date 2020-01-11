@@ -61,7 +61,26 @@ class Dead {
   constructor() {}
 }
 
+class Item {
+  constructor() {}
+}
+
+class WantToPickup {
+  constructor() {}
+}
+
+class InBackpack{ 
+  constructor() {}
+}
+
+class Equipped {
+  constructor(owner) {
+    this.owner = owner;
+  }
+}
 
 
   export { Velocity, Position, Player, TurnComponent, Renderable, TileBlocker,
-    NPC, Combat, Stats, Name, Dead }
+    NPC, Combat, Stats, Name, Dead,
+    Item, WantToPickup, InBackpack, Equipped
+   }

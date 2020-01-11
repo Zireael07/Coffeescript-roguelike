@@ -1,5 +1,5 @@
 //ES 6 feature - import
-import { setup, get_position, get_map, get_fov, get_stats } from "./game.js"
+import { setup, get_position, get_inventory, get_map, get_fov, get_stats } from "./game.js"
 import { setup_keypad } from "./keypad.js";
 import { get_terminal, redraw_terminal, get_messages } from "./renderer.js";
 
@@ -23,7 +23,7 @@ function fn(){
     var stat = get_stats();
 
     nunjucks.configure('templates', { autoescape: true });
-    var maintem = nunjucks.render('main.html', { position: pos, terminal: term, messages: [], stats: stat })
+    var maintem = nunjucks.render('main.html', { position: pos, terminal: term, messages: [], stats: stat, inventory: [] })
     //force updates the whole page
     //document.write(
     $('#output').html(maintem)
@@ -39,7 +39,8 @@ function draw() {
   //HUD
   var msgs = get_messages();
   var stat = get_stats();
-  var maintem = nunjucks.render('main.html', { position: pos, terminal: term, messages: msgs, stats: stat })
+  var inventory = get_inventory();
+  var maintem = nunjucks.render('main.html', { position: pos, terminal: term, messages: msgs, stats: stat, inventory: inventory })
   //force updates the whole page
   //document.write(
   $('#output').html(maintem)

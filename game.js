@@ -1,6 +1,6 @@
 import { World } from './ecs.js';
 
-import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name, Dead, Item} from './components.js'
+import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name, Dead, Item, InBackpack} from './components.js'
 import { MovementProcessor } from './movement_processor.js'
 import {ActionProcessor} from './action_processor.js'
 import { FovProcessor, init_FOV, init_explored, transparent, explore } from './fov_processor.js'
@@ -80,7 +80,8 @@ function setup() {
     let it = world.create_entity(
       [new Item(),
       new Position(6,5),
-      new Renderable("/", [0,255,255])]
+      new Renderable("/", [0,255,255]),
+      new Name("Combat Knife")]
     )
 
     //generate map
@@ -139,6 +140,19 @@ var get_stats = function() {
     }
 }
 
+var get_inventory = function() {
+    var name, pack;
+    var inventory = [];
+    var letter_index = 'a'.charCodeAt(0);
+    for (var [ent, comps] of State.world.get_components(Name, InBackpack)){
+      [name, pack] = comps;
+      inventory.push([String.fromCharCode(letter_index), name.name])
+      letter_index += 1;
+    }
+
+    return inventory;
+}
+
 var get_map = function() {
     return State.map;
 }
@@ -156,4 +170,4 @@ var is_player_alive = function() {
   }
 }
 
-export { get_position, get_stats, get_map, get_fov, setup, act_and_update }
+export { get_position, get_stats, get_inventory, get_map, get_fov, setup, act_and_update }
