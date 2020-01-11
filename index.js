@@ -1,6 +1,6 @@
 //ES 6 feature - import
 import { setup, get_position, get_inventory, get_map, get_fov, get_stats } from "./game.js"
-import { setup_keypad } from "./keypad.js";
+import { setup_keypad, setup_inventory } from "./keypad.js";
 import { get_terminal, redraw_terminal, get_messages } from "./renderer.js";
 
 ready(fn)
@@ -22,7 +22,8 @@ function fn(){
     var term = redraw_terminal(pos, get_map(), get_fov())[0];
     var stat = get_stats();
 
-    nunjucks.configure('templates', { autoescape: true });
+    var env = nunjucks.configure('templates', { autoescape: true });
+
     var maintem = nunjucks.render('main.html', { position: pos, terminal: term, messages: [], stats: stat, inventory: [] })
     //force updates the whole page
     //document.write(
@@ -40,12 +41,14 @@ function draw() {
   var msgs = get_messages();
   var stat = get_stats();
   var inventory = get_inventory();
+
   var maintem = nunjucks.render('main.html', { position: pos, terminal: term, messages: msgs, stats: stat, inventory: inventory })
   //force updates the whole page
   //document.write(
   $('#output').html(maintem)
   
-  setup_keypad()
+  setup_keypad();
+  setup_inventory(inventory);
 }
 
 //});

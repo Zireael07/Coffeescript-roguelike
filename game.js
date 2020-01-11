@@ -1,6 +1,6 @@
 import { World } from './ecs.js';
 
-import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name, Dead, Item, InBackpack} from './components.js'
+import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name, Dead, Item, InBackpack, MedItem, Skip} from './components.js'
 import { MovementProcessor } from './movement_processor.js'
 import {ActionProcessor} from './action_processor.js'
 import { FovProcessor, init_FOV, init_explored, transparent, explore } from './fov_processor.js'
@@ -8,6 +8,7 @@ import { AIProcessor } from './ai_processor.js'
 import { CombatProcessor } from './combat_processor.js'
 import { DeathProcessor } from './death_processor.js'
 import { PickupProcessor } from './pickup_processor.js'
+import { UseItemProcessor } from './useitem_processor.js'
 
 import { State } from './js_game_vars.js';
 
@@ -35,12 +36,14 @@ function setup() {
     var ai_processor = new AIProcessor();
     var action_processor = new ActionProcessor ();
     var pickup_processor = new PickupProcessor();
+    var useitem_processor = new UseItemProcessor();
     var combat_processor = new CombatProcessor();
     var death_processor = new DeathProcessor();
     var fov_processor = new FovProcessor (fov_ob);
 
     world.add_processor (action_processor);
     world.add_processor(pickup_processor);
+    world.add_processor(useitem_processor);
     world.add_processor (movement_processor);
     world.add_processor(ai_processor);
     world.add_processor(combat_processor);
@@ -82,6 +85,14 @@ function setup() {
       new Position(6,5),
       new Renderable("/", [0,255,255]),
       new Name("Combat Knife")]
+    )
+
+    it = world.create_entity(
+      [new Item(),
+      new Position(4,5),
+      new Renderable("!", [255,0,0]),
+      new Name("Medkit"),
+      new MedItem(6)]
     )
 
     //generate map
@@ -145,8 +156,12 @@ var get_inventory = function() {
     var inventory = [];
     var letter_index = 'a'.charCodeAt(0);
     for (var [ent, comps] of State.world.get_components(Name, InBackpack)){
+      //skip entities that are being removed
+      if (State.world.component_for_entity(ent, Skip)){
+        continue
+      }
       [name, pack] = comps;
-      inventory.push([String.fromCharCode(letter_index), name.name])
+      inventory.push([String.fromCharCode(letter_index), name.name, ent])
       letter_index += 1;
     }
 

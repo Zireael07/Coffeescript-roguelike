@@ -92,7 +92,8 @@
             <p>INVENTORY</p>
             {%for inv in inventory %}
             <div>
-            <span style="background-color: black; color:white">({{inv[0]}}) {{inv[1]}}</span>
+            <input id="button-{{inv[0]}}" type="button" value="{{inv[0]}}">
+            <span style="background-color: black; color:white">{{ inv[1]}}</span>
             </div>
             {%endfor%}
           </div>

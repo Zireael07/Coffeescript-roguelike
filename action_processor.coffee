@@ -1,4 +1,4 @@
-import { TurnComponent, Velocity, WantToPickup } from './components.js'
+import { TurnComponent, Velocity, WantToPickup, WantToUseItem } from './components.js'
 import { AIProcessor } from './ai_processor.js'
 
 class ActionProcessor
@@ -18,6 +18,7 @@ class ActionProcessor
 
         _move = @action['move']
         _pick_up = @action['pick_up']
+        _use_item = @action['use_item']
 
         for [ent, turn] in @world.get_component(TurnComponent)
             if _move
@@ -26,6 +27,9 @@ class ActionProcessor
             if _pick_up
                 @world.add_component(ent, new WantToPickup())
                 console.log("Pickup to execute...")
+            if _use_item
+                @world.add_component(ent, new WantToUseItem(_use_item))
+                console.log("Use to execute... " + _use_item)
 
 
             # no longer our turn, AI now acts

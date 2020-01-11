@@ -53,6 +53,23 @@ function setup_keypad() {
 
 }
 
+//In the Flask version this was handled by Jinja, alas, Nunjucks seems to evaluate functions passed to it every frame...
+function setup_inventory(inventory){
+    var letter, entity;
+    for (var i = 0; i < inventory.length; i++){
+        var item = inventory[i];
+        console.log(item);
+        [letter, name, entity] = item;
+        console.log(letter + " ent: " + entity);
+        $("#button-"+letter).click(function(e) {
+            console.log("Clicked letter");
+
+            act_and_update({"use_item":entity});
+        });
+
+    }
+}
+
 //});
 
-export { setup_keypad }
+export { setup_keypad, setup_inventory }

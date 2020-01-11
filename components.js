@@ -61,6 +61,10 @@ class Dead {
   constructor() {}
 }
 
+class Skip {
+  constructor() {}
+}
+
 class Item {
   constructor() {}
 }
@@ -79,8 +83,20 @@ class Equipped {
   }
 }
 
+class WantToUseItem {
+  constructor(item) {
+    this.item_id = item;
+  }
+}
+
+class MedItem {
+  constructor(heal=2){
+    this.heal = heal;
+  }
+}
+
 
   export { Velocity, Position, Player, TurnComponent, Renderable, TileBlocker,
-    NPC, Combat, Stats, Name, Dead,
-    Item, WantToPickup, InBackpack, Equipped
+    NPC, Combat, Stats, Name, Dead, Skip,
+    Item, WantToPickup, InBackpack, Equipped, WantToUseItem, MedItem
    }
