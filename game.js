@@ -1,12 +1,13 @@
 import { World } from './ecs.js';
 
-import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name, Dead} from './components.js'
+import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name, Dead, Item} from './components.js'
 import { MovementProcessor } from './movement_processor.js'
 import {ActionProcessor} from './action_processor.js'
 import { FovProcessor, init_FOV, init_explored, transparent, explore } from './fov_processor.js'
 import { AIProcessor } from './ai_processor.js'
 import { CombatProcessor } from './combat_processor.js'
 import { DeathProcessor } from './death_processor.js'
+import { PickupProcessor } from './pickup_processor.js'
 
 import { State } from './js_game_vars.js';
 
@@ -15,11 +16,11 @@ import { map_create } from './arena_map.js';
 import { draw } from './index.js'
 import { PermissiveFov } from './ppfov/index.js';
 
-console.log("Game...");
+//console.log("Game...");
 
 
 function setup() {
-    console.log("setup...")
+    console.log("Game setup...")
     let world = new World();
 
     //FOV
@@ -33,10 +34,13 @@ function setup() {
     var movement_processor = new MovementProcessor ();
     var ai_processor = new AIProcessor();
     var action_processor = new ActionProcessor ();
+    var pickup_processor = new PickupProcessor();
     var combat_processor = new CombatProcessor();
     var death_processor = new DeathProcessor();
     var fov_processor = new FovProcessor (fov_ob);
-  	world.add_processor (action_processor);
+
+    world.add_processor (action_processor);
+    world.add_processor(pickup_processor);
     world.add_processor (movement_processor);
     world.add_processor(ai_processor);
     world.add_processor(combat_processor);
@@ -71,6 +75,13 @@ function setup() {
         new Velocity(), new NPC(), new Name("human"), new TileBlocker(),
         new Stats(11, 2)]
     ) 
+
+    //some items
+    let it = world.create_entity(
+      [new Item(),
+      new Position(6,5),
+      new Renderable("/", [0,255,255])]
+    )
 
     //generate map
     var map = map_create([[12, 14], [16,18]])
@@ -140,7 +151,7 @@ var is_player_alive = function() {
   var alive;
   for (var [ent, comps] of State.world.get_components(Player, Position)){
     alive = !State.world.component_for_entity(ent, Dead);
-    console.log("Alive? " + alive);
+    //console.log("Alive? " + alive);
     return alive;
   }
 }

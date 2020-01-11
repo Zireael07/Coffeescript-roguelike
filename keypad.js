@@ -38,7 +38,9 @@ function setup_keypad() {
         //console.log("Clicked a button 1");
         act_and_update({'move':[-1, -1]});
     });
-
+    $("#get").click(function(e){
+        act_and_update({'pick_up': true});
+    })
 
 }
 
