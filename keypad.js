@@ -2,7 +2,7 @@
 import { act_and_update } from "./game.js"
 
 //$( document ).ready(function() {
-function setup_keypad() {
+function setup_keypad(inventory) {
 
     $("#go_s").click(function(e) {
         console.log("Clicked a button 1");
@@ -44,18 +44,35 @@ function setup_keypad() {
 
     $("#inven").click(function(e) {
         console.log("Clicked inven");
+        var invtem = nunjucks.render('inventory.html', { inventory: inventory })
+        $('#inventory').html(invtem)
+        setup_inventory(inventory);
         $(".modal").attr("style", "display:block")
+        $("#close_btn").click(function(e) {
+            console.log("Clicked close")
+            $(".modal").attr("style", "display:none");
+        });
     });
-    $("#close_btn").click(function(e) {
-        console.log("Clicked close")
-        $(".modal").attr("style", "display:none");
+
+    $("#drop").click(function(e) {
+        console.log("Clicked drop");
+        var invtem = nunjucks.render('inventory.html', { inventory: inventory })
+        $('#inventory').html(invtem)
+        setup_inventory(inventory, true);
+        $(".modal").attr("style", "display:block")
+        $("#close_btn").click(function(e) {
+            console.log("Clicked close")
+            $(".modal").attr("style", "display:none");
+        });
     });
 
 }
 
 //In the Flask version this was handled by Jinja, alas, Nunjucks seems to evaluate functions passed to it every frame...
-function setup_inventory(inventory){
+function setup_inventory(inventory, drop=false){
+    console.log("Drop: " + drop);
     var letter, entity;
+
     for (var i = 0; i < inventory.length; i++){
         var item = inventory[i];
         console.log(item);
@@ -63,8 +80,15 @@ function setup_inventory(inventory){
         console.log(letter + " ent: " + entity);
         $("#button-"+letter).click(function(e) {
             console.log("Clicked letter");
-
-            act_and_update({"use_item":entity});
+            if (drop) {
+                console.log("drop...")
+                act_and_update({"drop_item": entity})
+                //https://stackoverflow.com/questions/41512720/jquery-cancel-others-event?noredirect=1&lq=1
+                e.stopImmediatePropagation();
+            }
+            else{
+                act_and_update({"use_item":entity});
+            }
         });
 
     }

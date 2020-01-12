@@ -9,6 +9,7 @@ import { CombatProcessor } from './combat_processor.js'
 import { DeathProcessor } from './death_processor.js'
 import { PickupProcessor } from './pickup_processor.js'
 import { UseItemProcessor } from './useitem_processor.js'
+import { DropProcessor } from './drop_processor.js'
 
 import { State } from './js_game_vars.js';
 
@@ -37,6 +38,7 @@ function setup() {
     var action_processor = new ActionProcessor ();
     var pickup_processor = new PickupProcessor();
     var useitem_processor = new UseItemProcessor();
+    var drop_processor = new DropProcessor();
     var combat_processor = new CombatProcessor();
     var death_processor = new DeathProcessor();
     var fov_processor = new FovProcessor (fov_ob);
@@ -44,6 +46,7 @@ function setup() {
     world.add_processor (action_processor);
     world.add_processor(pickup_processor);
     world.add_processor(useitem_processor);
+    world.add_processor(drop_processor);
     world.add_processor (movement_processor);
     world.add_processor(ai_processor);
     world.add_processor(combat_processor);

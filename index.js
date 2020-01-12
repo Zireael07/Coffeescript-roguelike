@@ -47,9 +47,7 @@ function draw() {
   //document.write(
   $('#output').html(maintem)
   
-  setup_keypad();
-  setup_inventory(inventory);
-}
+  setup_keypad(inventory);
 
 //});
 

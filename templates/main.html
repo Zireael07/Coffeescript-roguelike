@@ -80,22 +80,12 @@
         </tr>
         <tr>
           <td><input id="get" class="keypad_btn" type="button" value="get"></td>
+          <td><input id="drop" type="button" value="drop"></td>
           <td><input id="inven" type="button" value="Inv"> </td>
         </tr>
   
         </tbody>
   
         </table>
-        <div class="modal" style="display: none;">
-          <div class="modal-content" style="background-color: #b3b3b3;">
-            <input id="close_btn" style="color: darkgray;" type="button" value="&times;" >
-            <p>INVENTORY</p>
-            {%for inv in inventory %}
-            <div>
-            <input id="button-{{inv[0]}}" type="button" value="{{inv[0]}}">
-            <span style="background-color: black; color:white">{{ inv[1]}}</span>
-            </div>
-            {%endfor%}
-          </div>
-        </div>
+        <div id="inventory"></div>
       </div>
