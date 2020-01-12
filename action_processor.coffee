@@ -1,5 +1,6 @@
-import { TurnComponent, Velocity, WantToPickup, WantToUseItem, WantToDrop } from './components.js'
-import { AIProcessor } from './ai_processor.js'
+import { TurnComponent, Velocity, WantToPickup, WantToUseItem, WantToDrop, 
+Cursor, MedItem, Ranged, Position } from './components.js';
+import { AIProcessor } from './ai_processor.js';
 
 class ActionProcessor
     # constructor ->
@@ -20,24 +21,44 @@ class ActionProcessor
         _pick_up = @action['pick_up']
         _use_item = @action['use_item']
         _drop_item = @action['drop_item']
+        _target = @action['target']
 
         for [ent, turn] in @world.get_component(TurnComponent)
             if _move
                 [dx, dy] = _move
-                @world.add_component(ent, new Velocity(dx, dy))
+                unless @world.component_for_entity(ent, Cursor)
+                    @world.add_component(ent, new Velocity(dx, dy))
+                else
+                    cur = @world.component_for_entity(ent, Cursor)
+                    cur.x = cur.x + dx
+                    cur.y = cur.y + dy
+
             if _pick_up
                 @world.add_component(ent, new WantToPickup())
                 console.log("Pickup to execute...")
             if _use_item
-                @world.add_component(ent, new WantToUseItem(_use_item))
                 console.log("Use to execute... " + _use_item)
+                if @world.component_for_entity(_use_item, MedItem)
+                    @world.add_component(ent, new WantToUseItem(_use_item))
+                if @world.component_for_entity(_use_item, Ranged)
+                    pos = @world.component_for_entity(ent, Position)
+                    @world.add_component(ent, new Cursor(pos.x, pos.y, _use_item))
+                
             if _drop_item
                 @world.add_component(ent, new WantToDrop(_drop_item))
                 console.log("Drop to execute... " + _drop_item)
+            if _target
+                console.log("Target to execute...")
+                unless @world.component_for_entity(ent, Cursor)
+                    # clicked by mistake, ignore
+                else     
+                    cur = @world.component_for_entity(ent, Cursor)
+                    console.log("Confirmed target x: " + cur.x + " y: " + cur.y)
+                    @world.add_component(ent, new WantToUseItem(cur.item))
 
-
-            # no longer our turn, AI now acts
-            @world.remove_component(ent, TurnComponent)
+            unless @world.component_for_entity(ent, Cursor)
+                # no longer our turn, AI now acts
+                @world.remove_component(ent, TurnComponent)
             #@world.add_and_run_processor(new AIProcessor())
             #console.log @world.processors
             

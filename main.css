@@ -10,6 +10,11 @@
     font-weight:bold;
 }
 
+.cursor {
+    background-color: blue;
+    color: white;
+}
+
 /* Styling for modal */
 
 .modal {

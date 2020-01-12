@@ -1,6 +1,6 @@
 import { World } from './ecs.js';
 
-import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name, Dead, Item, InBackpack, MedItem, Skip} from './components.js'
+import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name, Dead, Item, InBackpack, MedItem, Skip, Ranged} from './components.js'
 import { MovementProcessor } from './movement_processor.js'
 import {ActionProcessor} from './action_processor.js'
 import { FovProcessor, init_FOV, init_explored, transparent, explore } from './fov_processor.js'
@@ -96,6 +96,15 @@ function setup() {
       new Renderable("!", [255,0,0]),
       new Name("Medkit"),
       new MedItem(6)]
+    )
+
+    it = world.create_entity(
+      [ new Item(),
+      new Position(4,4),
+      new Renderable("/", [0, 255, 0]),
+      new Name("Pistol"),
+      new Ranged(6)
+    ]
     )
 
     //generate map

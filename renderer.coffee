@@ -1,7 +1,7 @@
 import {TileTypes } from './enums.js'
 import { State } from './js_game_vars.js';
 
-import {Position, Renderable, Dead, InBackpack } from './components.js'
+import {Position, Renderable, Dead, InBackpack, Player, Cursor } from './components.js'
 
 # console is a reserved name in JS
 redraw_terminal = (position, inc_map, fov) ->
@@ -32,6 +32,15 @@ redraw_terminal = (position, inc_map, fov) ->
     # draw player
     terminal[position.x][position.y] = ['@', [255, 255, 255], "normal" ]
 
+    # cursor
+    cursor = null
+    for [ent, comps] in State.world.get_components(Player, Cursor)
+        [player, cur] = comps
+        cursor = cur
+
+    if cursor != null
+        terminal[cursor.x][cursor.y][2] = "cursor" # change style to cursor 
+
     return [terminal]
 
 get_terminal = (inc_map, fov) ->
@@ -42,7 +51,7 @@ get_terminal = (inc_map, fov) ->
     for x in [0..21]
         mapa.push []
         for y in [0..21]
-            mapa[x].push ["&nbsp;", [255,255,255]]
+            mapa[x].push ["&nbsp;", [255,255,255], "normal"]
 
     #mapa = ((["&nbsp;", [255,255,255]] for num in [0..21]) for num in [0..21])
 

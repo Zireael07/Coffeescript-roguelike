@@ -95,8 +95,29 @@ class MedItem {
   }
 }
 
+class WantToDrop {
+  constructor(item){
+    this.item_id = item;
+  }
+}
+
+class Ranged {
+  constructor(range){
+    this.range = range;
+  }
+}
+
+class Cursor {
+  constructor(x=0, y=0, item){
+    this.x = x;
+    this.y = y;
+    this.item = item;
+  }
+}
+
 
   export { Velocity, Position, Player, TurnComponent, Renderable, TileBlocker,
     NPC, Combat, Stats, Name, Dead, Skip,
-    Item, WantToPickup, InBackpack, Equipped, WantToUseItem, MedItem
+    Item, WantToPickup, InBackpack, Equipped, WantToUseItem, MedItem, 
+    WantToDrop, Ranged, Cursor
    }

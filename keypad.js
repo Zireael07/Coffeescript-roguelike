@@ -66,6 +66,9 @@ function setup_keypad(inventory) {
         });
     });
 
+    $("#enter").click(function(e) {
+        act_and_update({'target': true});
+    });
 }
 
 //In the Flask version this was handled by Jinja, alas, Nunjucks seems to evaluate functions passed to it every frame...

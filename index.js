@@ -49,6 +49,8 @@ function draw() {
   
   setup_keypad(inventory);
 
+}
+
 //});
 
 export { draw }
