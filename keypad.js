@@ -1,5 +1,7 @@
 //ES 6 feature - import
-import { act_and_update } from "./game.js"
+import { act_and_update, onStateLoaded } from "./game.js"
+import { State } from './js_game_vars.js'
+import { saveJS, loadJS } from "./save.js"
 
 //$( document ).ready(function() {
 function setup_keypad(inventory) {
@@ -68,6 +70,14 @@ function setup_keypad(inventory) {
 
     $("#enter").click(function(e) {
         act_and_update({'target': true});
+    });
+
+    $("#save").click(function(e) {
+        saveJS(State)
+    });
+
+    $("#load").click(function(e){
+        onStateLoaded(loadJS())
     });
 }
 

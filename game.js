@@ -20,6 +20,28 @@ import { PermissiveFov } from './ppfov/index.js';
 
 //console.log("Game...");
 
+function setupProcessors(world, fov_ob){
+  var movement_processor = new MovementProcessor ();
+  var ai_processor = new AIProcessor();
+  var action_processor = new ActionProcessor ();
+  var pickup_processor = new PickupProcessor();
+  var useitem_processor = new UseItemProcessor();
+  var drop_processor = new DropProcessor();
+  var combat_processor = new CombatProcessor();
+  var death_processor = new DeathProcessor();
+  var fov_processor = new FovProcessor (fov_ob);
+
+  world.add_processor (action_processor);
+  world.add_processor(pickup_processor);
+  world.add_processor(useitem_processor);
+  world.add_processor(drop_processor);
+  world.add_processor (movement_processor);
+  world.add_processor(ai_processor);
+  world.add_processor(combat_processor);
+  world.add_processor(death_processor)
+  world.add_processor (fov_processor);
+}
+
 
 function setup() {
     console.log("Game setup...")
@@ -33,25 +55,26 @@ function setup() {
     State.explored = explored
 
     //processors
-    var movement_processor = new MovementProcessor ();
-    var ai_processor = new AIProcessor();
-    var action_processor = new ActionProcessor ();
-    var pickup_processor = new PickupProcessor();
-    var useitem_processor = new UseItemProcessor();
-    var drop_processor = new DropProcessor();
-    var combat_processor = new CombatProcessor();
-    var death_processor = new DeathProcessor();
-    var fov_processor = new FovProcessor (fov_ob);
+    setupProcessors(world, fov_ob);
+    // var movement_processor = new MovementProcessor ();
+    // var ai_processor = new AIProcessor();
+    // var action_processor = new ActionProcessor ();
+    // var pickup_processor = new PickupProcessor();
+    // var useitem_processor = new UseItemProcessor();
+    // var drop_processor = new DropProcessor();
+    // var combat_processor = new CombatProcessor();
+    // var death_processor = new DeathProcessor();
+    // var fov_processor = new FovProcessor (fov_ob);
 
-    world.add_processor (action_processor);
-    world.add_processor(pickup_processor);
-    world.add_processor(useitem_processor);
-    world.add_processor(drop_processor);
-    world.add_processor (movement_processor);
-    world.add_processor(ai_processor);
-    world.add_processor(combat_processor);
-    world.add_processor(death_processor)
-    world.add_processor (fov_processor);
+    // world.add_processor (action_processor);
+    // world.add_processor(pickup_processor);
+    // world.add_processor(useitem_processor);
+    // world.add_processor(drop_processor);
+    // world.add_processor (movement_processor);
+    // world.add_processor(ai_processor);
+    // world.add_processor(combat_processor);
+    // world.add_processor(death_processor)
+    // world.add_processor (fov_processor);
 
     // Create entities and assign components
     var player = world.create_entity([])
@@ -197,4 +220,31 @@ var is_player_alive = function() {
   }
 }
 
-export { get_position, get_stats, get_inventory, get_map, get_fov, setup, act_and_update }
+function onStateLoaded(loaded_State){
+  //JSON serialization loses functions
+  Object.assign(State.world, loaded_State.world)
+  //State.world = loaded_State.world;
+  //clear
+  State.world.processors.length = 0
+  //setup processors again
+  //FOV
+  var fov_ob = new PermissiveFov(20, 20, transparent)
+  setupProcessors(State.world, fov_ob);
+  //work around the fact that sets don't load automatically
+  State.world.dead_entities = new Set() //.clear()
+  loaded_State.world.dead_entities.forEach(item => State.world.dead_entities.add(item))
+
+
+  //those work directly
+  State.map = loaded_State.map;
+  State.fov = loaded_State.fov;
+  State.explored = loaded_State.explored;
+  State.messages = loaded_State.messages;
+
+  //State = loaded_State;
+
+  //redraw
+  draw()
+}
+
+export { get_position, get_stats, get_inventory, get_map, get_fov, setup, act_and_update, onStateLoaded }
