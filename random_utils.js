@@ -48,6 +48,7 @@ function generate_item_rarity(){
 
     chances.push([25, "Pistol"])
     chances.push([50, "Medkit"])
+    chances.push([15, "Combat Knife"])
 
     return createTableFromSizes(chances);
 }

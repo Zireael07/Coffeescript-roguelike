@@ -1,6 +1,6 @@
 import { World } from './ecs.js';
 
-import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name, Dead, Item, InBackpack, MedItem, Skip, Ranged} from './components.js'
+import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name, Dead, Item, InBackpack, MedItem, Skip, Ranged, Wearable, MeleeBonus} from './components.js'
 import { MovementProcessor } from './movement_processor.js'
 import {ActionProcessor} from './action_processor.js'
 import { FovProcessor, init_FOV, init_explored, transparent, explore } from './fov_processor.js'
@@ -115,7 +115,10 @@ function setup() {
 				let it = world.create_entity(
 					[new Item(), new Position(x,y),
 					new Renderable("/", [0,255,255]),
-					new Name("Combat Knife")]
+          new Name("Combat Knife"),
+          new Wearable("MAIN_HAND"),
+          new MeleeBonus(2)
+        ]
 				)
 			}
 		}
@@ -125,7 +128,7 @@ function setup() {
     let it = world.create_entity(
       [ new Item(),
       new Position(x,y),
-      new Renderable("/", [0, 255, 0]),
+      new Renderable(")", [0, 255, 0]),
       new Name("Pistol"),
       new Ranged(6)
     ]

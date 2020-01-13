@@ -1,4 +1,4 @@
-import {Combat, Stats, Name, Dead, Player } from './components.js'
+import {Combat, Stats, Name, Dead, Player, Equipped, MeleeBonus } from './components.js'
 import { State } from './js_game_vars.js';
 
 class CombatProcessor
@@ -20,7 +20,15 @@ class CombatProcessor
             target_stats = @world.component_for_entity(target_id, Stats)
 
             # deal damage!
-            target_stats.hp -= attacker_stats.power
+            damage = attacker_stats.power
+            # any bonuses?
+            for [item_ent, comps] in @world.get_components(Equipped, MeleeBonus)
+                [equipped, bonus] = comps
+                if equipped.owner == attacker_id
+                    console.log("Applying melee bonus")
+                    damage += bonus.bonus
+
+            target_stats.hp -= damage
 
             # dead
             if target_stats.hp <= 0
@@ -39,7 +47,7 @@ class CombatProcessor
             else
                 color = [127, 127, 127] # libtcod light gray
 
-            State.messages.push [attacker_name.name + " attacks " + target_name.name + " for " + attacker_stats.power + " damage!", color]
+            State.messages.push [attacker_name.name + " attacks " + target_name.name + " for " + damage + " damage!", color]
 
             # cleanup
             @world.remove_component(ent, Combat)

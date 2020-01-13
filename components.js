@@ -78,8 +78,21 @@ class InBackpack{
 }
 
 class Equipped {
-  constructor(owner) {
+  constructor(slot="BODY", owner) {
     this.owner = owner;
+    this.slot = slot;
+  }
+}
+
+class Wearable {
+  constructor(slot="BODY"){
+    this.slot = slot;
+  }
+}
+
+class MeleeBonus{
+  constructor(bonus=2) {
+    this.bonus = bonus;
   }
 }
 
@@ -118,6 +131,6 @@ class Cursor {
 
   export { Velocity, Position, Player, TurnComponent, Renderable, TileBlocker,
     NPC, Combat, Stats, Name, Dead, Skip,
-    Item, WantToPickup, InBackpack, Equipped, WantToUseItem, MedItem, 
+    Item, WantToPickup, InBackpack, Equipped, Wearable, MeleeBonus, WantToUseItem, MedItem, 
     WantToDrop, Ranged, Cursor
    }

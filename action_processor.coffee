@@ -1,5 +1,5 @@
 import { TurnComponent, Velocity, WantToPickup, WantToUseItem, WantToDrop, 
-Cursor, MedItem, Ranged, Position } from './components.js';
+Cursor, Ranged, Position, MedItem, Wearable } from './components.js';
 import { AIProcessor } from './ai_processor.js';
 
 class ActionProcessor
@@ -39,6 +39,8 @@ class ActionProcessor
             if _use_item
                 console.log("Use to execute... " + _use_item)
                 if @world.component_for_entity(_use_item, MedItem)
+                    @world.add_component(ent, new WantToUseItem(_use_item))
+                if @world.component_for_entity(_use_item, Wearable)
                     @world.add_component(ent, new WantToUseItem(_use_item))
                 if @world.component_for_entity(_use_item, Ranged)
                     pos = @world.component_for_entity(ent, Position)

@@ -1,4 +1,4 @@
-import { Position, InBackpack, Item, WantToPickup } from './components.js'
+import { Position, InBackpack, Item, WantToPickup, Name } from './components.js'
 import { State } from './js_game_vars.js';
 
 class PickupProcessor
@@ -19,7 +19,8 @@ class PickupProcessor
             if pos.x == item_pos.x && pos.y == item_pos.y
               unless @world.component_for_entity(item_ent, InBackpack)
                 @world.add_component(item_ent, new InBackpack())
-                State.messages.push ["Player picked up an item!", [255,255,255]]
+                item_name = @world.component_for_entity(item_ent, Name)
+                State.messages.push ["Player picked up " + item_name.name + "!", [255,255,255]]
 
           @world.remove_component(ent, WantToPickup)
         return # avoid coffeescript's implicit return

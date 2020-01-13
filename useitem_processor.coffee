@@ -1,4 +1,4 @@
-import { WantToUseItem, MedItem, Stats, Name, Skip, Ranged, Position, Cursor } from './components.js';
+import { WantToUseItem, MedItem, Stats, Name, Skip, Ranged, Position, Cursor, Wearable, Equipped, InBackpack } from './components.js';
 import { State } from './js_game_vars.js';
 import { tiles_distance_to } from './map_common.js';
 
@@ -34,6 +34,37 @@ class UseItemProcessor
                 # cleanup
                 @world.add_component(item_id, new Skip()) # using it to mark item as being removed
                 @world.delete_entity(item_id)
+
+            # equip/unequip
+            if @world.component_for_entity(item_id, Wearable)
+                # if not equipped already
+                unless @world.component_for_entity(item_id, Equipped)
+                    slot = @world.component_for_entity(item_id, Wearable).slot
+
+                    # unequip anything we might have in the slot
+                    for [item_ent, comps] in @world.get_components(Equipped, Name)
+                        [equipped, name] = comps
+                        if equipped.slot = slot
+                            ent_name = @world.component_for_entity(ent, Name)
+                            State.messages.push [ ent_name.name + " unequips " + name.name, [255, 255, 255]]
+                            @world.remove_component(item_ent, Equipped)
+                            @world.add_component(item_ent, new InBackpack())
+
+                    # equip
+                    @world.add_component(item_id, new Equipped(slot, ent))
+                    @world.remove_component(item_id, InBackpack)
+
+                    ent_name = @world.component_for_entity(ent, Name)
+                    item_name = @world.component_for_entity(item_id, Name)
+                    State.messages.push [ ent_name.name + " equips " + item_name.name, [255,255,255] ]
+                else
+                    # unequip
+                    ent_name = @world.component_for_entity(ent, Name)
+                    item_name = @world.component_for_entity(item_id, Name)
+                    State.messages.push [ ent_name.name + " unequips " + name.name, [255, 255, 255]]
+                    @world.remove_component(item_ent, Equipped)
+                    @world.add_component(item_ent, new InBackpack())
+
 
             # if item is a ranged item and we have a cursor
             if @world.component_for_entity(item_id, Ranged)

@@ -1,7 +1,7 @@
 import {TileTypes } from './enums.js'
 import { State } from './js_game_vars.js';
 
-import {Position, Renderable, Dead, InBackpack, Skip, Player, Cursor } from './components.js'
+import {Position, Renderable, Dead, InBackpack, Equipped, Skip, Player, Cursor } from './components.js'
 
 # console is a reserved name in JS
 redraw_terminal = (position, inc_map, fov) ->
@@ -19,6 +19,9 @@ redraw_terminal = (position, inc_map, fov) ->
             continue
         # in backpack
         if State.world.component_for_entity(ent, InBackpack)
+            # skip
+            continue
+        if State.world.component_for_entity(ent, Equipped)
             # skip
             continue
         # if dead
