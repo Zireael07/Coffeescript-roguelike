@@ -4,7 +4,7 @@
       <p>INVENTORY</p>
       {%for inv in inventory %}
       <div>
-      <input id="button-{{inv[0]}}" type="button" value="{{inv[0]}}">
+      <input id="button-{{inv[0]}}" type="button" value="{{inv[0]}}" data-entity="{{inv[2]}}">
       <span style="background-color: black; color:white">{{ inv[1]}}</span>
       </div>
       {%endfor%}

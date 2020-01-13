@@ -167,13 +167,13 @@ var get_inventory = function() {
     var name, pack;
     var inventory = [];
     var letter_index = 'a'.charCodeAt(0);
-    for (var [ent, comps] of State.world.get_components(Name, InBackpack)){
+    for (var [item_ent, comps] of State.world.get_components(Name, InBackpack)){
       //skip entities that are being removed
-      if (State.world.component_for_entity(ent, Skip)){
+      if (State.world.component_for_entity(item_ent, Skip)){
         continue
       }
       [name, pack] = comps;
-      inventory.push([String.fromCharCode(letter_index), name.name, ent])
+      inventory.push([String.fromCharCode(letter_index), name.name, item_ent])
       letter_index += 1;
     }
 

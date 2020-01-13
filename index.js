@@ -29,7 +29,7 @@ function fn(){
     //document.write(
     $('#output').html(maintem)
     
-    setup_keypad()
+    setup_keypad([])
     //console.log(maintem)
 }
 
@@ -42,7 +42,7 @@ function draw() {
   var stat = get_stats();
   var inventory = get_inventory();
 
-  var maintem = nunjucks.render('main.html', { position: pos, terminal: term, messages: msgs, stats: stat, inventory: inventory })
+  var maintem = nunjucks.render('main.html', { position: pos, terminal: term, messages: msgs, stats: stat })
   //force updates the whole page
   //document.write(
   $('#output').html(maintem)
