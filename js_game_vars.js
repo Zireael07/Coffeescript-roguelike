@@ -1,4 +1,3 @@
-
 //have to wrap it in an object since ES6 modules are automatically strict
 let State = {
     world: null,
@@ -6,6 +5,7 @@ let State = {
     fov: null,
     explored: null,
     messages: null,
+    rng: null,
 };
 
 export { State };
