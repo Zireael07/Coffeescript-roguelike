@@ -170,15 +170,20 @@ class World
             for component_type of @entities[entity] # object presence 
                 #console.log "Removing from component " + component_type + " lists... " + entity
                 #@components[component_type].delete entity
+                #console.log "Before deletion..."
+                console.log @components[component_type]
                 @components[component_type] = remove_list(@components[component_type], entity)
+                #console.log "After deletion..."
+                console.log @components[component_type]
 
                 if not @components[component_type]
                     delete @components[component_type]
 
             delete @entities[entity]
+            delete @dead_entities[entity]
             #console.log @entities
 
-        @dead_entities.length = 0
+        @dead_entities.clear()
 
         return # avoid implicit return
 
