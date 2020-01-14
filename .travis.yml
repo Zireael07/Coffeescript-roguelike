@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - 6
+script: skip # we don't need any tests
+before_deploy:
+  coffee --compile .
+before_install:
+  - npm install coffeescript
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep_history: true
+  on:
+    branch: master
