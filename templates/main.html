@@ -10,7 +10,7 @@
       <!--https://stackoverflow.com/questions/45719062/jinja-docx-template-avoiding-new-line-in-nested-for-->
     {%for y in range(0, 20)%} 
     <div style="height:18px;">
-    {%for x in range(0, 20)%}<span class="{{terminal[x][y][2] }}">{{terminal[x][y][0]|safe}}</span>{%endfor%}
+    {%for x in range(0, 20)%}<span class="{{terminal[x][y][2] }}" style="color:rgb({{terminal[x][y][1]}});">{{terminal[x][y][0]|safe}}</span>{%endfor%}
     </div>
     {%endfor%} 
     </div>

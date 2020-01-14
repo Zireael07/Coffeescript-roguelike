@@ -71,7 +71,7 @@ get_terminal = (inc_map, fov) ->
                 mapa[x][y] = [ TileTypes.data[inc_map[x][y]].map_str, [255,255, 255], "normal" ]
             # debug
             else if State.explored[x][y] == 1
-                mapa[x][y] = [ TileTypes.data[inc_map[x][y]].map_str, [255, 255, 255], "explored" ]
+                mapa[x][y] = [ TileTypes.data[inc_map[x][y]].map_str, [] , "explored" ]
 
     #console.log(mapa)
 

@@ -1,6 +1,6 @@
 import { World } from './ecs.js';
 
-import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name, Dead, Item, InBackpack, MedItem, Skip, Ranged, Wearable, MeleeBonus} from './components.js'
+import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name, Dead, Item, InBackpack, MedItem, Skip, Ranged, Wearable, MeleeBonus, Equipped} from './components.js'
 import { MovementProcessor } from './movement_processor.js'
 import {ActionProcessor} from './action_processor.js'
 import { FovProcessor, init_FOV, init_explored, transparent, explore } from './fov_processor.js'
@@ -201,6 +201,15 @@ var get_inventory = function() {
       }
       [name, pack] = comps;
       inventory.push([String.fromCharCode(letter_index), name.name, item_ent])
+      letter_index += 1;
+    }
+    for (var [item_ent, comps] of State.world.get_components(Name, Equipped)){
+      //skip entities that are being removed
+      if (State.world.component_for_entity(item_ent, Skip)){
+        continue
+      }
+      [name, pack] = comps;
+      inventory.push([String.fromCharCode(letter_index), name.name + " (equipped)", item_ent])
       letter_index += 1;
     }
 
