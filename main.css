@@ -15,6 +15,41 @@
     color: white;
 }
 
+/*https://stackoverflow.com/questions/2941189/how-to-overlay-one-div-over-another-div */
+
+/*
+*  position: relative gives a new position context
+*/
+
+#output {
+    position: relative;
+}
+
+/*
+*  Position the keypad element using the top-left
+*  of the wrapper element
+*/
+
+.keypad {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    opacity: 0; /*hide ... */
+}
+
+.keypad:hover {
+    opacity: 1; /* unless hovered */
+}
+
+
+
+.keypad_btn {
+    /*background-color: transparent; */
+    background-color: black;
+    opacity: 0.75;
+    color: #42D6CA;
+}
+
 /* Styling for modal */
 
 .modal {
