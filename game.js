@@ -15,10 +15,11 @@ import { State } from './js_game_vars.js';
 
 import { Camera } from './camera.js';
 import { map_create } from './arena_map.js';
-import { draw } from './index.js'
+import { draw, initial_draw } from './index.js'
 import { PermissiveFov } from './ppfov/index.js';
 
-import { generate_random_item } from './random_utils.js';
+import { generate_random_item, generate_random_NPC } from './random_utils.js';
+import { generate_npc } from './generators.js';
 
 //console.log("Game...");
 
@@ -44,9 +45,28 @@ function setupProcessors(world, fov_ob){
   world.add_processor (fov_processor);
 }
 
+function loadData() {
+  $.ajax({
+    url: "/npcs.json",
+    type: "GET",
+    success: function(response){
+      console.log("Game data loaded...");  
+      //console.log(response)
+        State.npc_data = response;
+        //console.log("Success");
+        setup();
+        initial_draw();
+        
+    }
+  });
+}
+
 
 function setup() {
     console.log("Game setup...")
+
+    //loadData();
+
 		let world = new World();
 		
 		var rng = aleaPRNG();
@@ -80,17 +100,22 @@ function setup() {
     for (let i = 0; i < num_npc; i++){
 			// Choose a random location in the map
 			let x = State.rng.range(1, 18)
-			let y = State.rng.range(1, 18)
+      let y = State.rng.range(1, 18)
+      
+      var choice = generate_random_NPC();
+
+      // things that all NPCs share
       let npc = world.create_entity(
-          [new Position(x, y),
-          new Renderable('h', [255, 255, 255]),
-          new Velocity(),
-          new NPC(),
-          new Name("human"),
-          new TileBlocker(),
-          new Stats(11, 2)
-        ]
-      ) 
+          [new Position(x, y), new Velocity(), new NPC(), new TileBlocker() ]
+      )
+      
+      //fill in the rest
+      //console.log(choice.toLowerCase());
+      let add = generate_npc(choice.toLowerCase())
+      //add them
+      for (let i = 0; i < add.length; i++){
+        world.add_component(npc, add[i]);
+      }
     }
 
 		//some items
@@ -266,4 +291,4 @@ function onStateLoaded(loaded_State){
   draw()
 }
 
-export { get_position, get_stats, get_inventory, get_map, get_fov, setup, act_and_update, onStateLoaded }
+export { get_position, get_stats, get_inventory, get_map, get_fov, loadData, setup, act_and_update, onStateLoaded }

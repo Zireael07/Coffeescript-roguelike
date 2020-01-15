@@ -7,6 +7,8 @@ let State = {
     messages: null,
     rng: null,
     camera: null,
+    //data loaded
+    npc_data: null,
 };
 
 export { State };

@@ -60,4 +60,20 @@ function generate_random_item(){
     return resultAtIndex(item_chances, roll);
 }
 
-export { generate_random_item }
+function generate_NPC_rarity(){
+  var chances = []
+
+  chances.push([80, "Thug"])
+  chances.push([20, "Cop"])
+
+  return createTableFromSizes(chances)
+}
+
+function generate_random_NPC() {
+  var chances = generate_NPC_rarity();
+  var roll = State.rng.roller("1d100");
+
+  return resultAtIndex(chances, roll);
+}
+
+export { generate_random_item, generate_random_NPC }
