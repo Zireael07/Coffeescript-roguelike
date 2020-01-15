@@ -13,8 +13,8 @@ import { DropProcessor } from './drop_processor.js'
 
 import { State } from './js_game_vars.js';
 
+import { Camera } from './camera.js';
 import { map_create } from './arena_map.js';
-
 import { draw } from './index.js'
 import { PermissiveFov } from './ppfov/index.js';
 
@@ -58,6 +58,8 @@ function setup() {
     State.fov = fov
     var explored = init_explored();
     State.explored = explored
+
+    var cam = new Camera();
 
     //processors
     setupProcessors(world, fov_ob);
@@ -145,6 +147,7 @@ function setup() {
 
     // Save state 
     State.world = world
+    State.camera = cam
     State.messages = []
 
     //State.fov = fov
@@ -249,6 +252,7 @@ function onStateLoaded(loaded_State){
   State.world.dead_entities = new Set() //.clear()
   loaded_State.world.dead_entities.forEach(item => State.world.dead_entities.add(item))
 
+  Object.assign(State.camera, loaded_State.camera)
 
   //those work directly
   State.map = loaded_State.map;

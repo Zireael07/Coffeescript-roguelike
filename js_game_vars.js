@@ -6,6 +6,7 @@ let State = {
     explored: null,
     messages: null,
     rng: null,
+    camera: null,
 };
 
 export { State };
