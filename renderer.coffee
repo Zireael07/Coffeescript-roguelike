@@ -7,11 +7,23 @@ import {Position, Renderable, Dead, InBackpack, Equipped, Skip, Player, Cursor }
 redraw_terminal = (position, inc_map, fov) ->
     terminal = get_terminal(inc_map, fov)
 
+    # camera
+    cam = State.camera
+    width_start = cam.get_width_start()
+    width_end = cam.get_width_end(inc_map)
+    height_start = cam.get_height_start()
+    height_end = cam.get_height_end(inc_map)
+
     # draw other entities
     for [ent, comps] in State.world.get_components(Position, Renderable)
         [pos, visual] = comps
 
         #console.log visual + " x : " + pos.x + " y :" + pos.y
+        
+        # if not in camera view
+        if pos.x < width_start or pos.x > width_end or pos.y < height_start or pos.y > height_end
+            # skip
+            continue
 
         # if not in fov
         unless fov[pos.x][pos.y] == 1
@@ -61,17 +73,26 @@ get_terminal = (inc_map, fov) ->
 
     #mapa = ((["&nbsp;", [255,255,255]] for num in [0..21]) for num in [0..21])
 
+    # camera
+    cam = State.camera
+    width_start = cam.get_width_start()
+    width_end = cam.get_width_end(inc_map)
+    height_start = cam.get_height_start()
+    height_end = cam.get_height_end(inc_map)
+
     # draw map
     x_max = (inc_map.length-1)
     y_max = (inc_map[0].length-1)
     for x in [0..x_max]
         for y in [0..y_max]
-            if fov[x][y] == 1 # visible
-                #console.log TileTypes.data[inc_map[x][y]].map_str
-                mapa[x][y] = [ TileTypes.data[inc_map[x][y]].map_str, [255,255, 255], "normal" ]
-            # debug
-            else if State.explored[x][y] == 1
-                mapa[x][y] = [ TileTypes.data[inc_map[x][y]].map_str, [] , "explored" ]
+            # if in camera
+            if x >= width_start and x <= width_end and y >= height_start and y <= height_end
+                if fov[x][y] == 1 # visible
+                    #console.log TileTypes.data[inc_map[x][y]].map_str
+                    mapa[x][y] = [ TileTypes.data[inc_map[x][y]].map_str, [255,255, 255], "normal" ]
+                # debug
+                else if State.explored[x][y] == 1
+                    mapa[x][y] = [ TileTypes.data[inc_map[x][y]].map_str, [] , "explored" ]
 
     #console.log(mapa)
 

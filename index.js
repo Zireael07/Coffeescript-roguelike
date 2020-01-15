@@ -2,6 +2,7 @@
 import { setup, get_position, get_inventory, get_map, get_fov, get_stats } from "./game.js"
 import { setup_keypad, setup_inventory } from "./keypad.js";
 import { get_terminal, redraw_terminal, get_messages } from "./renderer.js";
+import { State } from "./js_game_vars.js";
 
 ready(fn)
 
@@ -19,6 +20,8 @@ function fn(){
     setup();
 
     var pos = get_position();
+    //camera
+    State.camera.update(pos)
     var term = redraw_terminal(pos, get_map(), get_fov())[0];
     var stat = get_stats();
 
@@ -36,6 +39,8 @@ function fn(){
 
 function draw() {
   var pos = get_position()
+  //camera
+  State.camera.update(pos)
   var term = redraw_terminal(pos, get_map(), get_fov())[0];
   //HUD
   var msgs = get_messages();
