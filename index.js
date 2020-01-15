@@ -1,5 +1,5 @@
 //ES 6 feature - import
-import { setup, get_position, get_inventory, get_map, get_fov, get_stats } from "./game.js"
+import { setup, get_position, get_inventory, get_map, get_fov, get_stats, loadData } from "./game.js"
 import { setup_keypad, setup_inventory } from "./keypad.js";
 import { get_terminal, redraw_terminal, get_messages } from "./renderer.js";
 import { State } from "./js_game_vars.js";
@@ -15,10 +15,7 @@ function ready(fn) {
     }
   }
 
-function fn(){
-    console.log("Running ready function...")
-    setup();
-
+function initial_draw() {
     var pos = get_position();
     //camera
     State.camera.update(pos)
@@ -34,6 +31,15 @@ function fn(){
     
     setup_keypad([])
     //console.log(maintem)
+}
+
+
+function fn(){
+    console.log("Running ready function...")
+    //setup();
+    loadData();
+
+    //initial_draw();
 }
 
 
@@ -58,4 +64,4 @@ function draw() {
 
 //});
 
-export { draw }
+export { draw, initial_draw }
