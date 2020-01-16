@@ -46,7 +46,7 @@ function setupProcessors(world, fov_ob){
 
 function loadData() {
   $.ajax({
-    url: "/npcs.json",
+    url: "./npcs.json",
     type: "GET",
     success: function(response){
       console.log("Game data loaded...");  
@@ -56,7 +56,7 @@ function loadData() {
 
         //now load second file
         $.ajax({
-          url: "/items.json",
+          url: "./items.json",
           type: "GET",
           success: function(resp){
             State.items_data = resp;
