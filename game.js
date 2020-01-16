@@ -19,7 +19,7 @@ import { draw, initial_draw } from './index.js'
 import { PermissiveFov } from './ppfov/index.js';
 
 import { generate_random_item, generate_random_NPC } from './random_utils.js';
-import { generate_npc } from './generators.js';
+import { generate_npc, generate_item } from './generators.js';
 
 //console.log("Game...");
 
@@ -54,8 +54,18 @@ function loadData() {
       //console.log(response)
         State.npc_data = response;
         //console.log("Success");
-        setup();
-        initial_draw();
+
+        //now load second file
+        $.ajax({
+          url: "/items.json",
+          type: "GET",
+          success: function(resp){
+            State.items_data = resp;
+            setup();
+            initial_draw();
+
+          }
+        });
         
     }
   });
@@ -124,42 +134,31 @@ function setup() {
 			let x = State.rng.range(1, 18)
 			let y = State.rng.range(1, 18)
 
-			var choice = generate_random_item()
+      var choice = generate_random_item()
+      
+      //things that all items share
+      let it = world.create_entity(
+        [new Position(x,y), new Item()]
+      )
 
-			if (choice == "Medkit"){
-				console.log("Want to spawn medkit")
-				let it = world.create_entity(
-					[new Item(),
-					new Position(x,y),
-					new Renderable("!", [255,0,0]),
-					new Name("Medkit"),
-					new MedItem(6)
-				]
-				)
-			}
-			else if (choice == "Combat Knife"){
-				console.log("Want to spawn combat knife")
-				let it = world.create_entity(
-					[new Item(), new Position(x,y),
-					new Renderable("/", [0,255,255]),
-          new Name("Combat Knife"),
-          new Wearable("MAIN_HAND"),
-          new MeleeBonus(2)
-        ]
-				)
-			}
-		}
+      //fill in the rest
+      let add = generate_item(choice.toLowerCase())
+      //add them
+      for (let i = 0; i < add.length; i++){
+        world.add_component(it, add[i]);
+      }
+    }
 
-		let x = State.rng.range(1, 18)
-		let y = State.rng.range(1, 18)
-    let it = world.create_entity(
-      [ new Item(),
-      new Position(x,y),
-      new Renderable(")", [0, 255, 0]),
-      new Name("Pistol"),
-      new Ranged(6)
-    ]
-    )
+		// let x = State.rng.range(1, 18)
+		// let y = State.rng.range(1, 18)
+    // let it = world.create_entity(
+    //   [ new Item(),
+    //   new Position(x,y),
+    //   new Renderable(")", [0, 255, 0]),
+    //   new Name("Pistol"),
+    //   new Ranged(6)
+    // ]
+    // )
 
     //generate map
     var map = map_create([[12, 14], [16,18]])
