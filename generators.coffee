@@ -1,4 +1,4 @@
-import { Renderable, Name, Stats, MedItem, Ranged, Wearable, MeleeBonus} from './components.js';
+import { Renderable, Name, Stats, MedItem, Ranged, Wearable, Weapon, MeleeBonus} from './components.js';
 import { State } from './js_game_vars.js';
 
 generate_npc = (m_id) ->
@@ -57,6 +57,9 @@ generate_item = (_id) ->
 
     if 'wearable' of State.items_data[_id]
         comps.push new Wearable(State.items_data[_id]['wearable']['slot'].toUpperCase())
+    if 'weapon' of State.items_data[_id]
+        comps.push new Weapon(State.items_data[_id]['weapon'])
+        console.log (State.items_data[_id]['weapon'])
     if 'melee_bonus' of State.items_data[_id]
         comps.push new MeleeBonus(State.items_data[_id]['melee_bonus'])
 

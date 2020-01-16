@@ -1,4 +1,4 @@
-import {Combat, Stats, Name, Dead, Player, Equipped, MeleeBonus } from './components.js'
+import {Combat, Stats, Name, Dead, Player, Equipped, MeleeBonus, Weapon } from './components.js'
 import { State } from './js_game_vars.js';
 
 class CombatProcessor
@@ -20,7 +20,21 @@ class CombatProcessor
             target_stats = @world.component_for_entity(target_id, Stats)
 
             # deal damage!
-            damage = attacker_stats.power
+            #damage = attacker_stats.power
+
+            # if no weapon, deal 1d6
+            roll = "1d6"
+            # use equipped weapon's data
+            for [item_ent, comps] in @world.get_components(Equipped, Weapon)
+                [equipped, weapon] = comps
+                console.log(equipped.slot)
+                if equipped.owner == attacker_id && equipped.slot == "MAIN_HAND"
+                    console.log("Use weapon dice")
+                    roll = weapon.damage
+
+            # deal damage!
+            damage = State.rng.roller(roll)
+
             # any bonuses?
             for [item_ent, comps] in @world.get_components(Equipped, MeleeBonus)
                 [equipped, bonus] = comps

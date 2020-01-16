@@ -72,8 +72,8 @@ function generate_NPC_rarity(){
 function generate_random_NPC() {
   var chances = generate_NPC_rarity();
   var roll = State.rng.roller("1d100");
-
-  return resultAtIndex(chances, roll);
+  //fix off by one
+  return resultAtIndex(chances, roll-1);
 }
 
 export { generate_random_item, generate_random_NPC }

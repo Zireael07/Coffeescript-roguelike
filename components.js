@@ -90,6 +90,12 @@ class Wearable {
   }
 }
 
+class Weapon {
+  constructor(damage="1d4"){
+    this.damage = damage;
+  }
+}
+
 class MeleeBonus{
   constructor(bonus=2) {
     this.bonus = bonus;
@@ -131,6 +137,6 @@ class Cursor {
 
   export { Velocity, Position, Player, TurnComponent, Renderable, TileBlocker,
     NPC, Combat, Stats, Name, Dead, Skip,
-    Item, WantToPickup, InBackpack, Equipped, Wearable, MeleeBonus, WantToUseItem, MedItem, 
+    Item, WantToPickup, InBackpack, Equipped, Wearable, Weapon, MeleeBonus, WantToUseItem, MedItem, 
     WantToDrop, Ranged, Cursor
    }
