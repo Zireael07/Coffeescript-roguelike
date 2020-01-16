@@ -9,6 +9,7 @@ let State = {
     camera: null,
     //data loaded
     npc_data: null,
+    items_data: null,
 };
 
 export { State };
