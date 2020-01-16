@@ -1,6 +1,6 @@
 import { World } from './ecs.js';
 
-import {Velocity, Position, Player, TurnComponent, Renderable, NPC, Stats, TileBlocker, Name, Dead, Item, InBackpack, MedItem, Skip, Ranged, Wearable, MeleeBonus, Equipped} from './components.js'
+import {Position, Player, Stats, Name, Dead, InBackpack, Skip, Equipped} from './components.js'
 import { MovementProcessor } from './movement_processor.js'
 import {ActionProcessor} from './action_processor.js'
 import { FovProcessor, init_FOV, init_explored, transparent, explore } from './fov_processor.js'
@@ -18,8 +18,7 @@ import { map_create } from './arena_map.js';
 import { draw, initial_draw } from './index.js'
 import { PermissiveFov } from './ppfov/index.js';
 
-import { generate_random_item, generate_random_NPC } from './random_utils.js';
-import { generate_npc, generate_item } from './generators.js';
+import { spawn_player, spawn_npc, spawn_item } from './spawner.js';
 
 //console.log("Game...");
 
@@ -96,69 +95,20 @@ function setup() {
 
 
     // Create entities and assign components
-    var player = world.create_entity([])
-    world.add_component(player, new Position(2,2))
-    //world.add_component(player, new Velocity())
-    world.add_component(player, new Player())
-    world.add_component(player, new Name("Player"))
-    world.add_component(player, new TurnComponent())
-    world.add_component(player, new Stats(20, 4))
+    spawn_player(world);
 
 
     // Create some npcs
     var num_npc = 2;
     for (let i = 0; i < num_npc; i++){
-			// Choose a random location in the map
-			let x = State.rng.range(1, 18)
-      let y = State.rng.range(1, 18)
-      
-      var choice = generate_random_NPC();
-
-      // things that all NPCs share
-      let npc = world.create_entity(
-          [new Position(x, y), new Velocity(), new NPC(), new TileBlocker() ]
-      )
-      
-      //fill in the rest
-      //console.log(choice.toLowerCase());
-      let add = generate_npc(choice.toLowerCase())
-      //add them
-      for (let i = 0; i < add.length; i++){
-        world.add_component(npc, add[i]);
-      }
+      spawn_npc(world);
     }
 
 		//some items
 		var num_items = 3;
 		for (let i = 0; i < num_items; i++){
-			let x = State.rng.range(1, 18)
-			let y = State.rng.range(1, 18)
-
-      var choice = generate_random_item()
-      
-      //things that all items share
-      let it = world.create_entity(
-        [new Position(x,y), new Item()]
-      )
-
-      //fill in the rest
-      let add = generate_item(choice.toLowerCase())
-      //add them
-      for (let i = 0; i < add.length; i++){
-        world.add_component(it, add[i]);
-      }
+      spawn_item(world);
     }
-
-		// let x = State.rng.range(1, 18)
-		// let y = State.rng.range(1, 18)
-    // let it = world.create_entity(
-    //   [ new Item(),
-    //   new Position(x,y),
-    //   new Renderable(")", [0, 255, 0]),
-    //   new Name("Pistol"),
-    //   new Ranged(6)
-    // ]
-    // )
 
     //generate map
     var map = map_create([[12, 14], [16,18]])
