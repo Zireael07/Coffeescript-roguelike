@@ -8,6 +8,7 @@ import {
   MedItem,
   Ranged,
   Wearable,
+  Weapon,
   MeleeBonus
 } from './components.js';
 
@@ -71,6 +72,10 @@ generate_item = function(_id) {
   //     comps.push AreaOfEffect(items_data[_id]['consumable']['effects']['area_of_effect'])
   if ('wearable' in State.items_data[_id]) {
     comps.push(new Wearable(State.items_data[_id]['wearable']['slot'].toUpperCase()));
+  }
+  if ('weapon' in State.items_data[_id]) {
+    comps.push(new Weapon(State.items_data[_id]['weapon']));
+    console.log(State.items_data[_id]['weapon']);
   }
   if ('melee_bonus' in State.items_data[_id]) {
     comps.push(new MeleeBonus(State.items_data[_id]['melee_bonus']));

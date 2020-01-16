@@ -8,7 +8,8 @@ import {
   Dead,
   Player,
   Equipped,
-  MeleeBonus
+  MeleeBonus,
+  Weapon
 } from './components.js';
 
 import {
@@ -26,7 +27,7 @@ CombatProcessor = class CombatProcessor {
     ;
 
   process() {
-    var attacker_id, attacker_name, attacker_stats, bonus, color, combat, comps, damage, ent, equipped, i, item_ent, j, len, len1, player_hit, ref, ref1, target_id, target_name, target_stats;
+    var attacker_id, attacker_name, attacker_stats, bonus, color, combat, comps, damage, ent, equipped, i, item_ent, j, k, len, len1, len2, player_hit, ref, ref1, ref2, roll, target_id, target_name, target_stats, weapon;
     ref = this.world.get_component(Combat);
     for (i = 0, len = ref.length; i < len; i++) {
       [ent, combat] = ref[i];
@@ -35,11 +36,27 @@ CombatProcessor = class CombatProcessor {
       attacker_stats = this.world.component_for_entity(attacker_id, Stats);
       target_stats = this.world.component_for_entity(target_id, Stats);
       // deal damage!
-      damage = attacker_stats.power;
-      ref1 = this.world.get_components(Equipped, MeleeBonus);
-      // any bonuses?
+      //damage = attacker_stats.power
+
+      // if no weapon, deal 1d6
+      roll = "1d6";
+      ref1 = this.world.get_components(Equipped, Weapon);
+      // use equipped weapon's data
       for (j = 0, len1 = ref1.length; j < len1; j++) {
         [item_ent, comps] = ref1[j];
+        [equipped, weapon] = comps;
+        console.log(equipped.slot);
+        if (equipped.owner === attacker_id && equipped.slot === "MAIN_HAND") {
+          console.log("Use weapon dice");
+          roll = weapon.damage;
+        }
+      }
+      // deal damage!
+      damage = State.rng.roller(roll);
+      ref2 = this.world.get_components(Equipped, MeleeBonus);
+      // any bonuses?
+      for (k = 0, len2 = ref2.length; k < len2; k++) {
+        [item_ent, comps] = ref2[k];
         [equipped, bonus] = comps;
         if (equipped.owner === attacker_id) {
           console.log("Applying melee bonus");

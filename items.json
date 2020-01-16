@@ -40,7 +40,7 @@
             "wearable" : {
                 "slot" : "main_hand"
             },
-            "melee_bonus": 2
+            "weapon" : "1d8"
         }
 
 }
