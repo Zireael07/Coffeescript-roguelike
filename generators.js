@@ -46,7 +46,8 @@ generate_item = function(_id) {
     return;
   }
   console.log("Generating item with id " + _id);
-  console.log(State.items_data);
+  //console.log(State.items_data)
+
   // paranoia
   if (!(_id in State.items_data)) { // object presence
     console.log("Don't know how to generate " + _id + "!");

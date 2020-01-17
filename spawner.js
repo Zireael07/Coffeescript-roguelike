@@ -44,7 +44,9 @@ spawn_npc = function(world) {
   y = State.rng.range(1, 18);
   choice = generate_random_NPC();
   npc = world.create_entity([new Position(x, y), new Velocity(), new NPC(), new TileBlocker()]);
-  
+  if (choice === null || choice === void 0) {
+    return;
+  }
   //fill in the rest
   add = generate_npc(choice.toLowerCase());
 //add them
@@ -61,7 +63,9 @@ spawn_item = function(world) {
   choice = generate_random_item();
   // things that all NPCs share
   it = world.create_entity([new Position(x, y), new Item()]);
-  
+  if (choice === null || choice === void 0) {
+    return;
+  }
   //fill in the rest
   add = generate_item(choice.toLowerCase());
 //add them

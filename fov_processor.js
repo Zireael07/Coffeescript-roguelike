@@ -8,7 +8,7 @@ import {
 
 import {
   PermissiveFov
-} from './ppfov/index.js';
+} from './3rd-party/ppfov/index.js';
 
 import {
   TileTypes
@@ -82,6 +82,7 @@ FovProcessor = class FovProcessor {
   process() {
     var comps, ent, i, len, player, pos, ref, results;
     ref = this.world.get_components(Player, Position);
+    //console.log("FOV processor...")
     results = [];
     for (i = 0, len = ref.length; i < len; i++) {
       [ent, comps] = ref[i];

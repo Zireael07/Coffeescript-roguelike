@@ -32,7 +32,7 @@ generate_item = (_id) ->
     
     console.log("Generating item with id " + _id)
 
-    console.log(State.items_data)
+    #console.log(State.items_data)
 
     # paranoia
     unless _id of State.items_data # object presence

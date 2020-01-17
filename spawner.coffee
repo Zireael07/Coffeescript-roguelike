@@ -24,7 +24,10 @@ spawn_npc = (world) ->
     npc = world.create_entity(
           [new Position(x, y), new Velocity(), new NPC(), new TileBlocker() ]
     )
-      
+
+    if choice == null or choice == undefined
+        return
+
     #fill in the rest
     add = generate_npc(choice.toLowerCase())
     #add them
@@ -44,7 +47,10 @@ spawn_item = (world) ->
     it = world.create_entity(
           [ new Position(x,y), new Item() ]
     )
-      
+
+    if choice == null or choice == undefined
+        return
+
     #fill in the rest
     add = generate_item(choice.toLowerCase())
     #add them
