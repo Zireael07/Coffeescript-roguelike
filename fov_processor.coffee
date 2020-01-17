@@ -1,6 +1,6 @@
 import {Player, Position } from './components.js'
 
-import { PermissiveFov } from './ppfov/index.js';
+import { PermissiveFov } from './3rd-party/ppfov/index.js';
 
 import {TileTypes } from './enums.js';
 import { State } from './js_game_vars.js';
@@ -61,6 +61,7 @@ class FovProcessor
     ```
 
     process: ->
+        #console.log("FOV processor...")
         for [ent, comps] in @world.get_components(Player, Position)
             [player, pos] = comps
 
