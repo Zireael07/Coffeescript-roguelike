@@ -16,7 +16,7 @@ import { State } from './js_game_vars.js';
 import { Camera } from './camera.js';
 import { map_create } from './arena_map.js';
 import { draw, initial_draw } from './index.js'
-import { PermissiveFov } from './ppfov/index.js';
+import { PermissiveFov } from './3rd-party/ppfov/index.js';
 
 import { spawn_player, spawn_npc, spawn_item } from './spawner.js';
 
