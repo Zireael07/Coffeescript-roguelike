@@ -1,12 +1,12 @@
 /* Font */
 @font-face {
     font-family: "mono";
-    src: url("/3rd-party/SourceCodePro-Regular.ttf.woff") format('woff');
+    src: url("3rd-party/SourceCodePro-Regular.ttf.woff") format('woff');
 }
 
 @font-face {
     font-family: "mono";
-    src: url("/3rd-party/SourceCodePro-Bold.ttf.woff") format('woff');
+    src: url("3rd-party/SourceCodePro-Bold.ttf.woff") format('woff');
     font-weight: bold;
 }
 
