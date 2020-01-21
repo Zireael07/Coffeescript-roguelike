@@ -4,9 +4,9 @@
         <tr>
           <td>
     <!-- simple HTML console-->
-    <div id="console" style="font-family: monospace;">
+    <div id="console" style="font-family: mono;">
   <!-- For loop logic of jinja template -->
-          <!-- 18 px for Consolas-->
+          <!-- 18 px for Source Code Pro-->
       <!--https://stackoverflow.com/questions/45719062/jinja-docx-template-avoiding-new-line-in-nested-for-->
     {%for y in range(0, 20)%} 
     <div style="height:18px;">
@@ -25,7 +25,7 @@
     </table>
   
     </div>
-    <div id="messages" style="font-family: monospace; padding-top: 20px;">
+    <div id="messages" style="font-family: mono; padding-top: 20px;">
       {%for message in messages %}
       <div>
       <span style="background-color: black; color:rgb({{message[1]}})">{{message[0]}}</span>
