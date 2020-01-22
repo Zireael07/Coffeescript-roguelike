@@ -35,6 +35,11 @@ function initial_draw() {
 
 
 function fn(){
+    //test for touch events support and if NOT supported, attach .no-touch class to the HTML tag.
+    if (!("ontouchstart" in document.documentElement)) {
+      document.documentElement.className += " no-touch";
+      }
+
     console.log("Running ready function...")
     //setup();
     loadData();
