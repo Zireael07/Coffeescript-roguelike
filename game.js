@@ -14,9 +14,12 @@ import { DropProcessor } from './drop_processor.js'
 import { State } from './js_game_vars.js';
 
 import { Camera } from './camera.js';
-import { map_create } from './arena_map.js';
 import { draw, initial_draw } from './index.js'
 import { PermissiveFov } from './3rd-party/ppfov/index.js';
+
+//import { map_create } from './arena_map.js';
+import { map_create } from './noise_map.js';
+
 
 import { spawn_player, spawn_npc, spawn_item } from './spawner.js';
 
@@ -111,7 +114,8 @@ function setup() {
     }
 
     //generate map
-    var map = map_create([[12, 14], [16,18]])
+    //var map = map_create([[12, 14], [16,18]])
+    var map = map_create()
 
 
     State.map = map
