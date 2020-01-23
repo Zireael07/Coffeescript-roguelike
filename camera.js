@@ -3,8 +3,8 @@ var Camera;
 
 Camera = class Camera {
   constructor() {
-    this.width = 10;
-    this.height = 10;
+    this.width = 20;
+    this.height = 20;
     this.x = 0;
     this.y = 0;
     this.top_x = 0;

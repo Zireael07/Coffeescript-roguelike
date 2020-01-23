@@ -96,6 +96,10 @@ function setup() {
     //processors
     setupProcessors(world, fov_ob);
 
+    //generate map
+    //var map = map_create([[12, 14], [16,18]])
+    var map = map_create()
+    State.map = map
 
     // Create entities and assign components
     spawn_player(world);
@@ -113,12 +117,6 @@ function setup() {
       spawn_item(world);
     }
 
-    //generate map
-    //var map = map_create([[12, 14], [16,18]])
-    var map = map_create()
-
-
-    State.map = map
     //FOV
     fov_ob.compute(2,2, 6, explore)
 

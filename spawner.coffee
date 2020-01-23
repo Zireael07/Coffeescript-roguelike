@@ -2,6 +2,7 @@ import { Position, Player, TurnComponent, Name, Stats, Velocity, NPC, TileBlocke
 import { generate_random_item, generate_random_NPC } from './random_utils.js';
 import { generate_npc, generate_item } from './generators.js';
 import { State } from './js_game_vars.js';
+import { random_free_tile } from './map_common.js';
 
 spawn_player = (world) ->
     player = world.create_entity()
@@ -14,9 +15,12 @@ spawn_player = (world) ->
     return # avoid implicit return
 
 spawn_npc = (world) ->
-	# Choose a random location in the map
-    x = State.rng.range(1, 18);
-    y = State.rng.range(1, 18)
+	# Choose a random free location in the map
+    #x = State.rng.range(1, 18);
+    #y = State.rng.range(1, 18);
+    loc = random_free_tile(State.map);
+    # destructuring assignment
+    [x,y] = loc
       
     choice = generate_random_NPC();
 
@@ -38,8 +42,11 @@ spawn_npc = (world) ->
 
 spawn_item = (world) ->
     # Choose a random location in the map
-    x = State.rng.range(1, 18)
-    y = State.rng.range(1, 18)
+    #x = State.rng.range(1, 18)
+    #y = State.rng.range(1, 18)
+    loc = random_free_tile(State.map);
+    # destructuring assignment
+    [x,y] = loc
 
     choice = generate_random_item()
 

@@ -27,6 +27,10 @@ import {
   State
 } from './js_game_vars.js';
 
+import {
+  random_free_tile
+} from './map_common.js';
+
 spawn_player = function(world) {
   var player;
   player = world.create_entity();
@@ -38,10 +42,12 @@ spawn_player = function(world) {
 };
 
 spawn_npc = function(world) {
-  var add, choice, i, j, npc, ref, x, y;
-  // Choose a random location in the map
-  x = State.rng.range(1, 18);
-  y = State.rng.range(1, 18);
+  var add, choice, i, j, loc, npc, ref, x, y;
+  // Choose a random free location in the map
+  //x = State.rng.range(1, 18);
+  //y = State.rng.range(1, 18);
+  loc = random_free_tile(State.map);
+  [x, y] = loc;
   choice = generate_random_NPC();
   npc = world.create_entity([new Position(x, y), new Velocity(), new NPC(), new TileBlocker()]);
   if (choice === null || choice === void 0) {
@@ -56,10 +62,12 @@ spawn_npc = function(world) {
 };
 
 spawn_item = function(world) {
-  var add, choice, i, it, j, ref, x, y;
+  var add, choice, i, it, j, loc, ref, x, y;
   // Choose a random location in the map
-  x = State.rng.range(1, 18);
-  y = State.rng.range(1, 18);
+  //x = State.rng.range(1, 18)
+  //y = State.rng.range(1, 18)
+  loc = random_free_tile(State.map);
+  [x, y] = loc;
   choice = generate_random_item();
   // things that all NPCs share
   it = world.create_entity([new Position(x, y), new Item()]);
