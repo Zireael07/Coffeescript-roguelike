@@ -1,6 +1,30 @@
 import {TileTypes } from './enums.js';
 import { State } from './js_game_vars.js';
 
+class Rect
+    constructor: (x, y, w, h) ->
+        @x1 = x
+        @y1 = y
+        @x2 = x+w
+        @y2 = y+h
+        # shortcuts
+        @w = w
+        @h = h
+
+    center: ->
+        centerX = (self.x1 + self.x2)/2
+        centerY = (self.y1 + self.y2)/2
+        cent = [centerX, centerY]
+        return cent
+
+    intersect: (other) ->
+        #returns true if this rectangle intersects with another one
+        int = (@x1 <= @x2 && @x2 >= other.x1 && @y1 <= other.y2 && @y2 >= other.y1)
+
+        return int
+
+
+
 get_free_tiles = (inc_map) ->
     free_tiles = []
     max_y = inc_map[0].length-1
@@ -40,4 +64,4 @@ tiles_distance_to = (start, target) ->
 
     return Math.max(x_diff, y_diff)
 
-export { tiles_distance_to, random_free_tile }
+export { tiles_distance_to, random_free_tile, Rect }

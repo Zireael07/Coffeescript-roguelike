@@ -18,7 +18,8 @@ import { draw, initial_draw } from './index.js'
 import { PermissiveFov } from './3rd-party/ppfov/index.js';
 
 //import { map_create } from './arena_map.js';
-import { map_create } from './noise_map.js';
+//import { map_create } from './noise_map.js';
+import { map_create } from './bsp_map.js';
 
 
 import { spawn_player, spawn_npc, spawn_item } from './spawner.js';
