@@ -1,7 +1,7 @@
 class Camera
     constructor: () -> 
-        @width = 10
-        @height = 10
+        @width = 20
+        @height = 20
         @x = 0
         @y = 0
         @top_x = 0
