@@ -13,7 +13,7 @@ paint = (tree, mapa) ->
 
 room_func = (room, mapa) ->
     console.log(room)
-    console.log(mapa)
+    #console.log(mapa)
     # set all tiles within a rectangle to wall
     x_min = room.x1+1
     y_min = room.y1+1
@@ -43,7 +43,7 @@ map_create = () ->
 
     # basic bsp
     main_container = new Rect(0, 0, 19, 19) # off by one
-    container_tree = split_container(main_container, 2)
+    container_tree = split_container(main_container, 2, true)
 
     paint(container_tree, new_map)
 
