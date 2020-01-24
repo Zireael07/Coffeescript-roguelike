@@ -10,4 +10,17 @@ const TileTypes = Object.freeze({
     }
   });
 
- export { TileTypes } 
+
+  const Directions = Object.freeze({
+    NORTH = [0, -1],
+    SOUTH = [0, 1],
+    EAST = [1, 0],
+    WEST = [-1, 0],
+    NORTHEAST = [1, -1],
+    NORTHWEST = [-1, -1],
+    SOUTHEAST = [1, 1],
+    SOUTHWEST = [-1, 1],
+    CENTER = [0,0],
+  })
+
+ export { TileTypes, Directions } 
