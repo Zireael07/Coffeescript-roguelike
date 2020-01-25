@@ -20,7 +20,7 @@ import { PermissiveFov } from './3rd-party/ppfov/index.js';
 //import { map_create } from './arena_map.js';
 import { map_create } from './noise_map.js';
 //import { map_create } from './bsp_map.js';
-import { run_rectangle_detection } from './rectangle_detect.js';
+import { run_rectangle_detection, debug_rect } from './rectangle_detect.js';
 
 import { spawn_player, spawn_npc, spawn_item } from './spawner.js';
 
@@ -100,9 +100,12 @@ function setup() {
     //generate map
     //var map = map_create([[12, 14], [16,18]])
     var map = map_create(40,40)
-    State.map = map
+
     ///test
-    run_rectangle_detection(State.map)
+    var rect = run_rectangle_detection(map)
+    debug_rect(rect, map)
+
+    State.map = map
 
     // Create entities and assign components
     spawn_player(world);
