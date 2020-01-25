@@ -9,8 +9,12 @@ import {
   TileTypes
 } from './enums.js';
 
+import {
+  Level
+} from './level.js';
+
 map_create = function(max_x = 20, max_y = 20) {
-  var end_x, end_y, i, j, k, l, m, n, new_map, noise, o, ref, ref1, ref2, ref3, x, y;
+  var end_x, end_y, i, j, k, l, level, m, n, new_map, noise, o, ref, ref1, ref2, ref3, x, y;
   //new_map = [[ get_index(TileTypes.FLOOR) for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
   end_x = max_x - 1;
   end_y = max_y - 1;
@@ -22,6 +26,7 @@ map_create = function(max_x = 20, max_y = 20) {
       new_map[x].push([TileTypes.FLOOR]);
     }
   }
+  level = new Level(new_map);
   // basic noise
   noise = new Simplex();
 // create the map
@@ -38,7 +43,8 @@ map_create = function(max_x = 20, max_y = 20) {
       }
     }
   }
-  return new_map;
+  level.mapa = new_map;
+  return level; // for chaining
 };
 
 export {

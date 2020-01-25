@@ -89,9 +89,22 @@ run_rectangle_detection = (mapa) ->
 
 
 debug_rect = (rect, mapa) ->
-    console.log(rect)
+    #console.log(rect)
     for x in [rect.x1..rect.x2]
         for y in [rect.y1..rect.y2]
             mapa[x][y] = TileTypes.DEBUG
 
-export { run_rectangle_detection, debug_rect }
+apply_rectangle_detection = (level) ->
+    rect = run_rectangle_detection(level.mapa)
+
+    # add to submaps
+    level.submaps.push rect
+    console.log level.submaps
+
+    debug_rect(rect, level.mapa)
+
+    #console.log level.mapa
+
+    return level # for chaining
+
+export { apply_rectangle_detection }

@@ -17,10 +17,12 @@ import { Camera } from './camera.js';
 import { draw, initial_draw } from './index.js'
 import { PermissiveFov } from './3rd-party/ppfov/index.js';
 
+import { pipeWith} from './pipe.js';
+
 //import { map_create } from './arena_map.js';
 import { map_create } from './noise_map.js';
 //import { map_create } from './bsp_map.js';
-import { run_rectangle_detection, debug_rect } from './rectangle_detect.js';
+import { apply_rectangle_detection } from './rectangle_detect.js';
 
 import { spawn_player, spawn_npc, spawn_item } from './spawner.js';
 
@@ -99,13 +101,11 @@ function setup() {
 
     //generate map
     //var map = map_create([[12, 14], [16,18]])
-    var map = map_create(40,40)
+    var level = map_create(40,40)
+    //chain methods
+    pipeWith(level, apply_rectangle_detection)
 
-    ///test
-    var rect = run_rectangle_detection(map)
-    debug_rect(rect, map)
-
-    State.map = map
+    State.map = level.mapa
 
     // Create entities and assign components
     spawn_player(world);
