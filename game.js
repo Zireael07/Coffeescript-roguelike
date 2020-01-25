@@ -86,10 +86,10 @@ function setup() {
 		State.rng = rng;
 
     //FOV
-    var fov_ob = new PermissiveFov(20, 20, transparent)
-    var fov = init_FOV();
+    var fov_ob = new PermissiveFov(40, 40, transparent)
+    var fov = init_FOV(fov_ob);
     State.fov = fov
-    var explored = init_explored();
+    var explored = init_explored(fov_ob);
     State.explored = explored
 
     var cam = new Camera();
@@ -99,7 +99,7 @@ function setup() {
 
     //generate map
     //var map = map_create([[12, 14], [16,18]])
-    var map = map_create()
+    var map = map_create(40,40)
     State.map = map
     ///test
     run_rectangle_detection(State.map)
