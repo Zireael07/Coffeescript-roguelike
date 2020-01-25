@@ -33,16 +33,20 @@ room_func = (room, mapa) ->
     return # throttle default ret
 
 
-map_create = () ->
+map_create = (max_x=20, max_y=20) ->
     #new_map = [[ get_index(TileTypes.FLOOR) for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
+    
+    end_x = max_x-1
+    end_y = max_y-1
     new_map = []
-    for x in [0..20]
+    # those are inclusive
+    for x in [0..end_x]
         new_map.push []
-        for y in [0..20]
+        for y in [0..end_y]
             new_map[x].push [TileTypes.FLOOR ]
 
     # basic bsp
-    main_container = new Rect(0, 0, 19, 19) # off by one
+    main_container = new Rect(0, 0, end_x, end_y) # off by one
     container_tree = split_container(main_container, 2, true)
 
     paint(container_tree, new_map)
