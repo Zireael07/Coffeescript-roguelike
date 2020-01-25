@@ -44,7 +44,7 @@ MovementProcessor = class MovementProcessor {
       vel.dx = 0;
       vel.dy = 0;
       // don't walk out of map
-      if (tx < 0 || tx > 19 || ty < 0 || tx > 19) {
+      if (tx < 0 || tx > State.map.length || ty < 0 || ty > State.map[0].length) {
         continue;
       }
       // check for unwalkable tiles

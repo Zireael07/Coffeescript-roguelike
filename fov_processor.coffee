@@ -20,20 +20,20 @@ block_sight = (x,y) ->
 transparent = (x,y) ->
     return !block_sight(x,y)
 
-init_FOV = ->
+init_FOV = (fov_ob) ->
     fov = []
-    for x in [0..20]
+    for x in [0..fov_ob.mapWidth]
         fov.push []
-        for y in [0..20]
+        for y in [0..fov_ob.mapHeight]
             fov[x].push [0]
 
     return fov
 
-init_explored = ->
+init_explored = (fov_ob) ->
     explored = []
-    for x in [0..20]
+    for x in [0..fov_ob.mapWidth]
         explored.push []
-        for y in [0..20]
+        for y in [0..fov_ob.mapHeight]
             explored[x].push [0]
 
     return explored
@@ -44,9 +44,9 @@ update_FOV = (src_x, src_y, fov_ob) ->
     #game_vars.fov = [[0 for _ in range(constants.MAP_HEIGHT)] for _ in range(constants.MAP_WIDTH)]
     # Clear
     State.fov = []
-    for x in [0..20]
+    for x in [0..fov_ob.mapWidth]
          State.fov.push []
-         for y in [0..20]
+         for y in [0..fov_ob.mapHeight]
              State.fov[x].push [0]
 
     fov_ob.compute(src_x, src_y, 6, explore)

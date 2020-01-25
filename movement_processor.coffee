@@ -30,7 +30,7 @@ class MovementProcessor
             vel.dy = 0
 
              # don't walk out of map
-            if tx < 0 or tx > 19 or ty < 0 or tx > 19
+            if tx < 0 or tx > State.map.length or ty < 0 or ty > State.map[0].length
                 continue
 
             # check for unwalkable tiles

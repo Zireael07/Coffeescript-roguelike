@@ -47,18 +47,21 @@ room_func = function(room, mapa) {
   }
 };
 
-map_create = function() {
-  var container_tree, i, j, main_container, new_map, x, y;
+map_create = function(max_x = 20, max_y = 20) {
+  var container_tree, end_x, end_y, i, j, main_container, new_map, ref, ref1, x, y;
   //new_map = [[ get_index(TileTypes.FLOOR) for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
+  end_x = max_x - 1;
+  end_y = max_y - 1;
   new_map = [];
-  for (x = i = 0; i <= 20; x = ++i) {
+// those are inclusive
+  for (x = i = 0, ref = end_x; (0 <= ref ? i <= ref : i >= ref); x = 0 <= ref ? ++i : --i) {
     new_map.push([]);
-    for (y = j = 0; j <= 20; y = ++j) {
+    for (y = j = 0, ref1 = end_y; (0 <= ref1 ? j <= ref1 : j >= ref1); y = 0 <= ref1 ? ++j : --j) {
       new_map[x].push([TileTypes.FLOOR]);
     }
   }
   // basic bsp
-  main_container = new Rect(0, 0, 19, 19); // off by one
+  main_container = new Rect(0, 0, end_x, end_y); // off by one
   container_tree = split_container(main_container, 2, true);
   paint(container_tree, new_map);
   return new_map;

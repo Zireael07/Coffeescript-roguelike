@@ -9,24 +9,27 @@ import {
   TileTypes
 } from './enums.js';
 
-map_create = function() {
-  var i, j, k, l, m, n, new_map, noise, o, x, y;
+map_create = function(max_x = 20, max_y = 20) {
+  var end_x, end_y, i, j, k, l, m, n, new_map, noise, o, ref, ref1, ref2, ref3, x, y;
   //new_map = [[ get_index(TileTypes.FLOOR) for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
+  end_x = max_x - 1;
+  end_y = max_y - 1;
   new_map = [];
-  for (x = k = 0; k <= 20; x = ++k) {
+// those are inclusive
+  for (x = k = 0, ref = end_x; (0 <= ref ? k <= ref : k >= ref); x = 0 <= ref ? ++k : --k) {
     new_map.push([]);
-    for (y = l = 0; l <= 20; y = ++l) {
+    for (y = l = 0, ref1 = end_y; (0 <= ref1 ? l <= ref1 : l >= ref1); y = 0 <= ref1 ? ++l : --l) {
       new_map[x].push([TileTypes.FLOOR]);
     }
   }
   // basic noise
   noise = new Simplex();
 // create the map
-  for (x = m = 0; m <= 20; x = ++m) {
-    for (y = o = 0; o <= 20; y = ++o) {
+  for (x = m = 0, ref2 = end_x; (0 <= ref2 ? m <= ref2 : m >= ref2); x = 0 <= ref2 ? ++m : --m) {
+    for (y = o = 0, ref3 = end_y; (0 <= ref3 ? o <= ref3 : o >= ref3); y = 0 <= ref3 ? ++o : --o) {
       i = x;
       j = y;
-      n = noise.get(i / 20, j / 20) * 255; // because default values are very small
+      n = noise.get(i / end_x, j / end_y) * 255; // because default values are very small
       //console.log "noise: " + n 
       if (n >= 0) {
         new_map[x][y] = TileTypes.WALL;

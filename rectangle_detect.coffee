@@ -60,10 +60,11 @@ largest_area_rects = (floors) ->
 
         rects.push rect
 
-    # this sorts in ascending order
+    # this sorts in descending order
     sorted = rects.sort(sort_fun)
-    # .. so we need the last entry
-    return sorted[sorted.length-1]
+    #console.log sorted
+    # .. so we need the first entry
+    return sorted[0]
 
 
 run_rectangle_detection = (mapa) ->
@@ -86,4 +87,11 @@ run_rectangle_detection = (mapa) ->
 
     return big_rect
 
-export { run_rectangle_detection }
+
+debug_rect = (rect, mapa) ->
+    console.log(rect)
+    for x in [rect.x1..rect.x2]
+        for y in [rect.y1..rect.y2]
+            mapa[x][y] = TileTypes.DEBUG
+
+export { run_rectangle_detection, debug_rect }

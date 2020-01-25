@@ -32,24 +32,24 @@ transparent = function(x, y) {
   return !block_sight(x, y);
 };
 
-init_FOV = function() {
-  var fov, i, j, x, y;
+init_FOV = function(fov_ob) {
+  var fov, i, j, ref, ref1, x, y;
   fov = [];
-  for (x = i = 0; i <= 20; x = ++i) {
+  for (x = i = 0, ref = fov_ob.mapWidth; (0 <= ref ? i <= ref : i >= ref); x = 0 <= ref ? ++i : --i) {
     fov.push([]);
-    for (y = j = 0; j <= 20; y = ++j) {
+    for (y = j = 0, ref1 = fov_ob.mapHeight; (0 <= ref1 ? j <= ref1 : j >= ref1); y = 0 <= ref1 ? ++j : --j) {
       fov[x].push([0]);
     }
   }
   return fov;
 };
 
-init_explored = function() {
-  var explored, i, j, x, y;
+init_explored = function(fov_ob) {
+  var explored, i, j, ref, ref1, x, y;
   explored = [];
-  for (x = i = 0; i <= 20; x = ++i) {
+  for (x = i = 0, ref = fov_ob.mapWidth; (0 <= ref ? i <= ref : i >= ref); x = 0 <= ref ? ++i : --i) {
     explored.push([]);
-    for (y = j = 0; j <= 20; y = ++j) {
+    for (y = j = 0, ref1 = fov_ob.mapHeight; (0 <= ref1 ? j <= ref1 : j >= ref1); y = 0 <= ref1 ? ++j : --j) {
       explored[x].push([0]);
     }
   }
@@ -57,14 +57,14 @@ init_explored = function() {
 };
 
 update_FOV = function(src_x, src_y, fov_ob) {
-  var i, j, x, y;
+  var i, j, ref, ref1, x, y;
   // Generate FOV
   //game_vars.fov = [[0 for _ in range(constants.MAP_HEIGHT)] for _ in range(constants.MAP_WIDTH)]
   // Clear
   State.fov = [];
-  for (x = i = 0; i <= 20; x = ++i) {
+  for (x = i = 0, ref = fov_ob.mapWidth; (0 <= ref ? i <= ref : i >= ref); x = 0 <= ref ? ++i : --i) {
     State.fov.push([]);
-    for (y = j = 0; j <= 20; y = ++j) {
+    for (y = j = 0, ref1 = fov_ob.mapHeight; (0 <= ref1 ? j <= ref1 : j >= ref1); y = 0 <= ref1 ? ++j : --j) {
       State.fov[x].push([0]);
     }
   }
