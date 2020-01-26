@@ -12,8 +12,9 @@ class Rect
         @h = h
 
     center: ->
-        centerX = (self.x1 + self.x2)/2
-        centerY = (self.y1 + self.y2)/2
+        centerX = (@x1 + @x2)/2
+        centerY = (@y1 + @y2)/2
+        console.log(centerX + " " + centerY)
         cent = [centerX, centerY]
         return cent
 
