@@ -22,8 +22,9 @@ Rect = class Rect {
 
   center() {
     var cent, centerX, centerY;
-    centerX = (self.x1 + self.x2) / 2;
-    centerY = (self.y1 + self.y2) / 2;
+    centerX = (this.x1 + this.x2) / 2;
+    centerY = (this.y1 + this.y2) / 2;
+    console.log(centerX + " " + centerY);
     cent = [centerX, centerY];
     return cent;
   }
