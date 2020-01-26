@@ -21,7 +21,7 @@ import { pipeWith} from './pipe.js';
 
 //import { map_create } from './arena_map.js';
 import { map_create } from './noise_map.js';
-//import { map_create } from './bsp_map.js';
+import { map_create as bsp_map_create } from './bsp_map.js';
 import { apply_rectangle_detection } from './rectangle_detect.js';
 
 import { spawn_player, spawn_npc, spawn_item } from './spawner.js';
@@ -103,7 +103,7 @@ function setup() {
     //var map = map_create([[12, 14], [16,18]])
     var level = map_create(40,40)
     //chain methods
-    pipeWith(level, apply_rectangle_detection)
+    pipeWith(level, apply_rectangle_detection, bsp_map_create )
 
     State.map = level.mapa
 
