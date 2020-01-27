@@ -100,7 +100,7 @@ get_terminal = (inc_map, fov) ->
             if tx >= 0 and tx < inc_map.length and ty >= 0 and ty < inc_map[0].length
                 if fov[tx][ty] == 1 # visible
                     #console.log TileTypes.data[inc_map[x][y]].map_str
-                    mapa[x][y] = [ TileTypes.data[inc_map[tx][ty]].map_str, [255,255, 255], "normal" ]
+                    mapa[x][y] = [ TileTypes.data[inc_map[tx][ty]].map_str, TileTypes.data[inc_map[tx][ty]].color, "normal" ]
                 # explored
                 else if State.explored[tx][ty] == 1
                     mapa[x][y] = [ TileTypes.data[inc_map[tx][ty]].map_str, [] , "explored" ]

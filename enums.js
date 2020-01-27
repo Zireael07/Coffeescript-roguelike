@@ -4,11 +4,13 @@ import {struc_Tile } from './tile_lookup.js'
 const TileTypes = Object.freeze({
     WALL:   1,
     FLOOR:  2,
-    DEBUG:  3,
+    TREE:   3,
+    DEBUG:  4,
     data: {
-      1 : new struc_Tile("wall", "#", true),
+      1 : new struc_Tile("wall", "#", true, [159, 159, 159]),
       2 : new struc_Tile("floor", ".", false),
-      3 : new struc_Tile("debug", ">", false),
+      3 : new struc_Tile("tree", "♣", true, [0, 153, 0]),
+      4 : new struc_Tile("debug", ">", false),
     }
   });
 
