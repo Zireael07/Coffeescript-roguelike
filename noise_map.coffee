@@ -29,7 +29,7 @@ map_create = (max_x=20, max_y=20) ->
             #console.log "noise: " + n 
 
             if n >= 0
-                new_map[x][y] = TileTypes.WALL
+                new_map[x][y] = TileTypes.TREE
             else
                 new_map[x][y] = TileTypes.FLOOR
 

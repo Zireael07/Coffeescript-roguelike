@@ -10,6 +10,10 @@ import {
 } from './js_game_vars.js';
 
 import {
+  drawn_wall_glyph
+} from './map_common.js';
+
+import {
   Position,
   Renderable,
   Dead,
@@ -85,7 +89,7 @@ redraw_terminal = function(position, inc_map, fov) {
 };
 
 get_terminal = function(inc_map, fov) {
-  var cam, height_end, height_start, i, j, k, l, mapa, ref, ref1, ref2, ref3, tx, ty, width_end, width_start, x, x_max, y, y_max;
+  var cam, glyph, height_end, height_start, i, j, k, l, mapa, ref, ref1, ref2, ref3, tx, ty, width_end, width_start, x, x_max, y, y_max;
   //console.log("Terminal...")
   //console.log inc_map
   // dummy
@@ -122,12 +126,15 @@ get_terminal = function(inc_map, fov) {
     for (tx = l = ref2 = width_start, ref3 = width_end + 1; (ref2 <= ref3 ? l <= ref3 : l >= ref3); tx = ref2 <= ref3 ? ++l : --l) {
       // if on map
       if (tx >= 0 && tx < inc_map.length && ty >= 0 && ty < inc_map[0].length) {
+        glyph = (inc_map[tx][ty] === TileTypes.WALL) ? drawn_wall_glyph(inc_map, tx, ty) : TileTypes.data[inc_map[tx][ty]].map_str;
+        //console.log("x: " + tx + " y: " + ty + " Wall: " + (inc_map[tx][ty] == TileTypes.WALL))
+        //console.log("x: " + tx + " y: " + ty + " glyph: " + glyph)
         if (fov[tx][ty] === 1) { // visible
           //console.log TileTypes.data[inc_map[x][y]].map_str
-          mapa[x][y] = [TileTypes.data[inc_map[tx][ty]].map_str, [255, 255, 255], "normal"];
+          mapa[x][y] = [glyph, TileTypes.data[inc_map[tx][ty]].color, "normal"];
         // explored
         } else if (State.explored[tx][ty] === 1) {
-          mapa[x][y] = [TileTypes.data[inc_map[tx][ty]].map_str, [], "explored"];
+          mapa[x][y] = [glyph, [], "explored"];
         }
       }
       x += 1;

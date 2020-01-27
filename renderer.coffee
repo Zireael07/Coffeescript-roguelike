@@ -1,5 +1,6 @@
 import {TileTypes } from './enums.js'
 import { State } from './js_game_vars.js';
+import { drawn_wall_glyph } from './map_common.js';
 
 import {Position, Renderable, Dead, InBackpack, Equipped, Skip, Player, Cursor } from './components.js'
 
@@ -98,12 +99,15 @@ get_terminal = (inc_map, fov) ->
         for tx in [width_start..width_end+1]
             # if on map
             if tx >= 0 and tx < inc_map.length and ty >= 0 and ty < inc_map[0].length
+                glyph = if (inc_map[tx][ty] == TileTypes.WALL) then drawn_wall_glyph(inc_map, tx, ty) else TileTypes.data[inc_map[tx][ty]].map_str
+                #console.log("x: " + tx + " y: " + ty + " Wall: " + (inc_map[tx][ty] == TileTypes.WALL))
+                #console.log("x: " + tx + " y: " + ty + " glyph: " + glyph)
                 if fov[tx][ty] == 1 # visible
                     #console.log TileTypes.data[inc_map[x][y]].map_str
-                    mapa[x][y] = [ TileTypes.data[inc_map[tx][ty]].map_str, [255,255, 255], "normal" ]
+                    mapa[x][y] = [ glyph, TileTypes.data[inc_map[tx][ty]].color, "normal" ]
                 # explored
                 else if State.explored[tx][ty] == 1
-                    mapa[x][y] = [ TileTypes.data[inc_map[tx][ty]].map_str, [] , "explored" ]
+                    mapa[x][y] = [ glyph, [] , "explored" ]
 
             x += 1
         y += 1
