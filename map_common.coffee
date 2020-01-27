@@ -65,4 +65,52 @@ tiles_distance_to = (start, target) ->
 
     return Math.max(x_diff, y_diff)
 
-export { tiles_distance_to, random_free_tile, Rect }
+
+# based on RLTK-rs tutorial
+glyph_lookup = {
+    0: "○", #pillar
+    1: "║", # wall only to the north
+    2: "║", # wall only to the south
+    3: "║", # wall only to the north and south
+    4: "═", # wall only to the west
+    5: "╝", # wall to north and west
+    6: "╗", # wall to south and west
+    7: "╣", # wall to the north, south and west
+    8: "═", # wall only to the east
+    9: "╚", # wall to the north and east
+    10: "╔", # wall to the south and east
+    11: "╠", # wall to the south, north and east
+    12: "═", # wall to the east and west
+    13: "╩", # wall to the east, west and south
+    14: "╦", # wall to the east, west and north
+}
+
+
+drawn_wall_glyph = (inc_map, x,y) ->
+    # don't check if we would go past map borders
+    if x < 1 or y < 1 or x > inc_map.length-1 or y > inc_map[0].length-1
+        return "#"
+
+    # bitmask
+    mask = 0
+    if is_wall(inc_map, x, y-1)
+        mask += 1
+    if is_wall(inc_map, x, y + 1)
+        mask += 2
+    if is_wall(inc_map, x-1, y)
+        mask += 4
+    if is_wall(inc_map, x+1, y)
+        mask += 8
+
+    # assign tiles
+    if mask of glyph_lookup # object presence
+        return glyph_lookup[mask]
+    else
+        return "#"
+
+
+is_wall = (inc_map, x,y) ->
+    return (inc_map[x][y] == TileTypes.WALL)
+
+
+export { tiles_distance_to, random_free_tile, Rect, drawn_wall_glyph }
