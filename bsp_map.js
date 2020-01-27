@@ -22,7 +22,7 @@ import {
 } from './intersection.js';
 
 paint = function(tree, mapa) {
-  room_func(tree.leaf, mapa);
+  //room_func(tree.leaf, mapa)
   if (tree.lchild !== void 0) {
     room_func(tree.lchild.leaf, mapa);
   }
@@ -32,22 +32,24 @@ paint = function(tree, mapa) {
 };
 
 room_func = function(room, mapa) {
-  var i, j, k, l, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, x, x_max2, x_min, x_min2, y, y_max2, y_min, y_min2;
+  var i, j, k, l, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, x, x_max, x_max2, x_min, x_min2, y, y_max, y_max2, y_min, y_min2;
   console.log(room);
   //console.log(mapa)
   // set all tiles within a rectangle to wall
-  x_min = room.x1;
-  y_min = room.y1;
-  for (x = i = ref = x_min, ref1 = room.x2; (ref <= ref1 ? i <= ref1 : i >= ref1); x = ref <= ref1 ? ++i : --i) {
-    for (y = j = ref2 = y_min, ref3 = room.y2; (ref2 <= ref3 ? j <= ref3 : j >= ref3); y = ref2 <= ref3 ? ++j : --j) {
+  x_min = room.x1 + 1;
+  y_min = room.y1 + 1;
+  x_max = room.x2 - 1;
+  y_max = room.y2 - 1;
+  for (x = i = ref = x_min, ref1 = x_max; (ref <= ref1 ? i <= ref1 : i >= ref1); x = ref <= ref1 ? ++i : --i) {
+    for (y = j = ref2 = y_min, ref3 = y_max; (ref2 <= ref3 ? j <= ref3 : j >= ref3); y = ref2 <= ref3 ? ++j : --j) {
       mapa[x][y] = TileTypes.WALL;
     }
   }
   // Build Interior
-  x_min2 = room.x1 + 1;
-  x_max2 = room.x2 - 1;
-  y_min2 = room.y1 + 1;
-  y_max2 = room.y2 - 1;
+  x_min2 = room.x1 + 2;
+  x_max2 = room.x2 - 2;
+  y_min2 = room.y1 + 2;
+  y_max2 = room.y2 - 2;
 // this is inclusive
   for (x = k = ref4 = x_min2, ref5 = x_max2; (ref4 <= ref5 ? k <= ref5 : k >= ref5); x = ref4 <= ref5 ? ++k : --k) {
     for (y = l = ref6 = y_min2, ref7 = y_max2; (ref6 <= ref7 ? l <= ref7 : l >= ref7); y = ref6 <= ref7 ? ++l : --l) {
@@ -122,10 +124,10 @@ room_doors = function(room, mapa) {
     }
     if (choice === "south") {
       checkX = x;
-      checkY = room.y2;
+      checkY = room.y2 - 1;
     }
     if (choice === "east") {
-      checkX = room.x2;
+      checkX = room.x2 - 1;
       checkY = y;
     }
     if (choice === "west") {
@@ -145,7 +147,7 @@ room_doors = function(room, mapa) {
     //console.log("wall: " + wall)
     if (wall === "north") {
       wallX = x;
-      wallY = room.y1;
+      wallY = room.y1 + 1;
     } else if (wall === "south") {
       wallX = x;
       wallY = room.y2 - 1;
@@ -153,7 +155,7 @@ room_doors = function(room, mapa) {
       wallX = room.x2 - 1;
       wallY = y;
     } else if (wall === "west") {
-      wallX = room.x1;
+      wallX = room.x1 + 1;
       wallY = y;
     }
     return mapa[wallX][wallY] = TileTypes.FLOOR;
