@@ -35,7 +35,7 @@ function max_rectangle_histogram (floors, hist_index){
                     // we assigned 1 for the first free cell in a column, but a Rect with a height of 1 is x+1 not x
                     // so we need to deduce 1 (so we get x and not x+1)
                     // this algo is bottom-up, rect is top-down - deduce height from y and add 1 so that we cover the bottom line
-                    answer = [area, new Rect((i-width), (hist_index-last_bar+1), width, (last_bar+1)), hist_index]
+                    answer = [area, new Rect((i-width), (hist_index-last_bar+1), width, (last_bar)), hist_index]
                     //console.log("area: " + area + "y: " + hist_index)
                     //console.log("row y: " + hist_index + " h: " + (last_bar+1))
                     //console.log("rect: x " + (i-width) + " y " + (hist_index-last_bar+1) + " w " + width + " h " + (last_bar+1))

@@ -32,7 +32,7 @@ random_split = (rect, discard = false, w_ratio = 0.45, h_ratio = 0.45) ->
     r1 = null
     r2 = null
     if (State.rng.range(0, 1) == 0)
-        console.log("Split vertical")
+        #console.log("Split vertical")
         # Vertical
         r1 = new Rect(
             rect.x1, rect.y1,             # r1.x, r1.y
@@ -53,7 +53,7 @@ random_split = (rect, discard = false, w_ratio = 0.45, h_ratio = 0.45) ->
 
     else
         # Horizontal
-        console.log("Split horizontal")
+        #console.log("Split horizontal")
         r1 = new Rect(
             rect.x1, rect.y1,             # r1.x, r1.y
             rect.w, State.rng.range(1, rect.h)   # r1.w, r1.h # ensure a margin

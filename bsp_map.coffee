@@ -5,7 +5,7 @@ import { State } from './js_game_vars.js';
 import { remove_list } from './intersection.js'
 
 paint = (tree, mapa) ->
-    room_func(tree.leaf, mapa)
+    #room_func(tree.leaf, mapa)
     if tree.lchild != undefined
         room_func(tree.lchild.leaf, mapa)
     if tree.rchild != undefined
@@ -17,17 +17,19 @@ room_func = (room, mapa) ->
     console.log(room)
     #console.log(mapa)
     # set all tiles within a rectangle to wall
-    x_min = room.x1
-    y_min = room.y1
-    for x in [x_min..room.x2]
-        for y in [y_min..room.y2]
+    x_min = room.x1+1
+    y_min = room.y1+1
+    x_max = room.x2-1
+    y_max = room.y2-1
+    for x in [x_min..x_max]
+        for y in [y_min..y_max]
             mapa[x][y] = TileTypes.WALL
 
     # Build Interior
-    x_min2 = room.x1+1
-    x_max2 = room.x2-1
-    y_min2 = room.y1+1
-    y_max2 = room.y2-1
+    x_min2 = room.x1+2
+    x_max2 = room.x2-2
+    y_min2 = room.y1+2
+    y_max2 = room.y2-2
     # this is inclusive
     for x in [x_min2..x_max2]
         for y in [y_min2..y_max2]
@@ -103,10 +105,10 @@ room_doors = (room, mapa) ->
 
         if choice == "south"
             checkX = x
-            checkY = room.y2
+            checkY = (room.y2-1)
 
         if choice == "east"
-            checkX = room.x2
+            checkX = (room.x2-1)
             checkY = y
 
         if choice == "west"
@@ -127,18 +129,18 @@ room_doors = (room, mapa) ->
         #console.log("wall: " + wall)
         if wall == "north"
             wallX = x
-            wallY = room.y1
+            wallY = (room.y1+1)
 
         else if wall == "south"
             wallX = x
-            wallY = room.y2 - 1
+            wallY = (room.y2-1)
 
         else if wall == "east"
-            wallX = room.x2 - 1
+            wallX = (room.x2-1)
             wallY = y
 
         else if wall == "west"
-            wallX = room.x1
+            wallX = (room.x1+1)
             wallY = y
 
         mapa[wallX][wallY] = TileTypes.FLOOR
