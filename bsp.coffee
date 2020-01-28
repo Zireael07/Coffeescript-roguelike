@@ -29,6 +29,8 @@ class Tree
 
 
 random_split = (rect, discard = false, w_ratio = 0.45, h_ratio = 0.45) ->
+    #console.log("Splitting: ")
+    #console.log(rect)
     r1 = null
     r2 = null
     if (State.rng.range(0, 1) == 0)
@@ -62,13 +64,17 @@ random_split = (rect, discard = false, w_ratio = 0.45, h_ratio = 0.45) ->
             rect.x1, rect.y1 + r1.h,      # r2.x, r2.y
             rect.w, rect.h - r1.h       # r2.w, r2.h
         )
-        #console.log(r1)
-        #console.log(r2)
+
         if discard
             r1_h_ratio = r1.h / r1.w
             r2_h_ratio = r2.h / r2.w
             if r1_h_ratio < h_ratio || r2_h_ratio < h_ratio
                 return random_split(rect, discard)
+
+    #console.log("Split 1: ")
+    #console.log(r1)
+    #console.log("Split 2: ")
+    #console.log(r2)
 
     return [r1, r2]
 
