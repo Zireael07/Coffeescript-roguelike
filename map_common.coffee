@@ -12,8 +12,9 @@ class Rect
         @h = h
 
     center: ->
-        centerX = (@x1 + @x2)/2
-        centerY = (@y1 + @y2)/2
+        # ensure integer values
+        centerX = Math.floor((@x1 + @x2)/2)
+        centerY = Math.floor((@y1 + @y2)/2)
         console.log(centerX + " " + centerY)
         cent = [centerX, centerY]
         return cent

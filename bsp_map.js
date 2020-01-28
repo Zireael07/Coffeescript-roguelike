@@ -90,9 +90,12 @@ map_create = function(level = null, max_x = 20, max_y = 20) {
   }
   
   // basic bsp
-  main_container = new Rect(start_x, start_y, end_x, end_y); // off by one
+  main_container = new Rect(start_x, start_y, end_x - start_x, end_y - start_y);
+  //console.log("main: ")
+  //console.log(main_container)
   container_tree = split_container(main_container, 2, true);
   paint(container_tree, level.mapa);
+  console.log(level.mapa);
   create_doors(container_tree, level.mapa);
   return level;
 };
@@ -111,6 +114,7 @@ room_doors = function(room, mapa) {
   var checkX, checkY, choice, choices, i, len, sel_choices, wall, wallX, wallY, x, y;
   [x, y] = room.center();
   console.log("Creating door for " + x + " " + y);
+  console.log(mapa);
   choices = ["north", "south", "east", "west"];
   // copy the list so that we don't modify it while iterating (caused some directions to be missed)
   sel_choices = choices.slice(0);
@@ -120,7 +124,7 @@ room_doors = function(room, mapa) {
     //print(str(choice)+"...")
     if (choice === "north") {
       checkX = x;
-      checkY = room.y1 - 1;
+      checkY = room.y1;
     }
     if (choice === "south") {
       checkX = x;
@@ -131,7 +135,7 @@ room_doors = function(room, mapa) {
       checkY = y;
     }
     if (choice === "west") {
-      checkX = room.x1 - 1;
+      checkX = room.x1;
       checkY = y;
     }
     // if it leads to a wall, remove it from list of choices

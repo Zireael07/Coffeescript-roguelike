@@ -46,6 +46,8 @@ Tree = class Tree {
 
 random_split = function(rect, discard = false, w_ratio = 0.45, h_ratio = 0.45) {
   var r1, r1_h_ratio, r1_w_ratio, r2, r2_h_ratio, r2_w_ratio;
+  //console.log("Splitting: ")
+  //console.log(rect)
   r1 = null;
   r2 = null;
   if (State.rng.range(0, 1) === 0) {
@@ -67,8 +69,6 @@ random_split = function(rect, discard = false, w_ratio = 0.45, h_ratio = 0.45) {
     //console.log("Split horizontal")
     r1 = new Rect(rect.x1, rect.y1, rect.w, State.rng.range(1, rect.h)); // r1.x, r1.y // r1.w, r1.h # ensure a margin
     r2 = new Rect(rect.x1, rect.y1 + r1.h, rect.w, rect.h - r1.h); // r2.x, r2.y // r2.w, r2.h
-    //console.log(r1)
-    //console.log(r2)
     if (discard) {
       r1_h_ratio = r1.h / r1.w;
       r2_h_ratio = r2.h / r2.w;
@@ -77,6 +77,10 @@ random_split = function(rect, discard = false, w_ratio = 0.45, h_ratio = 0.45) {
       }
     }
   }
+  //console.log("Split 1: ")
+  //console.log(r1)
+  //console.log("Split 2: ")
+  //console.log(r2)
   return [r1, r2];
 };
 
