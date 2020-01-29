@@ -27,54 +27,64 @@ class CombatProcessor
             # are we enemies?
             is_enemy_faction = get_faction_reaction(attacker_faction, target_faction) < 0
             if is_enemy_faction
-                console.log("Target faction " + target_faction + " is enemy!")   
-
-                attacker_stats = @world.component_for_entity(attacker_id, Stats)
-                target_stats = @world.component_for_entity(target_id, Stats)
-
-                # deal damage!
-                #damage = attacker_stats.power
-
-                # if no weapon, deal 1d6
-                roll = "1d6"
-                # use equipped weapon's data
-                for [item_ent, comps] in @world.get_components(Equipped, Weapon)
-                    [equipped, weapon] = comps
-                    console.log(equipped.slot)
-                    if equipped.owner == attacker_id && equipped.slot == "MAIN_HAND"
-                        console.log("Use weapon dice")
-                        roll = weapon.damage
-
-                # deal damage!
-                damage = State.rng.roller(roll)
-
-                # any bonuses?
-                for [item_ent, comps] in @world.get_components(Equipped, MeleeBonus)
-                    [equipped, bonus] = comps
-                    if equipped.owner == attacker_id
-                        console.log("Applying melee bonus")
-                        damage += bonus.bonus
-
-                target_stats.hp -= damage
-
-                # dead
-                if target_stats.hp <= 0
-                    @world.add_component(target_id, new Dead())
-                    #console.log("Killed target... " + target_id)
+                console.log("Target faction " + target_faction + " is enemy!")
 
                 # message
                 attacker_name = @world.component_for_entity(attacker_id, Name)
                 target_name = @world.component_for_entity(target_id, Name)
 
-                # color
-                player_hit = @world.component_for_entity(target_id, Player)
-                color = [255,255,255]
-                if player_hit
-                    color = [255,0,0]
-                else
-                    color = [127, 127, 127] # libtcod light gray
+                # roll attack
+                attack_roll = State.rng.roller("!d100")
+                # d100 roll under
+                if attack_roll < 55
+                    # target hit!
 
-                State.messages.push [attacker_name.name + " attacks " + target_name.name + " for " + damage + " damage!", color]
+                    attacker_stats = @world.component_for_entity(attacker_id, Stats)
+                    target_stats = @world.component_for_entity(target_id, Stats)
+
+                    # deal damage!
+                    #damage = attacker_stats.power
+
+                    # if no weapon, deal 1d6
+                    roll = "1d6"
+                    # use equipped weapon's data
+                    for [item_ent, comps] in @world.get_components(Equipped, Weapon)
+                        [equipped, weapon] = comps
+                        console.log(equipped.slot)
+                        if equipped.owner == attacker_id && equipped.slot == "MAIN_HAND"
+                            console.log("Use weapon dice")
+                            roll = weapon.damage
+
+                    # deal damage!
+                    damage = State.rng.roller(roll)
+
+                    # any bonuses?
+                    for [item_ent, comps] in @world.get_components(Equipped, MeleeBonus)
+                        [equipped, bonus] = comps
+                        if equipped.owner == attacker_id
+                            console.log("Applying melee bonus")
+                            damage += bonus.bonus
+
+                    target_stats.hp -= damage
+
+                    # dead
+                    if target_stats.hp <= 0
+                        @world.add_component(target_id, new Dead())
+                        #console.log("Killed target... " + target_id)
+
+                    # color
+                    player_hit = @world.component_for_entity(target_id, Player)
+                    color = [255,255,255]
+                    if player_hit
+                        color = [255,0,0]
+                    else
+                        color = [127, 127, 127] # libtcod light gray
+
+                    State.messages.push [attacker_name.name + " attacks " + target_name.name + " for " + damage + " damage!", color]
+                else
+                    # miss
+                    State.messages.push [attacker_name.name + " attacks " + target_name.name + " but misses!", [115, 115, 255]] 
+
 
             # cleanup
             @world.remove_component(ent, Combat)
