@@ -57,6 +57,13 @@ class Stats {
   }
 }
 
+class Skills {
+  constructor(melee=55, dodge=25){
+    this.melee = melee;
+    this.dodge = dodge;
+  }
+}
+
 class Name {
   constructor(name) {
     this.name = name;
@@ -142,7 +149,7 @@ class Cursor {
 
 
   export { Velocity, Position, Player, TurnComponent, Renderable, TileBlocker,
-    NPC, Faction, Combat, Stats, Name, Dead, Skip,
+    NPC, Faction, Combat, Stats, Skills, Name, Dead, Skip,
     Item, WantToPickup, InBackpack, Equipped, Wearable, Weapon, MeleeBonus, WantToUseItem, MedItem, 
     WantToDrop, Ranged, Cursor
    }
