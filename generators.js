@@ -5,6 +5,7 @@ import {
   Renderable,
   Name,
   Stats,
+  Faction,
   MedItem,
   Ranged,
   Wearable,
@@ -36,6 +37,12 @@ generate_npc = function(m_id) {
   comps.push(new Renderable(State.npc_data[m_id]['renderable']['glyph'], State.npc_data[m_id]['renderable']['fg']));
   comps.push(new Name(State.npc_data[m_id]['name']));
   comps.push(new Stats(State.npc_data[m_id]['stats']['hp'], State.npc_data[m_id]['stats']['power']));
+  // optional components
+  if ('faction' in State.npc_data[m_id]) {
+    comps.push(new Faction(State.npc_data[m_id]['faction'].toLowerCase()));
+  } else {
+    comps.push(new Faction("enemy"));
+  }
   return comps;
 };
 

@@ -7,6 +7,7 @@ import {
   Name,
   Dead,
   Player,
+  Faction,
   Equipped,
   MeleeBonus,
   Weapon
@@ -15,6 +16,10 @@ import {
 import {
   State
 } from './js_game_vars.js';
+
+import {
+  get_faction_reaction
+} from './game.js';
 
 CombatProcessor = class CombatProcessor {
   
@@ -27,65 +32,76 @@ CombatProcessor = class CombatProcessor {
     ;
 
   process() {
-    var attacker_id, attacker_name, attacker_stats, bonus, color, combat, comps, damage, ent, equipped, i, item_ent, j, k, len, len1, len2, player_hit, ref, ref1, ref2, roll, target_id, target_name, target_stats, weapon;
+    var attacker_faction, attacker_id, attacker_name, attacker_stats, bonus, color, combat, comps, damage, ent, equipped, i, is_enemy_faction, item_ent, j, k, len, len1, len2, player_hit, ref, ref1, ref2, roll, target_faction, target_id, target_name, target_stats, weapon;
     ref = this.world.get_component(Combat);
     for (i = 0, len = ref.length; i < len; i++) {
       [ent, combat] = ref[i];
       attacker_id = ent;
       target_id = combat.target_id;
-      attacker_stats = this.world.component_for_entity(attacker_id, Stats);
-      target_stats = this.world.component_for_entity(target_id, Stats);
-      // deal damage!
-      //damage = attacker_stats.power
+      attacker_faction = this.world.component_for_entity(attacker_id, Faction).faction;
+      target_faction = this.world.component_for_entity(target_id, Faction).faction;
+      if (attacker_faction === target_faction) {
+        return;
+      }
+      // are we enemies?
+      // same faction, don't attack
+      is_enemy_faction = get_faction_reaction(attacker_faction, target_faction) < 0;
+      if (is_enemy_faction) {
+        console.log("Target faction " + target_faction + " is enemy!");
+        attacker_stats = this.world.component_for_entity(attacker_id, Stats);
+        target_stats = this.world.component_for_entity(target_id, Stats);
+        // deal damage!
+        //damage = attacker_stats.power
 
-      // if no weapon, deal 1d6
-      roll = "1d6";
-      ref1 = this.world.get_components(Equipped, Weapon);
-      // use equipped weapon's data
-      for (j = 0, len1 = ref1.length; j < len1; j++) {
-        [item_ent, comps] = ref1[j];
-        [equipped, weapon] = comps;
-        console.log(equipped.slot);
-        if (equipped.owner === attacker_id && equipped.slot === "MAIN_HAND") {
-          console.log("Use weapon dice");
-          roll = weapon.damage;
+        // if no weapon, deal 1d6
+        roll = "1d6";
+        ref1 = this.world.get_components(Equipped, Weapon);
+        // use equipped weapon's data
+        for (j = 0, len1 = ref1.length; j < len1; j++) {
+          [item_ent, comps] = ref1[j];
+          [equipped, weapon] = comps;
+          console.log(equipped.slot);
+          if (equipped.owner === attacker_id && equipped.slot === "MAIN_HAND") {
+            console.log("Use weapon dice");
+            roll = weapon.damage;
+          }
         }
-      }
-      // deal damage!
-      damage = State.rng.roller(roll);
-      ref2 = this.world.get_components(Equipped, MeleeBonus);
-      // any bonuses?
-      for (k = 0, len2 = ref2.length; k < len2; k++) {
-        [item_ent, comps] = ref2[k];
-        [equipped, bonus] = comps;
-        if (equipped.owner === attacker_id) {
-          console.log("Applying melee bonus");
-          damage += bonus.bonus;
+        // deal damage!
+        damage = State.rng.roller(roll);
+        ref2 = this.world.get_components(Equipped, MeleeBonus);
+        // any bonuses?
+        for (k = 0, len2 = ref2.length; k < len2; k++) {
+          [item_ent, comps] = ref2[k];
+          [equipped, bonus] = comps;
+          if (equipped.owner === attacker_id) {
+            console.log("Applying melee bonus");
+            damage += bonus.bonus;
+          }
         }
-      }
-      target_stats.hp -= damage;
-      // dead
-      if (target_stats.hp <= 0) {
-        this.world.add_component(target_id, new Dead());
-      }
-      //console.log("Killed target... " + target_id)
+        target_stats.hp -= damage;
+        // dead
+        if (target_stats.hp <= 0) {
+          this.world.add_component(target_id, new Dead());
+        }
+        //console.log("Killed target... " + target_id)
 
-      // message
-      attacker_name = this.world.component_for_entity(attacker_id, Name);
-      target_name = this.world.component_for_entity(target_id, Name);
-      // color
-      player_hit = this.world.component_for_entity(target_id, Player);
-      color = [255, 255, 255];
-      if (player_hit) {
-        color = [255, 0, 0];
-      } else {
-        color = [
-          127,
-          127,
-          127 // libtcod light gray
-        ];
+        // message
+        attacker_name = this.world.component_for_entity(attacker_id, Name);
+        target_name = this.world.component_for_entity(target_id, Name);
+        // color
+        player_hit = this.world.component_for_entity(target_id, Player);
+        color = [255, 255, 255];
+        if (player_hit) {
+          color = [255, 0, 0];
+        } else {
+          color = [
+            127,
+            127,
+            127 // libtcod light gray
+          ];
+        }
+        State.messages.push([attacker_name.name + " attacks " + target_name.name + " for " + damage + " damage!", color]);
       }
-      State.messages.push([attacker_name.name + " attacks " + target_name.name + " for " + damage + " damage!", color]);
       // cleanup
       this.world.remove_component(ent, Combat); // avoid coffeescript's implicit return
     }

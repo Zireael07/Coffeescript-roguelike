@@ -14,6 +14,10 @@ import {
 } from './map_common.js';
 
 import {
+  get_faction_reaction
+} from './game.js';
+
+import {
   Position,
   Renderable,
   Dead,
@@ -21,23 +25,30 @@ import {
   Equipped,
   Skip,
   Player,
-  Cursor
+  Cursor,
+  Faction
 } from './components.js';
 
 // console is a reserved name in JS
 redraw_terminal = function(position, inc_map, fov) {
-  var cam, comps, cur, cursor, ent, height_end, height_start, i, j, len, len1, player, pos, ref, ref1, terminal, visual, width_end, width_start;
+  var cam, comps, cur, cursor, ent, fact, height_end, height_start, i, j, k, len, len1, len2, player, player_ent, player_f, pos, react, ref, ref1, ref2, ret, terminal, visual, width_end, width_start;
   terminal = get_terminal(inc_map, fov);
+  player_ent = null;
+  ref = State.world.get_component(Player);
+  for (i = 0, len = ref.length; i < len; i++) {
+    [ent, player] = ref[i];
+    player_ent = ent;
+  }
   // camera
   cam = State.camera;
   width_start = cam.get_width_start();
   width_end = cam.get_width_end(inc_map);
   height_start = cam.get_height_start();
   height_end = cam.get_height_end(inc_map);
-  ref = State.world.get_components(Position, Renderable);
+  ref1 = State.world.get_components(Position, Renderable);
   // draw other entities
-  for (i = 0, len = ref.length; i < len; i++) {
-    [ent, comps] = ref[i];
+  for (j = 0, len1 = ref1.length; j < len1; j++) {
+    [ent, comps] = ref1[j];
     [pos, visual] = comps;
     //console.log visual + " x : " + pos.x + " y :" + pos.y
 
@@ -69,16 +80,37 @@ redraw_terminal = function(position, inc_map, fov) {
       //skip
       continue;
     }
+    // faction background marker
+    // default for e.g. items
+    ret = "normal";
+    // check faction
+    if (State.world.component_for_entity(ent, Faction)) {
+      player_f = State.world.component_for_entity(player_ent, Faction).faction;
+      fact = State.world.component_for_entity(ent, Faction);
+      react = get_faction_reaction(player_f, fact.faction);
+      //console.log("react: " + react)
+      if (react < -50) {
+        ret = "hostile";
+      } else if (react < 0) {
+        ret = "unfriendly";
+      } else if (react === 0) {
+        ret = "neutral";
+      } else if (react > 50) {
+        ret = "helpful";
+      } else if (react > 0) {
+        ret = "friendly";
+      }
+    }
     // draw (subtracting camera start to draw in screen space)
-    terminal[pos.x - width_start][pos.y - height_start] = [visual.char, visual.color, "normal"];
+    terminal[pos.x - width_start][pos.y - height_start] = [visual.char, visual.color, ret];
   }
   // draw player
-  terminal[position.x - width_start][position.y - height_start] = ['@', [255, 255, 255], "normal"];
+  terminal[position.x - width_start][position.y - height_start] = ['@', [255, 255, 255], "friendly"];
   // cursor
   cursor = null;
-  ref1 = State.world.get_components(Player, Cursor);
-  for (j = 0, len1 = ref1.length; j < len1; j++) {
-    [ent, comps] = ref1[j];
+  ref2 = State.world.get_components(Player, Cursor);
+  for (k = 0, len2 = ref2.length; k < len2; k++) {
+    [ent, comps] = ref2[k];
     [player, cur] = comps;
     cursor = cur;
   }

@@ -33,7 +33,7 @@ paint = function(tree, mapa) {
 
 room_func = function(room, mapa) {
   var i, j, k, l, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, x, x_max, x_max2, x_min, x_min2, y, y_max, y_max2, y_min, y_min2;
-  console.log(room);
+  //console.log(room)
   //console.log(mapa)
   // set all tiles within a rectangle to wall
   x_min = room.x1 + 1;
@@ -53,7 +53,7 @@ room_func = function(room, mapa) {
 // this is inclusive
   for (x = k = ref4 = x_min2, ref5 = x_max2; (ref4 <= ref5 ? k <= ref5 : k >= ref5); x = ref4 <= ref5 ? ++k : --k) {
     for (y = l = ref6 = y_min2, ref7 = y_max2; (ref6 <= ref7 ? l <= ref7 : l >= ref7); y = ref6 <= ref7 ? ++l : --l) {
-      mapa[x][y] = TileTypes.FLOOR; // throttle default ret
+      mapa[x][y] = TileTypes.FLOOR_INDOOR; // throttle default ret
     }
   }
 };
@@ -140,7 +140,7 @@ room_doors = function(room, mapa) {
     }
     // if it leads to a wall, remove it from list of choices
     //print("Checking dir " + str(choice) + ": x:" + str(checkX) + " y:" + str(checkY) + " " + str(self._map[checkX][checkY]))
-    if (mapa[checkX][checkY] === TileTypes.WALL) {
+    if (mapa[checkX][checkY] === TileTypes.WALL || mapa[checkX][checkY] === TileTypes.TREE) {
       //print("Removing direction from list" + str(choice))
       sel_choices = remove_list(sel_choices, choice);
     }

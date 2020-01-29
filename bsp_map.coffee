@@ -14,7 +14,7 @@ paint = (tree, mapa) ->
     return # throttle default ret
 
 room_func = (room, mapa) ->
-    console.log(room)
+    #console.log(room)
     #console.log(mapa)
     # set all tiles within a rectangle to wall
     x_min = room.x1+1
@@ -33,7 +33,7 @@ room_func = (room, mapa) ->
     # this is inclusive
     for x in [x_min2..x_max2]
         for y in [y_min2..y_max2]
-            mapa[x][y] = TileTypes.FLOOR
+            mapa[x][y] = TileTypes.FLOOR_INDOOR
 
     return # throttle default ret
 
@@ -123,7 +123,7 @@ room_doors = (room, mapa) ->
         # if it leads to a wall, remove it from list of choices
         #print("Checking dir " + str(choice) + ": x:" + str(checkX) + " y:" + str(checkY) + " " + str(self._map[checkX][checkY]))
 
-        if mapa[checkX][checkY] == TileTypes.WALL
+        if mapa[checkX][checkY] == TileTypes.WALL or mapa[checkX][checkY] == TileTypes.TREE
             #print("Removing direction from list" + str(choice))
             sel_choices = remove_list(sel_choices, choice)
 

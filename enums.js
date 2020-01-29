@@ -5,12 +5,14 @@ const TileTypes = Object.freeze({
     WALL:   1,
     FLOOR:  2,
     TREE:   3,
-    DEBUG:  4,
+    FLOOR_INDOOR: 4,
+    DEBUG:  5,
     data: {
       1 : new struc_Tile("wall", "#", true, [159, 159, 159]),
       2 : new struc_Tile("floor", ".", false),
       3 : new struc_Tile("tree", "♣", true, [0, 153, 0]),
-      4 : new struc_Tile("debug", ">", false),
+      4 : new struc_Tile("floor", ".", false, [0, 128, 128]),
+      5 : new struc_Tile("debug", ">", false),
     }
   });
 

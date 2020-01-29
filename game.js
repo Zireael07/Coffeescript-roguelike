@@ -106,6 +106,15 @@ function setup() {
     pipeWith(level, apply_rectangle_detection, bsp_map_create )
 
     State.map = level.mapa
+    //console.table(State.map)
+
+    //Factions
+    State.factions = []
+    add_faction(["player", "enemy", -100])
+    add_faction(["player", "neutral", 0])
+    add_faction(["player", "cop", 0])
+    add_faction(["cop", "enemy", -100])
+
 
     // Create entities and assign components
     spawn_player(world);
@@ -218,6 +227,32 @@ var is_player_alive = function() {
   }
 }
 
+function add_faction(faction_data){
+  State.factions.push(faction_data)
+  console.log("Added faction " + faction_data)
+
+  // add the reverse mapping, too
+  State.factions.push([faction_data[1], faction_data[0], faction_data[2]])
+  console.log("Added reverse faction " + [faction_data[1], faction_data[0], faction_data[2]])
+}
+
+function get_faction_reaction(faction, target_faction){
+  if (faction == target_faction){
+    return 100;
+  }
+
+    console.log("Faction reaction check: " + faction + " " + target_faction)
+    for (let i = 0, len = State.factions.length; i < len; i++) {
+        var fact = State.factions[i];
+        //console.log(fact)
+        if (fact[0] == faction && fact[1] == target_faction){
+            console.log("Faction reaction of " + fact[0] + " to " + fact[1] + " is " + fact[2])
+            return fact[2]
+        }
+    }
+
+}
+
 function onStateLoaded(loaded_State){
   //JSON serialization loses functions
   Object.assign(State.world, loaded_State.world)
@@ -248,4 +283,4 @@ function onStateLoaded(loaded_State){
   draw()
 }
 
-export { get_position, get_stats, get_inventory, get_map, get_fov, loadData, setup, act_and_update, onStateLoaded }
+export { get_position, get_stats, get_inventory, get_map, get_fov, loadData, setup, act_and_update, get_faction_reaction, onStateLoaded }

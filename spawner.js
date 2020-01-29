@@ -4,6 +4,7 @@ var spawn_item, spawn_npc, spawn_player;
 import {
   Position,
   Player,
+  Faction,
   TurnComponent,
   Name,
   Stats,
@@ -38,7 +39,8 @@ spawn_player = function(world) {
   world.add_component(player, new Player());
   world.add_component(player, new Name("Player"));
   world.add_component(player, new TurnComponent());
-  world.add_component(player, new Stats(20, 4)); // avoid implicit return
+  world.add_component(player, new Stats(20, 4));
+  world.add_component(player, new Faction("player")); // avoid implicit return
 };
 
 spawn_npc = function(world) {

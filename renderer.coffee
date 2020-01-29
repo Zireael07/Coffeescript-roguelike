@@ -1,12 +1,17 @@
 import {TileTypes } from './enums.js'
 import { State } from './js_game_vars.js';
 import { drawn_wall_glyph } from './map_common.js';
+import { get_faction_reaction } from './game.js';
 
-import {Position, Renderable, Dead, InBackpack, Equipped, Skip, Player, Cursor } from './components.js'
+import {Position, Renderable, Dead, InBackpack, Equipped, Skip, Player, Cursor, Faction } from './components.js'
 
 # console is a reserved name in JS
 redraw_terminal = (position, inc_map, fov) ->
     terminal = get_terminal(inc_map, fov)
+
+    player_ent = null
+    for [ent, player] in State.world.get_component(Player)
+        player_ent = ent
 
     # camera
     cam = State.camera
@@ -45,11 +50,33 @@ redraw_terminal = (position, inc_map, fov) ->
             #skip
             continue
 
+        # faction background marker
+        # default for e.g. items
+        ret = "normal"
+        # check faction
+        if State.world.component_for_entity(ent, Faction)
+            player_f = State.world.component_for_entity(player_ent, Faction).faction
+            fact = State.world.component_for_entity(ent, Faction)
+            react = get_faction_reaction(player_f, fact.faction)
+            #console.log("react: " + react)
+        
+            if react < -50
+                ret = "hostile"
+            else if react < 0
+                ret = "unfriendly"
+            else if react == 0
+                ret = "neutral"
+            else if react > 50
+                ret = "helpful"
+            else if react > 0
+                ret = "friendly"
+
+
         # draw (subtracting camera start to draw in screen space)
-        terminal[pos.x-width_start][pos.y-height_start] = [visual.char, visual.color, "normal" ]
+        terminal[pos.x-width_start][pos.y-height_start] = [visual.char, visual.color, ret ]
 
     # draw player
-    terminal[position.x-width_start][position.y-height_start] = ['@', [255, 255, 255], "normal" ]
+    terminal[position.x-width_start][position.y-height_start] = ['@', [255, 255, 255], "friendly" ]
 
     # cursor
     cursor = null

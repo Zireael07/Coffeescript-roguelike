@@ -33,6 +33,12 @@ class NPC {
   constructor() {}
 }
 
+class Faction {
+  constructor(faction="enemy") {
+    this.faction = faction;
+  }
+}
+
 class TileBlocker {
   constructor() {}
 }
@@ -136,7 +142,7 @@ class Cursor {
 
 
   export { Velocity, Position, Player, TurnComponent, Renderable, TileBlocker,
-    NPC, Combat, Stats, Name, Dead, Skip,
+    NPC, Faction, Combat, Stats, Name, Dead, Skip,
     Item, WantToPickup, InBackpack, Equipped, Wearable, Weapon, MeleeBonus, WantToUseItem, MedItem, 
     WantToDrop, Ranged, Cursor
    }

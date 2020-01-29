@@ -7,6 +7,7 @@ let State = {
     messages: null,
     rng: null,
     camera: null,
+    factions: null,
     //data loaded
     npc_data: null,
     items_data: null,
