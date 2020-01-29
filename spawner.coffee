@@ -1,4 +1,4 @@
-import { Position, Player, Faction, TurnComponent, Name, Stats, Velocity, NPC, TileBlocker, Item } from './components.js'
+import { Position, Player, Faction, Skills, TurnComponent, Name, Stats, Velocity, NPC, TileBlocker, Item } from './components.js'
 import { generate_random_item, generate_random_NPC } from './random_utils.js';
 import { generate_npc, generate_item } from './generators.js';
 import { State } from './js_game_vars.js';
@@ -12,6 +12,7 @@ spawn_player = (world) ->
     world.add_component(player, new TurnComponent())
     world.add_component(player, new Stats(20, 4))
     world.add_component(player, new Faction("player"))
+    world.add_component(player, new Skills())
 
     return # avoid implicit return
 
@@ -27,7 +28,7 @@ spawn_npc = (world) ->
 
     # things that all NPCs share
     npc = world.create_entity(
-          [new Position(x, y), new Velocity(), new NPC(), new TileBlocker() ]
+          [new Position(x, y), new Velocity(), new NPC(), new TileBlocker(), new Skills() ]
     )
 
     if choice == null or choice == undefined

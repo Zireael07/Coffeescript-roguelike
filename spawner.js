@@ -5,6 +5,7 @@ import {
   Position,
   Player,
   Faction,
+  Skills,
   TurnComponent,
   Name,
   Stats,
@@ -40,7 +41,8 @@ spawn_player = function(world) {
   world.add_component(player, new Name("Player"));
   world.add_component(player, new TurnComponent());
   world.add_component(player, new Stats(20, 4));
-  world.add_component(player, new Faction("player")); // avoid implicit return
+  world.add_component(player, new Faction("player"));
+  world.add_component(player, new Skills()); // avoid implicit return
 };
 
 spawn_npc = function(world) {
@@ -51,7 +53,7 @@ spawn_npc = function(world) {
   loc = random_free_tile(State.map);
   [x, y] = loc;
   choice = generate_random_NPC();
-  npc = world.create_entity([new Position(x, y), new Velocity(), new NPC(), new TileBlocker()]);
+  npc = world.create_entity([new Position(x, y), new Velocity(), new NPC(), new TileBlocker(), new Skills()]);
   if (choice === null || choice === void 0) {
     return;
   }
