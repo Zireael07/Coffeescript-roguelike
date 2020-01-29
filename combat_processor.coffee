@@ -79,50 +79,53 @@ class CombatProcessor
                 attack_skill = @world.component_for_entity(attacker_id, Skills).melee
                 # d100 roll under
                 if skill_test("melee", attacker_id, @world)
-                #if attack_roll < 55
                     # target hit!
-
-                    attacker_stats = @world.component_for_entity(attacker_id, Stats)
-                    target_stats = @world.component_for_entity(target_id, Stats)
-
-                    # deal damage!
-
-                    # if no weapon, deal 1d6
-                    roll = "1d6"
-                    # use equipped weapon's data
-                    for [item_ent, comps] in @world.get_components(Equipped, Weapon)
-                        [equipped, weapon] = comps
-                        console.log(equipped.slot)
-                        if equipped.owner == attacker_id && equipped.slot == "MAIN_HAND"
-                            console.log("Use weapon dice")
-                            roll = weapon.damage
-
-                    # deal damage!
-                    damage = State.rng.roller(roll)
-
-                    # any bonuses?
-                    for [item_ent, comps] in @world.get_components(Equipped, MeleeBonus)
-                        [equipped, bonus] = comps
-                        if equipped.owner == attacker_id
-                            console.log("Applying melee bonus")
-                            damage += bonus.bonus
-
-                    target_stats.hp -= damage
-
-                    # dead
-                    if target_stats.hp <= 0
-                        @world.add_component(target_id, new Dead())
-                        #console.log("Killed target... " + target_id)
-
-                    # color
-                    player_hit = @world.component_for_entity(target_id, Player)
-                    color = [255,255,255]
-                    if player_hit
-                        color = [255,0,0]
+                    # assume target can try to dodge
+                    if skill_test("dodge", target_id, @world)
+                        State.messages.push [target_name.name + " dodges!", [0, 191, 0]] # libtcod dark green
                     else
-                        color = [127, 127, 127] # libtcod light gray
+                        # no dodge
+                        attacker_stats = @world.component_for_entity(attacker_id, Stats)
+                        target_stats = @world.component_for_entity(target_id, Stats)
 
-                    State.messages.push [attacker_name.name + " attacks " + target_name.name + " for " + damage + " damage!", color]
+                        # deal damage!
+
+                        # if no weapon, deal 1d6
+                        roll = "1d6"
+                        # use equipped weapon's data
+                        for [item_ent, comps] in @world.get_components(Equipped, Weapon)
+                            [equipped, weapon] = comps
+                            console.log(equipped.slot)
+                            if equipped.owner == attacker_id && equipped.slot == "MAIN_HAND"
+                                console.log("Use weapon dice")
+                                roll = weapon.damage
+
+                        # deal damage!
+                        damage = State.rng.roller(roll)
+
+                        # any bonuses?
+                        for [item_ent, comps] in @world.get_components(Equipped, MeleeBonus)
+                            [equipped, bonus] = comps
+                            if equipped.owner == attacker_id
+                                console.log("Applying melee bonus")
+                                damage += bonus.bonus
+
+                        target_stats.hp -= damage
+
+                        # dead
+                        if target_stats.hp <= 0
+                            @world.add_component(target_id, new Dead())
+                            #console.log("Killed target... " + target_id)
+
+                        # color
+                        player_hit = @world.component_for_entity(target_id, Player)
+                        color = [255,255,255]
+                        if player_hit
+                            color = [255,0,0]
+                        else
+                            color = [127, 127, 127] # libtcod light gray
+
+                        State.messages.push [attacker_name.name + " attacks " + target_name.name + " for " + damage + " damage!", color]
                 else
                     # miss
                     State.messages.push [attacker_name.name + " attacks " + target_name.name + " but misses!", [115, 115, 255]] # libtcod light blue
