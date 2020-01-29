@@ -236,6 +236,22 @@ function add_faction(faction_data){
   console.log("Added reverse faction " + [faction_data[1], faction_data[0], faction_data[2]])
 }
 
+function get_faction_reaction(faction, target_faction){
+  if (faction == target_faction){
+    return 100;
+  }
+
+    console.log("Faction reaction check: " + faction + " " + target_faction)
+    for (let i = 0, len = State.factions.length; i < len; i++) {
+        var fact = State.factions[i];
+        //console.log(fact)
+        if (fact[0] == faction && fact[1] == target_faction){
+            console.log("Faction reaction of " + fact[0] + " to " + fact[1] + " is " + fact[2])
+            return fact[2]
+        }
+    }
+
+}
 
 function onStateLoaded(loaded_State){
   //JSON serialization loses functions
@@ -267,4 +283,4 @@ function onStateLoaded(loaded_State){
   draw()
 }
 
-export { get_position, get_stats, get_inventory, get_map, get_fov, loadData, setup, act_and_update, onStateLoaded }
+export { get_position, get_stats, get_inventory, get_map, get_fov, loadData, setup, act_and_update, get_faction_reaction, onStateLoaded }

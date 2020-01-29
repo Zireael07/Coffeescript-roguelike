@@ -1,15 +1,6 @@
 import {Combat, Stats, Name, Dead, Player, Faction, Equipped, MeleeBonus, Weapon } from './components.js'
 import { State } from './js_game_vars.js';
-
-get_faction_reaction = (faction, target_faction) ->
-    console.log("Faction reaction check: " + faction + " " + target_faction)
-    for fact in State.factions
-        #print(fact)
-        if fact[0] == faction and fact[1] == target_faction
-            console.log("Faction reaction of " + fact[0] + " to " + fact[1] + " is " + fact[2])
-            return fact[2]
-
-
+import { get_faction_reaction } from './game.js';
 
 class CombatProcessor
     # constructor ->
