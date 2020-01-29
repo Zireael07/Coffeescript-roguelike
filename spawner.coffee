@@ -1,4 +1,4 @@
-import { Position, Player, TurnComponent, Name, Stats, Velocity, NPC, TileBlocker, Item } from './components.js'
+import { Position, Player, Faction, TurnComponent, Name, Stats, Velocity, NPC, TileBlocker, Item } from './components.js'
 import { generate_random_item, generate_random_NPC } from './random_utils.js';
 import { generate_npc, generate_item } from './generators.js';
 import { State } from './js_game_vars.js';
@@ -11,6 +11,7 @@ spawn_player = (world) ->
     world.add_component(player, new Name("Player"))
     world.add_component(player, new TurnComponent())
     world.add_component(player, new Stats(20, 4))
+    world.add_component(player, new Faction("player"))
 
     return # avoid implicit return
 

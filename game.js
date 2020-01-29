@@ -106,6 +106,15 @@ function setup() {
     pipeWith(level, apply_rectangle_detection, bsp_map_create )
 
     State.map = level.mapa
+    //console.table(State.map)
+
+    //Factions
+    State.factions = []
+    add_faction(["player", "enemy", -100])
+    add_faction(["player", "neutral", 0])
+    add_faction(["player", "cop", 0])
+    add_faction(["cop", "enemy", -100])
+
 
     // Create entities and assign components
     spawn_player(world);
@@ -217,6 +226,16 @@ var is_player_alive = function() {
     return alive;
   }
 }
+
+function add_faction(faction_data){
+  State.factions.push(faction_data)
+  console.log("Added faction " + faction_data)
+
+  // add the reverse mapping, too
+  State.factions.push([faction_data[1], faction_data[0], faction_data[2]])
+  console.log("Added reverse faction " + [faction_data[1], faction_data[0], faction_data[2]])
+}
+
 
 function onStateLoaded(loaded_State){
   //JSON serialization loses functions
