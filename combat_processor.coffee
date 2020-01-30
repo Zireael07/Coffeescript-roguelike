@@ -56,6 +56,10 @@ class CombatProcessor
     process: ->
         for [ent, combat] in @world.get_component(Combat)
             attacker_id = ent
+            # if dead, you don't get a last swing
+            if @world.component_for_entity(ent, Dead)
+                return
+
             target_id = combat.target_id
 
             attacker_faction = @world.component_for_entity(attacker_id, Faction).faction
