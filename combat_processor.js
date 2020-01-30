@@ -4,6 +4,7 @@ var CombatProcessor, skill_test;
 import {
   Combat,
   Stats,
+  Attributes,
   Name,
   Dead,
   Player,
@@ -86,11 +87,15 @@ CombatProcessor = class CombatProcessor {
     ;
 
   process() {
-    var attack_roll, attack_skill, attacker_faction, attacker_id, attacker_name, attacker_stats, bonus, color, combat, comps, damage, ent, equipped, i, is_enemy_faction, item_ent, j, k, len, len1, len2, player_hit, ref, ref1, ref2, roll, target_faction, target_id, target_name, target_stats, weapon;
+    var attack_roll, attack_skill, attacker_attributes, attacker_faction, attacker_id, attacker_name, attacker_stats, bonus, color, combat, comps, damage, ent, equipped, i, is_enemy_faction, item_ent, j, k, len, len1, len2, player_hit, ref, ref1, ref2, roll, str_bonus, target_faction, target_id, target_name, target_stats, weapon;
     ref = this.world.get_component(Combat);
     for (i = 0, len = ref.length; i < len; i++) {
       [ent, combat] = ref[i];
       attacker_id = ent;
+      // if dead, you don't get a last swing
+      if (this.world.component_for_entity(ent, Dead)) {
+        return;
+      }
       target_id = combat.target_id;
       attacker_faction = this.world.component_for_entity(attacker_id, Faction).faction;
       target_faction = this.world.component_for_entity(target_id, Faction).faction;
@@ -142,6 +147,12 @@ CombatProcessor = class CombatProcessor {
             }
             // deal damage!
             damage = State.rng.roller(roll);
+            // Strength bonus
+            attacker_attributes = this.world.component_for_entity(attacker_id, Attributes);
+            str_bonus = Math.floor((attacker_attributes.strength - 10) / 2);
+            damage = damage + str_bonus;
+            // prevent negative damage
+            damage = Math.max(0, damage);
             ref2 = this.world.get_components(Equipped, MeleeBonus);
             // any bonuses?
             for (k = 0, len2 = ref2.length; k < len2; k++) {
@@ -171,7 +182,7 @@ CombatProcessor = class CombatProcessor {
                 127 // libtcod light gray
               ];
             }
-            State.messages.push([attacker_name.name + " attacks " + target_name.name + " for " + damage + " damage!", color]);
+            State.messages.push([attacker_name.name + " attacks " + target_name.name + " for " + damage + " (" + str_bonus + " STR) damage!", color]);
           }
         } else {
           // miss

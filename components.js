@@ -64,6 +64,18 @@ class Skills {
   }
 }
 
+//aka Stats in many RPG systems
+class Attributes {
+  constructor(strength=9, dexterity=9, constitution=9, intelligence=9, wisdom=9, charisma=9){
+    this.strength = strength;
+    this.dexterity = dexterity;
+    this.constitution = constitution;
+    this.intelligence = intelligence;
+    this.wisdom = wisdom;
+    this.charisma = charisma;
+  }
+}
+
 class Name {
   constructor(name) {
     this.name = name;
@@ -149,7 +161,7 @@ class Cursor {
 
 
   export { Velocity, Position, Player, TurnComponent, Renderable, TileBlocker,
-    NPC, Faction, Combat, Stats, Skills, Name, Dead, Skip,
+    NPC, Faction, Combat, Stats, Attributes, Skills, Name, Dead, Skip,
     Item, WantToPickup, InBackpack, Equipped, Wearable, Weapon, MeleeBonus, WantToUseItem, MedItem, 
     WantToDrop, Ranged, Cursor
    }
