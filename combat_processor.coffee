@@ -1,4 +1,4 @@
-import {Combat, Stats, Name, Dead, Player, Faction, Skills, Equipped, MeleeBonus, Weapon } from './components.js'
+import {Combat, Stats, Attributes, Name, Dead, Player, Faction, Skills, Equipped, MeleeBonus, Weapon } from './components.js'
 import { State } from './js_game_vars.js';
 import { get_faction_reaction } from './game.js';
 
@@ -103,6 +103,14 @@ class CombatProcessor
                         # deal damage!
                         damage = State.rng.roller(roll)
 
+                        # Strength bonus
+                        attacker_attributes = @world.component_for_entity(attacker_id, Attributes)
+                        str_bonus = Math.floor(((attacker_attributes.strength - 10) / 2))
+
+                        damage = damage + str_bonus
+                        # prevent negative damage
+                        damage = Math.max(0, damage)
+
                         # any bonuses?
                         for [item_ent, comps] in @world.get_components(Equipped, MeleeBonus)
                             [equipped, bonus] = comps
@@ -125,7 +133,7 @@ class CombatProcessor
                         else
                             color = [127, 127, 127] # libtcod light gray
 
-                        State.messages.push [attacker_name.name + " attacks " + target_name.name + " for " + damage + " damage!", color]
+                        State.messages.push [attacker_name.name + " attacks " + target_name.name + " for " + damage + " (" + str_bonus + " STR) damage!", color]
                 else
                     # miss
                     State.messages.push [attacker_name.name + " attacks " + target_name.name + " but misses!", [115, 115, 255]] # libtcod light blue
