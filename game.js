@@ -188,6 +188,11 @@ var get_inventory = function() {
     var name, pack;
     var inventory = [];
     var letter_index = 'a'.charCodeAt(0);
+    var player_ent;
+    //player
+    for (var [ent, player] of State.world.get_component(Player)){
+      player_ent = ent;
+    }
     for (var [item_ent, comps] of State.world.get_components(Name, InBackpack)){
       //skip entities that are being removed
       if (State.world.component_for_entity(item_ent, Skip)){
@@ -198,13 +203,15 @@ var get_inventory = function() {
       letter_index += 1;
     }
     for (var [item_ent, comps] of State.world.get_components(Name, Equipped)){
-      //skip entities that are being removed
-      if (State.world.component_for_entity(item_ent, Skip)){
-        continue
-      }
       [name, pack] = comps;
-      inventory.push([String.fromCharCode(letter_index), name.name + " (equipped)", item_ent])
-      letter_index += 1;
+      if (pack.owner == player_ent){
+        //skip entities that are being removed
+        if (State.world.component_for_entity(item_ent, Skip)){
+          continue
+        }
+        inventory.push([String.fromCharCode(letter_index), name.name + " (equipped)", item_ent])
+        letter_index += 1;
+      }
     }
 
     return inventory;
