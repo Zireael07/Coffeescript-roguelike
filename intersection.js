@@ -22,7 +22,7 @@ function intersect_lists(lists) {
     for (var i = 0; i < lists.length; i++){
         var list = lists[i];
         if (list == undefined){
-            console.log("Empty list passed...")
+            //console.log("Empty list passed...")
             return [] // return empty list
         }
     }

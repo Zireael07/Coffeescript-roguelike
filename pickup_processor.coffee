@@ -21,6 +21,7 @@ class PickupProcessor
                 @world.add_component(item_ent, new InBackpack())
                 item_name = @world.component_for_entity(item_ent, Name)
                 State.messages.push ["Player picked up " + item_name.name + "!", [255,255,255]]
+                break # only pick up one item
 
           @world.remove_component(ent, WantToPickup)
         return # avoid coffeescript's implicit return
