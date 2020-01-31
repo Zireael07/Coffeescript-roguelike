@@ -28,7 +28,15 @@ generate_npc = (m_id) ->
     else
         comps.push new Faction("enemy")
 
-    return comps
+
+    # equip equipment
+    equip_list = []
+    if 'equipment' of State.npc_data[m_id]
+        for e_id in State.npc_data[m_id]['equipment'] # array, so "in"
+            npc_equip_id = e_id.toLowerCase()
+            equip_list.push npc_equip_id
+
+    return [comps, equip_list]
 
 generate_item = (_id) ->
 
