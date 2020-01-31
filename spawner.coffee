@@ -1,4 +1,4 @@
-import { Position, Player, Faction, Skills, Attributes, TurnComponent, Name, Stats, Velocity, NPC, TileBlocker, Item } from './components.js'
+import { Position, Player, Faction, Skills, Attributes, TurnComponent, Name, Stats, Velocity, NPC, TileBlocker, Item, Equipped, Wearable } from './components.js'
 import { generate_random_item, generate_random_NPC } from './random_utils.js';
 import { generate_npc, generate_item } from './generators.js';
 import { State } from './js_game_vars.js';
@@ -36,10 +36,14 @@ spawn_npc = (world) ->
         return
 
     #fill in the rest
-    add = generate_npc(choice.toLowerCase())
+    [add, equip_list] = generate_npc(choice.toLowerCase())
     #add them
     for i in [0..add.length-1]
         world.add_component(npc, add[i])
+
+    for i in [0..equip_list.length-1]
+        id = equip_list[i]
+        spawn_named_item(world, [x,y], id, npc)
 
     return # avoid implicit return
 
@@ -53,7 +57,7 @@ spawn_item = (world) ->
 
     choice = generate_random_item()
 
-    # things that all NPCs share
+    # things that all items share
     it = world.create_entity(
           [ new Position(x,y), new Item() ]
     )
@@ -68,5 +72,23 @@ spawn_item = (world) ->
         world.add_component(it, add[i])
 
     return # avoid implicit return
+
+spawn_named_item = (world, pos, id, ent_equipped=null) ->
+    # destructuring assignment
+    [x,y] = pos
+    # things that all items share
+    it = world.create_entity(
+          [ new Position(x,y), new Item() ]
+    )
+    #fill in the rest
+    add = generate_item(id.toLowerCase())
+    #add them
+    for i in [0..add.length-1]
+        world.add_component(it, add[i])
+
+    if ent_equipped != null
+        world.add_component(it, new Equipped(world.component_for_entity(it, Wearable).slot, ent_equipped))
+        console.log("Spawned an equipped item... " + world.component_for_entity(it, Name).name)
+
 
 export { spawn_player, spawn_item, spawn_npc}

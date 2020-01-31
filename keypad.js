@@ -6,6 +6,11 @@ import { saveJS, loadJS } from "./save.js"
 //$( document ).ready(function() {
 function setup_keypad(inventory) {
 
+    $("#go_wait").click(function(e){
+        console.log("Clicked wait button");
+        act_and_update({'move': [0,0] });
+    });
+
     $("#go_s").click(function(e) {
         console.log("Clicked a button 1");
         act_and_update({'move': [0, 1] });
