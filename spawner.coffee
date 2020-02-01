@@ -6,7 +6,11 @@ import { random_free_tile } from './map_common.js';
 
 spawn_player = (world) ->
     player = world.create_entity()
-    world.add_component(player, new Position(2,2))
+
+    loc = [2,2]
+    # destructuring assignment
+    [x,y] = loc
+    world.add_component(player, new Position(x,y))
     world.add_component(player, new Player())
     world.add_component(player, new Name("Player"))
     world.add_component(player, new TurnComponent())
@@ -14,6 +18,11 @@ spawn_player = (world) ->
     world.add_component(player, new Faction("player"))
     world.add_component(player, new Skills())
     world.add_component(player, new Attributes(15, 14, 13, 12, 8, 10))
+
+    equip_list = ["T-shirt", "Jeans", "Boots"]
+    for i in [0..equip_list.length-1]
+        id = equip_list[i]
+        spawn_named_item(world, loc, id.toLowerCase(), player)
 
     return # avoid implicit return
 

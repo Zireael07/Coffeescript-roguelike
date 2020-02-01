@@ -21,15 +21,16 @@ function initial_draw() {
     State.camera.update(pos)
     var term = redraw_terminal(pos, get_map(), get_fov())[0];
     var stat = get_stats();
+    var inventory = get_inventory();
 
     var env = nunjucks.configure('templates', { autoescape: true });
 
-    var maintem = nunjucks.render('main.html', { position: pos, terminal: term, messages: [], stats: stat, inventory: [] })
+    var maintem = nunjucks.render('main.html', { position: pos, terminal: term, messages: [], stats: stat, inventory: inventory })
     //force updates the whole page
     //document.write(
     $('#output').html(maintem)
     
-    setup_keypad([])
+    setup_keypad(inventory)
     //console.log(maintem)
 }
 
