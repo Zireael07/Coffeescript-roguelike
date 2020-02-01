@@ -195,6 +195,29 @@ var get_stats = function() {
     }
 }
 
+var get_equipped = function() {
+  var name, pack;
+  var inventory = []
+  var player_ent;
+  //player
+  for (var [ent, player] of State.world.get_component(Player)){
+    player_ent = ent;
+  }
+
+  for (var [item_ent, comps] of State.world.get_components(Name, Equipped)){
+    [name, pack] = comps;
+    if (pack.owner == player_ent){
+      //skip entities that are being removed
+      if (State.world.component_for_entity(item_ent, Skip)){
+        continue
+      }
+      inventory.push(name.name)
+    }
+  }
+
+  return inventory;
+}
+
 var get_inventory = function() {
     var name, pack;
     var inventory = [];
@@ -301,4 +324,4 @@ function onStateLoaded(loaded_State){
   draw()
 }
 
-export { get_position, get_cursor_position, get_stats, get_inventory, get_map, get_fov, loadData, setup, act_and_update, get_faction_reaction, onStateLoaded }
+export { get_position, get_cursor_position, get_stats, get_inventory, get_equipped, get_map, get_fov, loadData, setup, act_and_update, get_faction_reaction, onStateLoaded }
