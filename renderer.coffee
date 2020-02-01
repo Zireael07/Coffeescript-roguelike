@@ -3,7 +3,7 @@ import { State } from './js_game_vars.js';
 import { drawn_wall_glyph } from './map_common.js';
 import { get_faction_reaction } from './game.js';
 
-import {Position, Renderable, Dead, InBackpack, Equipped, Skip, Player, Cursor, Faction } from './components.js'
+import {Position, Renderable, Dead, InBackpack, Equipped, Skip, Player, Cursor, Faction, Name } from './components.js'
 
 # console is a reserved name in JS
 redraw_terminal = (position, inc_map, fov) ->
@@ -153,6 +153,52 @@ get_messages = ->
 
     return drawn 
 
-#get_terminal()
+get_look_list = (cursor_pos) ->
+    look_list = []
 
-export { get_terminal, redraw_terminal, get_messages }
+    # items under cursor
+    if cursor_pos != null && cursor_pos != undefined
+
+        player_ent = null
+        for [ent, player] in State.world.get_component(Player)
+            player_ent = ent
+
+        for [ent, comps] in State.world.get_components(Position, Renderable)
+            [pos, vis] = comps
+            if State.world.component_for_entity(ent, Dead)
+                # skip
+                continue
+            if State.world.component_for_entity(ent, InBackpack)
+                # skip
+                continue
+            if State.world.component_for_entity(ent, Equipped)
+                # skip
+                continue
+
+            if pos.x == cursor_pos.x && pos.y == cursor_pos.y
+                name = State.world.component_for_entity(ent, Name).name
+
+                ret = null
+                # check faction
+                if State.world.component_for_entity(ent, Faction)
+                    player_f = State.world.component_for_entity(player_ent, Faction).faction
+                    fact = State.world.component_for_entity(ent, Faction)
+                    react = get_faction_reaction(player_f, fact.faction)
+                    #console.log("react: " + react)
+        
+                    if react < -50
+                        ret = "hostile"
+                    else if react < 0
+                        ret = "unfriendly"
+                    else if react == 0
+                        ret = "neutral"
+                    else if react > 50
+                        ret = "helpful"
+                    else if react > 0
+                        ret = "friendly"
+            
+                look_list.push [name, vis.char, vis.color, ret]
+
+    return look_list
+
+export { get_terminal, redraw_terminal, get_messages, get_look_list }

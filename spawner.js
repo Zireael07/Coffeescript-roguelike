@@ -37,16 +37,24 @@ import {
 } from './map_common.js';
 
 spawn_player = function(world) {
-  var player;
+  var equip_list, i, id, j, loc, player, ref, x, y;
   player = world.create_entity();
-  world.add_component(player, new Position(2, 2));
+  loc = [2, 2];
+  // destructuring assignment
+  [x, y] = loc;
+  world.add_component(player, new Position(x, y));
   world.add_component(player, new Player());
   world.add_component(player, new Name("Player"));
   world.add_component(player, new TurnComponent());
   world.add_component(player, new Stats(20, 4));
   world.add_component(player, new Faction("player"));
   world.add_component(player, new Skills());
-  world.add_component(player, new Attributes(15, 14, 13, 12, 8, 10)); // avoid implicit return
+  world.add_component(player, new Attributes(15, 14, 13, 12, 8, 10));
+  equip_list = ["T-shirt", "Jeans", "Boots"];
+  for (i = j = 0, ref = equip_list.length - 1; (0 <= ref ? j <= ref : j >= ref); i = 0 <= ref ? ++j : --j) {
+    id = equip_list[i];
+    spawn_named_item(world, loc, id.toLowerCase(), player); // avoid implicit return
+  }
 };
 
 spawn_npc = function(world) {

@@ -22,6 +22,7 @@ class ActionProcessor
         _use_item = @action['use_item']
         _drop_item = @action['drop_item']
         _target = @action['target']
+        _look = @action['look']
 
         for [ent, turn] in @world.get_component(TurnComponent)
             if _move
@@ -56,7 +57,16 @@ class ActionProcessor
                 else     
                     cur = @world.component_for_entity(ent, Cursor)
                     console.log("Confirmed target x: " + cur.x + " y: " + cur.y)
-                    @world.add_component(ent, new WantToUseItem(cur.item))
+                    if cur.item != null
+                        @world.add_component(ent, new WantToUseItem(cur.item))
+            if _look
+                console.log("Look to execute...")
+                unless @world.component_for_entity(ent, Cursor)
+                    pos = @world.component_for_entity(ent, Position)
+                    @world.add_component(ent, new Cursor(pos.x, pos.y, null))
+                else
+                    # toggle it off
+                    @world.remove_component(ent, Cursor)
 
             unless @world.component_for_entity(ent, Cursor)
                 # no longer our turn, AI now acts

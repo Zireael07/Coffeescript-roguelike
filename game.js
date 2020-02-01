@@ -1,6 +1,6 @@
 import { World } from './ecs.js';
 
-import {Position, Player, Stats, Name, Dead, InBackpack, Skip, Equipped} from './components.js'
+import {Position, Player, Cursor, Stats, Name, Dead, InBackpack, Skip, Equipped} from './components.js'
 import { MovementProcessor } from './movement_processor.js'
 import {ActionProcessor} from './action_processor.js'
 import { FovProcessor, init_FOV, init_explored, transparent, explore } from './fov_processor.js'
@@ -176,12 +176,46 @@ var get_position = function () {
     }
 };
 
+var get_cursor_position = function(){
+    var ret, player, pos, cursor;
+    ret = null;
+    for (var [ent, comps] of State.world.get_components(Player, Position, Cursor)) {
+        [player, pos, cursor] = comps
+        ret = cursor
+
+    return ret
+    }
+};
+
 var get_stats = function() {
     var player, stats;
     for (var [ent, comps] of State.world.get_components(Player, Stats)){
       [player, stats] = comps
       return stats;
     }
+}
+
+var get_equipped = function() {
+  var name, pack;
+  var inventory = []
+  var player_ent;
+  //player
+  for (var [ent, player] of State.world.get_component(Player)){
+    player_ent = ent;
+  }
+
+  for (var [item_ent, comps] of State.world.get_components(Name, Equipped)){
+    [name, pack] = comps;
+    if (pack.owner == player_ent){
+      //skip entities that are being removed
+      if (State.world.component_for_entity(item_ent, Skip)){
+        continue
+      }
+      inventory.push(name.name)
+    }
+  }
+
+  return inventory;
 }
 
 var get_inventory = function() {
@@ -290,4 +324,4 @@ function onStateLoaded(loaded_State){
   draw()
 }
 
-export { get_position, get_stats, get_inventory, get_map, get_fov, loadData, setup, act_and_update, get_faction_reaction, onStateLoaded }
+export { get_position, get_cursor_position, get_stats, get_inventory, get_equipped, get_map, get_fov, loadData, setup, act_and_update, get_faction_reaction, onStateLoaded }

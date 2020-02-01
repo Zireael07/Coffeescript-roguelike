@@ -73,6 +73,11 @@ function setup_keypad(inventory) {
         });
     });
 
+    $("#look").click(function(e) {
+        console.log("Clicked look");
+        act_and_update({'look': true});
+    });
+
     $("#enter").click(function(e) {
         act_and_update({'target': true});
     });

@@ -30,7 +30,7 @@ ActionProcessor = class ActionProcessor {
     ;
 
   process() {
-    var _drop_item, _move, _pick_up, _target, _use_item, cur, dx, dy, ent, i, len, pos, ref, turn;
+    var _drop_item, _look, _move, _pick_up, _target, _use_item, cur, dx, dy, ent, i, len, pos, ref, turn;
     // Assign the appropriate component.
     // For example, for action == {'move': (0, -1)}, set the vel.dx and vel.dy.
     _move = this.action['move'];
@@ -38,6 +38,7 @@ ActionProcessor = class ActionProcessor {
     _use_item = this.action['use_item'];
     _drop_item = this.action['drop_item'];
     _target = this.action['target'];
+    _look = this.action['look'];
     ref = this.world.get_component(TurnComponent);
     for (i = 0, len = ref.length; i < len; i++) {
       [ent, turn] = ref[i];
@@ -80,7 +81,19 @@ ActionProcessor = class ActionProcessor {
           // clicked by mistake, ignore
           cur = this.world.component_for_entity(ent, Cursor);
           console.log("Confirmed target x: " + cur.x + " y: " + cur.y);
-          this.world.add_component(ent, new WantToUseItem(cur.item));
+          if (cur.item !== null) {
+            this.world.add_component(ent, new WantToUseItem(cur.item));
+          }
+        }
+      }
+      if (_look) {
+        console.log("Look to execute...");
+        if (!this.world.component_for_entity(ent, Cursor)) {
+          pos = this.world.component_for_entity(ent, Position);
+          this.world.add_component(ent, new Cursor(pos.x, pos.y, null));
+        } else {
+          // toggle it off
+          this.world.remove_component(ent, Cursor);
         }
       }
       if (!this.world.component_for_entity(ent, Cursor)) {

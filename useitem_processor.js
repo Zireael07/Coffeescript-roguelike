@@ -66,7 +66,7 @@ UseItemProcessor = class UseItemProcessor {
           for (j = 0, len1 = ref1.length; j < len1; j++) {
             [item_ent, comps] = ref1[j];
             [equipped, name] = comps;
-            if (equipped.slot = slot) {
+            if (equipped.slot = slot && (equipped.owner = ent)) {
               ent_name = this.world.component_for_entity(ent, Name);
               State.messages.push([ent_name.name + " unequips " + name.name, [255, 255, 255]]);
               this.world.remove_component(item_ent, Equipped);
