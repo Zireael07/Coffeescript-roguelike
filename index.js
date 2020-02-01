@@ -1,7 +1,7 @@
 //ES 6 feature - import
-import { setup, get_position, get_inventory, get_map, get_fov, get_stats, loadData } from "./game.js"
+import { setup, get_position, get_inventory, get_map, get_fov, get_stats, loadData, get_cursor_position } from "./game.js"
 import { setup_keypad, setup_inventory } from "./keypad.js";
-import { get_terminal, redraw_terminal, get_messages } from "./renderer.js";
+import { get_terminal, redraw_terminal, get_messages, get_look_list } from "./renderer.js";
 import { State } from "./js_game_vars.js";
 
 ready(fn)
@@ -56,9 +56,11 @@ function draw() {
   //HUD
   var msgs = get_messages();
   var stat = get_stats();
+  var cursor_pos = get_cursor_position();
+  var look_list = get_look_list(cursor_pos);
   var inventory = get_inventory();
 
-  var maintem = nunjucks.render('main.html', { position: pos, terminal: term, messages: msgs, stats: stat })
+  var maintem = nunjucks.render('main.html', { position: pos, terminal: term, messages: msgs, stats: stat, look: look_list })
   //force updates the whole page
   //document.write(
   $('#output').html(maintem)
