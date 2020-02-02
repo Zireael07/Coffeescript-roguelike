@@ -42,6 +42,19 @@
             },
             "weapon" : "1d8"
         },
+    "baton":    {
+            "name" : "Baton",
+            "renderable": {
+                "glyph" : "/",
+                "fg" : [170, 255, 255],
+                "bg" : [0,0,0],
+                "order" : 2
+            },
+            "wearable": {
+                "slot": "main_hand"
+            },
+            "weapon" : "1d4"
+        },
 
     "t-shirt":    {
             "name" : "T-shirt",
