@@ -19,7 +19,7 @@ spawn_player = (world) ->
     world.add_component(player, new Skills())
     world.add_component(player, new Attributes(15, 14, 13, 12, 8, 10))
 
-    equip_list = ["T-shirt", "Jeans", "Boots"]
+    equip_list = ["Baton", "T-shirt", "Jeans", "Boots"]
     for i in [0..equip_list.length-1]
         id = equip_list[i]
         spawn_named_item(world, loc, id.toLowerCase(), player)
