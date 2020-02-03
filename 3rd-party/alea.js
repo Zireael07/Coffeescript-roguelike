@@ -59,6 +59,7 @@ function aleaPRNG() {
         };
 
         /* public: return a 32-bit fraction in the range [0, 1] */
+        /* aka get uniform */
         var random = function() {
             var t = 2091639 * s0 + c * 2.3283064365386963e-10; // 2^-32
             
@@ -130,6 +131,25 @@ function aleaPRNG() {
             console.log("Roller returns: " + total);
             return total;
         };
+
+        /* return randomly picked item */
+        random.getItem = function(array) {
+            if (!array.length) {
+                return null;
+            }
+            return array[Math.floor(random() * array.length)];
+        }
+
+        /* returns new array with randomized items      */
+        random.shuffle = function(array) {
+            let result = [];
+            let clone = array.slice();
+            while (clone.length) {
+                let index = clone.indexOf(this.getItem(clone));
+                result.push(clone.splice(index, 1)[0]);
+            }
+            return result;
+        }
 
         /* public: initialize generator to first specified seed values */
         random.restart = function() {
