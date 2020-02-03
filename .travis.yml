@@ -3,7 +3,8 @@ node_js:
   - 6
 script: skip # we don't need any tests
 before_deploy:
-  coffee --compile .
+  - cd processors && coffee --compile .
+  - cd .. && coffee --compile .
 before_install:
   - npm install coffeescript
 

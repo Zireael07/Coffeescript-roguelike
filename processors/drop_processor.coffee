@@ -1,5 +1,5 @@
-import { WantToDrop, Position, InBackpack, Name } from './components.js'
-import { State } from './js_game_vars.js';
+import { WantToDrop, Position, InBackpack, Name } from '../components.js'
+import { State } from '../js_game_vars.js';
 
 class DropProcessor
     # constructor ->

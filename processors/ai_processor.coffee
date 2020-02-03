@@ -1,6 +1,6 @@
-import { NPC, Player, TurnComponent, Position, Combat } from './components.js'
-import { State } from './js_game_vars.js';
-import { findPath } from "./astar.js"
+import { NPC, Player, TurnComponent, Position, Combat } from '../components.js'
+import { State } from '../js_game_vars.js';
+import { findPath } from "../astar.js"
 
 class AIProcessor
     # constructor ->

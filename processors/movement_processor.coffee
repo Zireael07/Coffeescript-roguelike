@@ -1,7 +1,7 @@
-import {Position, Velocity, TileBlocker, Combat } from './components.js'
+import {Position, Velocity, TileBlocker, Combat } from '../components.js'
 
-import {TileTypes } from './enums.js'
-import { State } from './js_game_vars.js';
+import {TileTypes } from '../enums.js'
+import { State } from '../js_game_vars.js';
 
 class MovementProcessor
     # constructor ->

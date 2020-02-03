@@ -1,5 +1,5 @@
-import { Name, Dead, Player, Position, Equipped } from './components.js'
-import { State } from './js_game_vars.js';
+import { Name, Dead, Player, Position, Equipped } from '../components.js'
+import { State } from '../js_game_vars.js';
 
 class DeathProcessor
     # constructor ->
