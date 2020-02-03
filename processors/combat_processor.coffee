@@ -1,6 +1,6 @@
-import {Combat, Stats, Attributes, Name, Dead, Player, Faction, Skills, Equipped, MeleeBonus, Weapon } from './components.js'
-import { State } from './js_game_vars.js';
-import { get_faction_reaction } from './game.js';
+import {Combat, Stats, Attributes, Name, Dead, Player, Faction, Skills, Equipped, MeleeBonus, Weapon } from '../components.js'
+import { State } from '../js_game_vars.js';
+import { get_faction_reaction } from '../game.js';
 
 
 ##Makes a skill test for "skill", where "skill" is a string

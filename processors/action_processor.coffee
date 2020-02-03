@@ -1,5 +1,5 @@
 import { TurnComponent, Velocity, WantToPickup, WantToUseItem, WantToDrop, 
-Cursor, Ranged, Position, MedItem, Wearable } from './components.js';
+Cursor, Ranged, Position, MedItem, Wearable } from '../components.js';
 import { AIProcessor } from './ai_processor.js';
 
 class ActionProcessor

@@ -7,15 +7,15 @@ import {
   TurnComponent,
   Position,
   Combat
-} from './components.js';
+} from '../components.js';
 
 import {
   State
-} from './js_game_vars.js';
+} from '../js_game_vars.js';
 
 import {
   findPath
-} from "./astar.js";
+} from "../astar.js";
 
 AIProcessor = class AIProcessor {
   

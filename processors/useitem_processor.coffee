@@ -1,6 +1,6 @@
-import { WantToUseItem, MedItem, Stats, Name, Skip, Ranged, Position, Cursor, Wearable, Equipped, InBackpack } from './components.js';
-import { State } from './js_game_vars.js';
-import { tiles_distance_to } from './map_common.js';
+import { WantToUseItem, MedItem, Stats, Name, Skip, Ranged, Position, Cursor, Wearable, Equipped, InBackpack } from '../components.js';
+import { State } from '../js_game_vars.js';
+import { tiles_distance_to } from '../map_common.js';
 
 class UseItemProcessor
     # constructor ->

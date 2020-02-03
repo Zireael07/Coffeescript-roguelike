@@ -4,19 +4,19 @@ var FovProcessor, block_sight, explore, init_FOV, init_explored, transparent, up
 import {
   Player,
   Position
-} from './components.js';
+} from '../components.js';
 
 import {
   PermissiveFov
-} from './3rd-party/ppfov/index.js';
+} from '../3rd-party/ppfov/index.js';
 
 import {
   TileTypes
-} from './enums.js';
+} from '../enums.js';
 
 import {
   State
-} from './js_game_vars.js';
+} from '../js_game_vars.js';
 
 explore = function(x, y) {
   State.fov[x][y] = 1;

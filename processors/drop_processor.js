@@ -6,11 +6,11 @@ import {
   Position,
   InBackpack,
   Name
-} from './components.js';
+} from '../components.js';
 
 import {
   State
-} from './js_game_vars.js';
+} from '../js_game_vars.js';
 
 DropProcessor = class DropProcessor {
   

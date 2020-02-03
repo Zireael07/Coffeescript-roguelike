@@ -7,11 +7,11 @@ import {
   Player,
   Position,
   Equipped
-} from './components.js';
+} from '../components.js';
 
 import {
   State
-} from './js_game_vars.js';
+} from '../js_game_vars.js';
 
 DeathProcessor = class DeathProcessor {
   

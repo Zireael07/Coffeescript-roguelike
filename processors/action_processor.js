@@ -12,7 +12,7 @@ import {
   Position,
   MedItem,
   Wearable
-} from './components.js';
+} from '../components.js';
 
 import {
   AIProcessor

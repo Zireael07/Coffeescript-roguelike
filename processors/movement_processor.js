@@ -6,15 +6,15 @@ import {
   Velocity,
   TileBlocker,
   Combat
-} from './components.js';
+} from '../components.js';
 
 import {
   TileTypes
-} from './enums.js';
+} from '../enums.js';
 
 import {
   State
-} from './js_game_vars.js';
+} from '../js_game_vars.js';
 
 MovementProcessor = class MovementProcessor {
   

@@ -1,15 +1,15 @@
 import { World } from './ecs.js';
 
 import {Position, Player, Cursor, Stats, Name, Dead, InBackpack, Skip, Equipped} from './components.js'
-import { MovementProcessor } from './movement_processor.js'
-import {ActionProcessor} from './action_processor.js'
-import { FovProcessor, init_FOV, init_explored, transparent, explore } from './fov_processor.js'
-import { AIProcessor } from './ai_processor.js'
-import { CombatProcessor } from './combat_processor.js'
-import { DeathProcessor } from './death_processor.js'
-import { PickupProcessor } from './pickup_processor.js'
-import { UseItemProcessor } from './useitem_processor.js'
-import { DropProcessor } from './drop_processor.js'
+import { MovementProcessor } from './processors/movement_processor.js'
+import {ActionProcessor} from './processors/action_processor.js'
+import { FovProcessor, init_FOV, init_explored, transparent, explore } from './processors/fov_processor.js'
+import { AIProcessor } from './processors/ai_processor.js'
+import { CombatProcessor } from './processors/combat_processor.js'
+import { DeathProcessor } from './processors/death_processor.js'
+import { PickupProcessor } from './processors/pickup_processor.js'
+import { UseItemProcessor } from './processors/useitem_processor.js'
+import { DropProcessor } from './processors/drop_processor.js'
 
 import { State } from './js_game_vars.js';
 

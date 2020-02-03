@@ -1,5 +1,5 @@
-import { Position, InBackpack, Item, WantToPickup, Name } from './components.js'
-import { State } from './js_game_vars.js';
+import { Position, InBackpack, Item, WantToPickup, Name } from '../components.js'
+import { State } from '../js_game_vars.js';
 
 class PickupProcessor
     # constructor ->

@@ -13,15 +13,15 @@ import {
   Equipped,
   MeleeBonus,
   Weapon
-} from './components.js';
+} from '../components.js';
 
 import {
   State
-} from './js_game_vars.js';
+} from '../js_game_vars.js';
 
 import {
   get_faction_reaction
-} from './game.js';
+} from '../game.js';
 
 skill_test = function(skill, ent, world) {
   var gain, player, result, sk, tick;

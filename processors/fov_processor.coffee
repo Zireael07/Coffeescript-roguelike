@@ -1,9 +1,9 @@
-import {Player, Position } from './components.js'
+import {Player, Position } from '../components.js'
 
-import { PermissiveFov } from './3rd-party/ppfov/index.js';
+import { PermissiveFov } from '../3rd-party/ppfov/index.js';
 
-import {TileTypes } from './enums.js';
-import { State } from './js_game_vars.js';
+import {TileTypes } from '../enums.js';
+import { State } from '../js_game_vars.js';
 
 
 # FOV interface
