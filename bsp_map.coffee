@@ -1,15 +1,29 @@
 import { TileTypes } from './enums.js';
 import { Rect } from './map_common.js';
-import { split_container } from './bsp.js';
+import { Tree } from './bsp.js';
 import { State } from './js_game_vars.js';
 import { remove_list } from './intersection.js'
 
+paint_leaf = (leaf, tree, mapa) ->
+    if (leaf.lchild != undefined) or (leaf.rchild != undefined)
+        # recursively search for children until you hit the end of the branch
+        if (leaf.lchild)
+            paint_leaf(leaf.lchild, tree, mapa)
+        if (leaf.rchild)
+            paint_leaf(leaf.rchild, tree, mapa)
+    else
+        # Create rooms in the end branches of the bsp tree
+        room_func(leaf.leaf, mapa)
+
 paint = (tree, mapa) ->
-    #room_func(tree.leaf, mapa)
-    if tree.lchild != undefined
-        room_func(tree.lchild.leaf, mapa)
-    if tree.rchild != undefined
-        room_func(tree.rchild.leaf, mapa)
+    #for l in tree.leafs
+    paint_leaf(tree.rootLeaf, tree, mapa)
+
+        #room_func(tree.leaf, mapa)
+        #if l.lchild != undefined
+        #    room_func(l.lchild.leaf, mapa)
+        #if l.rchild != undefined
+        #    room_func(l.rchild.leaf, mapa)
 
     return # throttle default ret
 
@@ -70,31 +84,45 @@ map_create = (level=null, max_x=20, max_y=20) ->
     
 
     # basic bsp
-    main_container = new Rect(start_x, start_y, end_x-start_x, end_y-start_y)
-    #console.log("main: ")
-    #console.log(main_container)
-    container_tree = split_container(main_container, 2, true)
+    bsp_tree = new Tree(new Rect(start_x, start_y, end_x-start_x, end_y-start_y))
+    #console.log("tree: ")
+    console.log(bsp_tree)
+    bsp_tree.split_tree()
 
-    paint(container_tree, level.mapa)
+    paint(bsp_tree, level.mapa)
 
-    console.log(level.mapa)
+    #console.log(level.mapa)
 
-    create_doors(container_tree, level.mapa)
+    create_doors(bsp_tree, level.mapa)
 
     return level
 
+find_rooms = (leaf, tree, mapa) ->
+    if (leaf.lchild != undefined) or (leaf.rchild != undefined)
+        # recursively search for children until you hit the end of the branch
+        if (leaf.lchild)
+            find_rooms(leaf.lchild, tree, mapa)
+        if (leaf.rchild)
+            find_rooms(leaf.rchild, tree, mapa)
+    else
+        # Create rooms in the end branches of the bsp tree
+        room_doors(leaf.leaf, mapa)
 
 create_doors = (tree, mapa) ->
-    #room_doors(tree.leaf, mapa)
-    if tree.lchild != undefined
-        room_doors(tree.lchild.leaf, mapa)
-    if tree.rchild != undefined
-        room_doors(tree.rchild.leaf, mapa)
+    #for l in tree.leafs
+    find_rooms(tree.rootLeaf, tree, mapa)
+
+        #room_doors(tree.leaf, mapa)
+        # if l.lchild != undefined
+        #     room_doors(l.lchild.leaf, mapa)
+        # if l.rchild != undefined
+        #     room_doors(l.rchild.leaf, mapa)
+
 
 room_doors = (room, mapa) ->
     [x, y] = room.center()
     console.log("Creating door for " + x + " " + y)
-    console.log(mapa)
+    #console.log(mapa)
 
     choices = ["north", "south", "east", "west"]
 
