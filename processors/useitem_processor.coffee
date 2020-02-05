@@ -44,7 +44,7 @@ class UseItemProcessor
                     # unequip anything we might have in the slot
                     for [item_ent, comps] in @world.get_components(Equipped, Name)
                         [equipped, name] = comps
-                        if equipped.slot = slot && equipped.owner = ent
+                        if (equipped.slot == slot and equipped.owner == ent)
                             ent_name = @world.component_for_entity(ent, Name)
                             State.messages.push [ ent_name.name + " unequips " + name.name, [255, 255, 255]]
                             @world.remove_component(item_ent, Equipped)
@@ -61,9 +61,9 @@ class UseItemProcessor
                     # unequip
                     ent_name = @world.component_for_entity(ent, Name)
                     item_name = @world.component_for_entity(item_id, Name)
-                    State.messages.push [ ent_name.name + " unequips " + name.name, [255, 255, 255]]
-                    @world.remove_component(item_ent, Equipped)
-                    @world.add_component(item_ent, new InBackpack())
+                    State.messages.push [ ent_name.name + " unequips " + ent_name.name, [255, 255, 255]]
+                    @world.remove_component(item_id, Equipped)
+                    @world.add_component(item_id, new InBackpack())
 
 
             # if item is a ranged item and we have a cursor
