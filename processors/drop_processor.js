@@ -5,7 +5,8 @@ import {
   WantToDrop,
   Position,
   InBackpack,
-  Name
+  Name,
+  Equipped
 } from '../components.js';
 
 import {
@@ -30,7 +31,9 @@ DropProcessor = class DropProcessor {
       [ent, comps] = ref[i];
       [pos, want] = comps;
       item_id = want.item_id;
-      this.world.remove_component(item_id, InBackpack);
+      if (this.world.component_for_entity(item_id, InBackpack)) {
+        this.world.remove_component(item_id, InBackpack);
+      }
       // message
       name = this.world.component_for_entity(ent, Name);
       item_name = this.world.component_for_entity(item_id, Name);

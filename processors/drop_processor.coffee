@@ -1,4 +1,4 @@
-import { WantToDrop, Position, InBackpack, Name } from '../components.js'
+import { WantToDrop, Position, InBackpack, Name, Equipped } from '../components.js'
 import { State } from '../js_game_vars.js';
 
 class DropProcessor
@@ -17,7 +17,8 @@ class DropProcessor
             [pos, want] = comps
             item_id = want.item_id
 
-            @world.remove_component(item_id, InBackpack)
+            if @world.component_for_entity(item_id, InBackpack)
+              @world.remove_component(item_id, InBackpack)
 
             # message
             name = @world.component_for_entity(ent, Name)
