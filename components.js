@@ -1,3 +1,5 @@
+import { RenderOrder } from './enums.js';
+
 // Velocity component
 class Velocity {
     constructor(dx=0, dy=0) {
@@ -23,9 +25,10 @@ class TurnComponent {
 }
 
 class Renderable {
-  constructor(char="h", color=[255,255,255]) {
+  constructor(char="h", color=[255,255,255], order=RenderOrder.ACTOR) {
     this.char = char;
     this.color = color;
+    this.render_order = order;
   }
 }
 

@@ -5,6 +5,9 @@ import { get_faction_reaction } from './game.js';
 
 import {Position, Renderable, Dead, InBackpack, Equipped, Skip, Player, Cursor, Faction, Name } from './components.js'
 
+render_order_sort = (a,b) ->
+    return a[1][1].render_order-b[1][1].render_order
+
 # console is a reserved name in JS
 redraw_terminal = (position, inc_map, fov) ->
     terminal = get_terminal(inc_map, fov)
@@ -20,8 +23,13 @@ redraw_terminal = (position, inc_map, fov) ->
     height_start = cam.get_height_start()
     height_end = cam.get_height_end(inc_map)
 
+    # render order
+    to_draw = State.world.get_components(Position, Renderable)
+    # ascending order
+    matches = to_draw.sort(render_order_sort)
+
     # draw other entities
-    for [ent, comps] in State.world.get_components(Position, Renderable)
+    for [ent, comps] in matches
         [pos, visual] = comps
 
         #console.log visual + " x : " + pos.x + " y :" + pos.y
