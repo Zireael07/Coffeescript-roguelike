@@ -5,7 +5,7 @@
                 "glyph" : "!",
                 "fg" : [255, 0, 0],
                 "bg" : [0, 0, 0],
-                "order" : 2
+                "order" : 1
             },
             "consumable" : {
                 "effects" : { "med_item" : "8" }
@@ -19,7 +19,7 @@
                 "glyph" : ")",
                 "fg" : [0, 255, 255],
                 "bg" : [0, 0, 0],
-                "order" : 2
+                "order" : 1
             },
             "consumable" : {
                 "effects" : { 
@@ -35,7 +35,7 @@
                 "glyph" : "/",
                 "fg" : [255, 170, 170],
                 "bg" : [0, 0, 0],
-                "order" : 2
+                "order" : 1
             },
             "wearable" : {
                 "slot" : "main_hand"
@@ -48,7 +48,7 @@
                 "glyph" : "/",
                 "fg" : [170, 255, 255],
                 "bg" : [0,0,0],
-                "order" : 2
+                "order" : 1
             },
             "wearable": {
                 "slot": "main_hand"
@@ -62,7 +62,7 @@
                 "glyph" : "]",
                 "fg" : [0, 170, 255],
                 "bg" : [0,0,0],
-                "order" : 2
+                "order" : 1
             },
             "wearable" : {
                 "defense_bonus" : 0.15,
@@ -76,7 +76,7 @@
                 "glyph" : "]",
                 "fg" : [0, 23, 255],
                 "bg" : [0,0,0],
-                "order" : 2
+                "order" : 1
             },
             "wearable" : {
                 "defense_bonus" : 0.1,
@@ -90,7 +90,7 @@
                 "glyph" : "]",
                 "fg" : [130, 77, 4],
                 "bg" : [0,0,0],
-                "order" : 2
+                "order" : 1
             },
             "wearable" : {
                 "defense_bonus" : 0.15,
@@ -104,7 +104,7 @@
                 "glyph" : "]",
                 "fg" : [0, 21, 255],
                 "bg" : [0,0,0],
-                "order" : 2
+                "order" : 1
             },
             "wearable" : {
                 "defense_bonus" : 0.1,
@@ -118,7 +118,7 @@
                 "glyph" : "]",
                 "fg" : [43, 0, 255],
                 "bg" : [0,0,0],
-                "order" : 2
+                "order" : 1
             },
             "wearable" : {
                 "defense_bonus" : 0.15,
@@ -133,7 +133,7 @@
                 "glyph" : "]",
                 "fg" : "#FF7C00",
                 "bg" : [0,0,0],
-                "order" : 2
+                "order" : 1
             },
             "wearable" : {
                 "defense_bonus" : 0.15,

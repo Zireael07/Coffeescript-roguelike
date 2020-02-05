@@ -1,5 +1,6 @@
 import { Renderable, Name, Stats, Faction, MedItem, Ranged, Wearable, Weapon, MeleeBonus} from './components.js';
 import { State } from './js_game_vars.js';
+import { RenderOrder } from './enums.js';
 
 generate_npc = (m_id) ->
     #console.log("Generating...")
@@ -18,7 +19,10 @@ generate_npc = (m_id) ->
 
     comps = []
     # Components we want
-    comps.push new Renderable(State.npc_data[m_id]['renderable']['glyph'], State.npc_data[m_id]['renderable']['fg'])
+    lookup = { 1: RenderOrder.ITEM, 2: RenderOrder.ACTOR }
+    #console.log(lookup[State.npc_data[m_id]['renderable']['order']])
+
+    comps.push new Renderable(State.npc_data[m_id]['renderable']['glyph'], State.npc_data[m_id]['renderable']['fg'], lookup[State.npc_data[m_id]['renderable']['order']])
     comps.push new Name(State.npc_data[m_id]['name'])
     comps.push new Stats(State.npc_data[m_id]['stats']['hp'], State.npc_data[m_id]['stats']['power'])
 
@@ -55,7 +59,10 @@ generate_item = (_id) ->
     
     comps = []
     # Components we want
-    comps.push new Renderable(State.items_data[_id]['renderable']['glyph'], State.items_data[_id]['renderable']['fg'])
+    lookup = { 1: RenderOrder.ITEM, 2: RenderOrder.ACTOR }
+    #console.log(lookup[State.items_data[_id]['renderable']['order']])
+
+    comps.push new Renderable(State.items_data[_id]['renderable']['glyph'], State.items_data[_id]['renderable']['fg'], lookup[State.items_data[_id]['renderable']['order']])
     comps.push new Name(State.items_data[_id]['name'])
 
     # optional components

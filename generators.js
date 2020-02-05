@@ -17,8 +17,12 @@ import {
   State
 } from './js_game_vars.js';
 
+import {
+  RenderOrder
+} from './enums.js';
+
 generate_npc = function(m_id) {
-  var comps, e_id, equip_list, i, len, npc_equip_id, ref;
+  var comps, e_id, equip_list, i, len, lookup, npc_equip_id, ref;
   //console.log("Generating...")
   if (m_id === 'None' || m_id === null) {
     console.log("Wanted id of None, aborting");
@@ -34,7 +38,12 @@ generate_npc = function(m_id) {
   }
   comps = [];
   // Components we want
-  comps.push(new Renderable(State.npc_data[m_id]['renderable']['glyph'], State.npc_data[m_id]['renderable']['fg']));
+  lookup = {
+    1: RenderOrder.ITEM,
+    2: RenderOrder.ACTOR
+  };
+  //console.log(lookup[State.npc_data[m_id]['renderable']['order']])
+  comps.push(new Renderable(State.npc_data[m_id]['renderable']['glyph'], State.npc_data[m_id]['renderable']['fg'], lookup[State.npc_data[m_id]['renderable']['order']]));
   comps.push(new Name(State.npc_data[m_id]['name']));
   comps.push(new Stats(State.npc_data[m_id]['stats']['hp'], State.npc_data[m_id]['stats']['power']));
   // optional components
@@ -57,7 +66,7 @@ generate_npc = function(m_id) {
 };
 
 generate_item = function(_id) {
-  var comps;
+  var comps, lookup;
   if (_id === 'None' || _id === null) {
     console.log("Wanted id of None, aborting");
     return;
@@ -72,7 +81,12 @@ generate_item = function(_id) {
   }
   comps = [];
   // Components we want
-  comps.push(new Renderable(State.items_data[_id]['renderable']['glyph'], State.items_data[_id]['renderable']['fg']));
+  lookup = {
+    1: RenderOrder.ITEM,
+    2: RenderOrder.ACTOR
+  };
+  //console.log(lookup[State.items_data[_id]['renderable']['order']])
+  comps.push(new Renderable(State.items_data[_id]['renderable']['glyph'], State.items_data[_id]['renderable']['fg'], lookup[State.items_data[_id]['renderable']['order']]));
   comps.push(new Name(State.items_data[_id]['name']));
   // optional components
   if ('consumable' in State.items_data[_id]) {

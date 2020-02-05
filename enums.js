@@ -29,4 +29,10 @@ const TileTypes = Object.freeze({
     CENTER : [0,0],
   })
 
- export { TileTypes, Directions } 
+  //higher value means drawn later
+  const RenderOrder = Object.freeze({
+    ITEM: 1,
+    ACTOR: 2,
+  })
+
+ export { TileTypes, Directions, RenderOrder } 
