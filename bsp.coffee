@@ -4,7 +4,7 @@ import { State } from './js_game_vars.js';
 import { Rect } from './map_common.js'
 
 class Tree
-    constructor: (@rootRect, m_leaf=24) ->
+    constructor: (@rootRect, m_leaf=15) ->
         @MAX_LEAF_SIZE = m_leaf
         @MIN_LEAF_SIZE = 8
         @rootLeaf = new Leaf(@rootRect)
