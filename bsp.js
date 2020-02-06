@@ -11,7 +11,7 @@ import {
 } from './map_common.js';
 
 Tree = class Tree {
-  constructor(rootRect, m_leaf = 24) {
+  constructor(rootRect, m_leaf = 15) {
     this.rootRect = rootRect;
     this.MAX_LEAF_SIZE = m_leaf;
     this.MIN_LEAF_SIZE = 8;

@@ -4,20 +4,26 @@ import { Tree } from './bsp.js';
 import { State } from './js_game_vars.js';
 import { remove_list } from './intersection.js'
 
-paint_leaf = (leaf, tree, mapa) ->
+building_tag = { 1: "PUB", 2: "HOVEL", 3: "UNASSIGNED" }
+
+
+paint_leaf = (leaf, tree, level) ->
     if (leaf.lchild != undefined) or (leaf.rchild != undefined)
         # recursively search for children until you hit the end of the branch
         if (leaf.lchild)
-            paint_leaf(leaf.lchild, tree, mapa)
+            paint_leaf(leaf.lchild, tree, level)
         if (leaf.rchild)
-            paint_leaf(leaf.rchild, tree, mapa)
+            paint_leaf(leaf.rchild, tree, level)
     else
         # Create rooms in the end branches of the bsp tree
-        room_func(leaf.leaf, mapa)
+        level.rooms.push leaf.leaf
 
-paint = (tree, mapa) ->
+
+        room_func(leaf.leaf, level.mapa)
+
+paint = (tree, level) ->
     #for l in tree.leafs
-    paint_leaf(tree.rootLeaf, tree, mapa)
+    paint_leaf(tree.rootLeaf, tree, level)
 
         #room_func(tree.leaf, mapa)
         #if l.lchild != undefined
@@ -89,13 +95,36 @@ map_create = (level=null, max_x=20, max_y=20) ->
     console.log(bsp_tree)
     bsp_tree.split_tree()
 
-    paint(bsp_tree, level.mapa)
+    paint(bsp_tree, level)
 
     #console.log(level.mapa)
 
     create_doors(bsp_tree, level.mapa)
 
+    building_size = sort_buildings(level.rooms)
+
     return level
+
+# descending order
+sort_fun = (a,b) ->
+    return b[1]-a[1]
+
+make_hovel = (sorted, i, max) ->
+    if i > 0 and i < max
+        sorted[i][2] = 2
+        console.log(i + " is hovel")
+
+sort_buildings = (rooms) ->
+    building_size = []
+    # 3 means unassigned (see beginning of file)
+    building_size.push [i, r.w*r.h, 3] for r, i in rooms
+    sorted = building_size.sort(sort_fun)
+    # biggest is pub
+    sorted[0][2] = 1
+    # others are hovels
+    make_hovel(sorted, i, sorted.length-1) for s, i in sorted
+    console.log sorted 
+    return sorted
 
 find_rooms = (leaf, tree, mapa) ->
     if (leaf.lchild != undefined) or (leaf.rchild != undefined)

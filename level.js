@@ -5,6 +5,7 @@ Level = class Level {
   constructor(mapa) {
     this.mapa = mapa;
     this.submaps = [];
+    this.rooms = [];
   }
 
 };
