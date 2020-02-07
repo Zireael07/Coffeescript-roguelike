@@ -1,6 +1,6 @@
 import { Position, Player, Faction, Skills, Attributes, TurnComponent, Name, Stats, Velocity, NPC, TileBlocker, Item, Equipped, Wearable } from './components.js'
 import { generate_random_item, generate_random_NPC } from './random_utils.js';
-import { generate_npc, generate_item } from './generators.js';
+import { generate_npc, generate_item, generate_prop } from './generators.js';
 import { State } from './js_game_vars.js';
 import { random_free_tile } from './map_common.js';
 
@@ -100,4 +100,21 @@ spawn_named_item = (world, pos, id, ent_equipped=null) ->
         console.log("Spawned an equipped item... " + world.component_for_entity(it, Name).name)
 
 
-export { spawn_player, spawn_item, spawn_npc}
+spawn_prop = (world, pos, id) ->
+    # destructuring assignment
+    [x,y] = pos
+    prop = world.create_entity(
+        [ new Position(x,y)]
+    )
+
+    #fill in the rest
+    add = generate_prop(id.toLowerCase())
+    #add them
+    for i in [0..add.length-1]
+        world.add_component(prop, add[i])
+
+    console.log "Spawned prop ..." + id + " @ " + pos
+    #console.log prop
+    return # avoid implicit return
+
+export { spawn_player, spawn_item, spawn_npc, spawn_prop}

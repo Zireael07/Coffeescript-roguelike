@@ -99,7 +99,7 @@ map_create = (level=null, max_x=20, max_y=20) ->
 
     #console.log(level.mapa)
 
-    create_doors(bsp_tree, level.mapa)
+    create_doors(bsp_tree, level)
 
     building_size = sort_buildings(level.rooms)
 
@@ -126,20 +126,20 @@ sort_buildings = (rooms) ->
     console.log sorted 
     return sorted
 
-find_rooms = (leaf, tree, mapa) ->
+find_rooms = (leaf, tree, level) ->
     if (leaf.lchild != undefined) or (leaf.rchild != undefined)
         # recursively search for children until you hit the end of the branch
         if (leaf.lchild)
-            find_rooms(leaf.lchild, tree, mapa)
+            find_rooms(leaf.lchild, tree, level)
         if (leaf.rchild)
-            find_rooms(leaf.rchild, tree, mapa)
+            find_rooms(leaf.rchild, tree, level)
     else
         # Create rooms in the end branches of the bsp tree
-        room_doors(leaf.leaf, mapa)
+        room_doors(leaf.leaf, level)
 
-create_doors = (tree, mapa) ->
+create_doors = (tree, level) ->
     #for l in tree.leafs
-    find_rooms(tree.rootLeaf, tree, mapa)
+    find_rooms(tree.rootLeaf, tree, level)
 
         #room_doors(tree.leaf, mapa)
         # if l.lchild != undefined
@@ -148,7 +148,7 @@ create_doors = (tree, mapa) ->
         #     room_doors(l.rchild.leaf, mapa)
 
 
-room_doors = (room, mapa) ->
+room_doors = (room, level) ->
     [x, y] = room.center()
     console.log("Creating door for " + x + " " + y)
     #console.log(mapa)
@@ -180,7 +180,7 @@ room_doors = (room, mapa) ->
         # if it leads to a wall, remove it from list of choices
         #print("Checking dir " + str(choice) + ": x:" + str(checkX) + " y:" + str(checkY) + " " + str(self._map[checkX][checkY]))
 
-        if mapa[checkX][checkY] == TileTypes.WALL or mapa[checkX][checkY] == TileTypes.TREE
+        if level.mapa[checkX][checkY] == TileTypes.WALL or level.mapa[checkX][checkY] == TileTypes.TREE
             #print("Removing direction from list" + str(choice))
             sel_choices = remove_list(sel_choices, choice)
 
@@ -205,7 +205,9 @@ room_doors = (room, mapa) ->
             wallX = (room.x1+1)
             wallY = y
 
-        mapa[wallX][wallY] = TileTypes.FLOOR
+        level.mapa[wallX][wallY] = TileTypes.FLOOR
+        # spawn the prop
+        level.spawns.push [[wallX, wallY], "door"]
 
 
 export { map_create }

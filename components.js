@@ -162,9 +162,19 @@ class Cursor {
   }
 }
 
+class VisibilityBlocker {
+  constructor() {}
+}
+
+class Door {
+  constructor(open=false){
+    this.open = open;
+  }
+}
+
 
   export { Velocity, Position, Player, TurnComponent, Renderable, TileBlocker,
     NPC, Faction, Combat, Stats, Attributes, Skills, Name, Dead, Skip,
     Item, WantToPickup, InBackpack, Equipped, Wearable, Weapon, MeleeBonus, WantToUseItem, MedItem, 
-    WantToDrop, Ranged, Cursor
+    WantToDrop, Ranged, Cursor, VisibilityBlocker, Door
    }

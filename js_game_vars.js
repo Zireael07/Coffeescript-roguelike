@@ -11,6 +11,7 @@ let State = {
     //data loaded
     npc_data: null,
     items_data: null,
+    props_data: null,
 };
 
 export { State };

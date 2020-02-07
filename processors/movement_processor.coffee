@@ -1,4 +1,5 @@
-import {Position, Velocity, TileBlocker, Combat } from '../components.js'
+import {Position, Velocity, TileBlocker, Combat, 
+Door, VisibilityBlocker, Renderable } from '../components.js'
 
 import {TileTypes } from '../enums.js'
 import { State } from '../js_game_vars.js';
@@ -41,9 +42,17 @@ class MovementProcessor
             for [ent_target, comps] in @world.get_components(TileBlocker, Position)
                 [blocker, pos_tg] = comps
                 if pos_tg.x == tx and pos_tg.y == ty
-                    # Trigger a bump attack here
-                    console.log("Attacking " + ent_target + " @ " + pos_tg)
-                    @world.add_component(ent, new Combat(ent_target))
+                    if @world.component_for_entity(ent_target, Door)
+                        # open, unblock visibility and movement
+                        @world.component_for_entity(ent_target, Door).open = true
+                        @world.remove_component(ent_target, TileBlocker)
+                        @world.remove_component(ent_target, VisibilityBlocker)
+                        # change glyph
+                        @world.component_for_entity(ent_target, Renderable).char = "±"
+                    else
+                        # Trigger a bump attack here
+                        console.log("Attacking " + ent_target + " @ " + pos_tg)
+                        @world.add_component(ent, new Combat(ent_target))
 
             # move (if no combat going on)
             #console.log @world.component_for_entity(ent, Combat)
