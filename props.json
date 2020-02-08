@@ -1,0 +1,14 @@
+{
+    "door" : {
+        "name" : "Door",
+        "renderable": {
+            "glyph" : "+",
+            "fg" : [211,211, 211],
+            "bg" : [0,0,0],
+            "order" : 2
+        },
+        "blocks_tile" : true,
+        "blocks_visibility" : true,
+        "door_open" : true
+    }
+}

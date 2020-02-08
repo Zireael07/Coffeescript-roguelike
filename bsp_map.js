@@ -118,7 +118,7 @@ map_create = function(level = null, max_x = 20, max_y = 20) {
   bsp_tree.split_tree();
   paint(bsp_tree, level);
   //console.log(level.mapa)
-  create_doors(bsp_tree, level.mapa);
+  create_doors(bsp_tree, level);
   building_size = sort_buildings(level.rooms);
   return level;
 };
@@ -155,24 +155,24 @@ sort_buildings = function(rooms) {
   return sorted;
 };
 
-find_rooms = function(leaf, tree, mapa) {
+find_rooms = function(leaf, tree, level) {
   if ((leaf.lchild !== void 0) || (leaf.rchild !== void 0)) {
     // recursively search for children until you hit the end of the branch
     if (leaf.lchild) {
-      find_rooms(leaf.lchild, tree, mapa);
+      find_rooms(leaf.lchild, tree, level);
     }
     if (leaf.rchild) {
-      return find_rooms(leaf.rchild, tree, mapa);
+      return find_rooms(leaf.rchild, tree, level);
     }
   } else {
     // Create rooms in the end branches of the bsp tree
-    return room_doors(leaf.leaf, mapa);
+    return room_doors(leaf.leaf, level);
   }
 };
 
-create_doors = function(tree, mapa) {
+create_doors = function(tree, level) {
   //for l in tree.leafs
-  return find_rooms(tree.rootLeaf, tree, mapa);
+  return find_rooms(tree.rootLeaf, tree, level);
 };
 
 //room_doors(tree.leaf, mapa)
@@ -180,7 +180,7 @@ create_doors = function(tree, mapa) {
 //     room_doors(l.lchild.leaf, mapa)
 // if l.rchild != undefined
 //     room_doors(l.rchild.leaf, mapa)
-room_doors = function(room, mapa) {
+room_doors = function(room, level) {
   var checkX, checkY, choice, choices, j, len, sel_choices, wall, wallX, wallY, x, y;
   [x, y] = room.center();
   console.log("Creating door for " + x + " " + y);
@@ -210,7 +210,7 @@ room_doors = function(room, mapa) {
     }
     // if it leads to a wall, remove it from list of choices
     //print("Checking dir " + str(choice) + ": x:" + str(checkX) + " y:" + str(checkY) + " " + str(self._map[checkX][checkY]))
-    if (mapa[checkX][checkY] === TileTypes.WALL || mapa[checkX][checkY] === TileTypes.TREE) {
+    if (level.mapa[checkX][checkY] === TileTypes.WALL || level.mapa[checkX][checkY] === TileTypes.TREE) {
       //print("Removing direction from list" + str(choice))
       sel_choices = remove_list(sel_choices, choice);
     }
@@ -232,7 +232,9 @@ room_doors = function(room, mapa) {
       wallX = room.x1 + 1;
       wallY = y;
     }
-    return mapa[wallX][wallY] = TileTypes.FLOOR;
+    level.mapa[wallX][wallY] = TileTypes.FLOOR;
+    // spawn the prop
+    return level.spawns.push([[wallX, wallY], "door"]);
   }
 };
 

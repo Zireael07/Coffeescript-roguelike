@@ -6,6 +6,7 @@ Level = class Level {
     this.mapa = mapa;
     this.submaps = [];
     this.rooms = [];
+    this.spawns = [];
   }
 
 };

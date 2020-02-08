@@ -1,4 +1,4 @@
-import {Player, Position } from '../components.js'
+import {Player, Position, VisibilityBlocker } from '../components.js'
 
 import { PermissiveFov } from '../3rd-party/ppfov/index.js';
 
@@ -17,8 +17,23 @@ explore = (x,y) ->
 block_sight = (x,y) ->
     return TileTypes.data[State.map[x][y]].block_path
 
+block_vis = (x,y) ->
+    ret = false
+    for [ent, comps] in State.world.get_components(Position, VisibilityBlocker)
+        [pos, block] = comps
+        #console.log "Visibility blocker " + ent + " x: " + pos.x + " , y " + pos.y
+        if x == pos.x && y == pos.y
+            #console.log("Block vis true")
+            return true
+
 transparent = (x,y) ->
-    return !block_sight(x,y)
+    if !block_sight(x,y) == false
+        return !block_sight(x,y)
+    else
+        if !block_vis(x,y)
+            return !block_vis(x,y)
+
+    #return !block_sight(x,y)
 
 init_FOV = (fov_ob) ->
     fov = []

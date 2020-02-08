@@ -1,4 +1,5 @@
-import { Renderable, Name, Stats, Faction, MedItem, Ranged, Wearable, Weapon, MeleeBonus} from './components.js';
+import { Renderable, Name, Stats, Faction, MedItem, Ranged, Wearable, Weapon, MeleeBonus,
+TileBlocker, VisibilityBlocker, Door } from './components.js';
 import { State } from './js_game_vars.js';
 import { RenderOrder } from './enums.js';
 
@@ -88,4 +89,39 @@ generate_item = (_id) ->
 
     return comps
 
-export { generate_npc, generate_item }
+generate_prop = (_id) ->
+
+    if _id == 'None' or _id == null
+        console.log("Wanted id of None, aborting")
+        return
+    
+    console.log("Generating prop with id " + _id)
+
+    #console.log(State.props_data)
+
+    # paranoia
+    unless _id of State.props_data # object presence
+        console.log("Don't know how to generate " + _id + "!")
+        return
+    
+    comps = []
+    # Components we want
+    lookup = { 1: RenderOrder.ITEM, 2: RenderOrder.ACTOR }
+    #console.log(lookup[State.items_data[_id]['renderable']['order']])
+
+    comps.push new Renderable(State.props_data[_id]['renderable']['glyph'], State.props_data[_id]['renderable']['fg'], lookup[State.props_data[_id]['renderable']['order']])
+    comps.push new Name(State.props_data[_id]['name'])
+
+    if 'blocks_tile' of State.props_data[_id]
+        comps.push new TileBlocker()
+
+    if 'blocks_visibility' of State.props_data[_id]
+        comps.push new VisibilityBlocker()
+
+    if 'door_open' of State.props_data[_id]
+        comps.push new Door(State.props_data[_id]['door_open'])
+
+    return comps
+
+
+export { generate_npc, generate_item, generate_prop }

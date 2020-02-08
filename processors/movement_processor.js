@@ -5,7 +5,10 @@ import {
   Position,
   Velocity,
   TileBlocker,
-  Combat
+  Combat,
+  Door,
+  VisibilityBlocker,
+  Renderable
 } from '../components.js';
 
 import {
@@ -57,9 +60,18 @@ MovementProcessor = class MovementProcessor {
         [ent_target, comps] = ref1[j];
         [blocker, pos_tg] = comps;
         if (pos_tg.x === tx && pos_tg.y === ty) {
-          // Trigger a bump attack here
-          console.log("Attacking " + ent_target + " @ " + pos_tg);
-          this.world.add_component(ent, new Combat(ent_target));
+          if (this.world.component_for_entity(ent_target, Door)) {
+            // open, unblock visibility and movement
+            this.world.component_for_entity(ent_target, Door).open = true;
+            this.world.remove_component(ent_target, TileBlocker);
+            this.world.remove_component(ent_target, VisibilityBlocker);
+            // change glyph
+            this.world.component_for_entity(ent_target, Renderable).char = "±";
+          } else {
+            // Trigger a bump attack here
+            console.log("Attacking " + ent_target + " @ " + pos_tg);
+            this.world.add_component(ent, new Combat(ent_target));
+          }
         }
       }
       // move (if no combat going on)

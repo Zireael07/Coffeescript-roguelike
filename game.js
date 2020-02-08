@@ -24,7 +24,7 @@ import { map_create } from './noise_map.js';
 import { map_create as bsp_map_create } from './bsp_map.js';
 import { apply_rectangle_detection } from './rectangle_detect.js';
 
-import { spawn_player, spawn_npc, spawn_item } from './spawner.js';
+import { spawn_player, spawn_npc, spawn_item, spawn_prop } from './spawner.js';
 
 //console.log("Game...");
 
@@ -66,8 +66,19 @@ function loadData() {
           type: "GET",
           success: function(resp){
             State.items_data = resp;
-            setup();
-            initial_draw();
+            // .. and third
+
+            $.ajax({
+              url: "./props.json",
+              type: "GET",
+              success: function(res){
+                State.props_data = res;
+                setup();
+                initial_draw();
+              }
+            })
+
+
 
           }
         });
@@ -86,6 +97,8 @@ function setup() {
 		
 		var rng = aleaPRNG();
 		State.rng = rng;
+
+    State.world = world
 
     //FOV
     var fov_ob = new PermissiveFov(40, 40, transparent)
@@ -119,6 +132,11 @@ function setup() {
     // Create entities and assign components
     spawn_player(world);
 
+    //Props if any
+    for (let i = 0; i < level.spawns.length; i++){
+      var spawn = level.spawns[i]
+      spawn_prop(world, spawn[0], spawn[1]);
+    }
 
     // Create some npcs
     var num_npc = 2;
@@ -136,7 +154,7 @@ function setup() {
     fov_ob.compute(2,2, 6, explore)
 
 
-    // Save state 
+    // Save state
     State.world = world
     State.camera = cam
     State.messages = []
