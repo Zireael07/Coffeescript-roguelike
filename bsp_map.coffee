@@ -102,6 +102,7 @@ map_create = (level=null, max_x=20, max_y=20) ->
     create_doors(bsp_tree, level)
 
     building_size = sort_buildings(level.rooms)
+    building_factory(level, building_size)
 
     return level
 
@@ -117,7 +118,7 @@ make_hovel = (sorted, i, max) ->
 sort_buildings = (rooms) ->
     building_size = []
     # 3 means unassigned (see beginning of file)
-    building_size.push [i, r.w*r.h, 3] for r, i in rooms
+    building_size.push [i, r.w*r.h, 3, r] for r, i in rooms
     sorted = building_size.sort(sort_fun)
     # biggest is pub
     sorted[0][2] = 1
@@ -126,6 +127,31 @@ sort_buildings = (rooms) ->
     console.log sorted 
     return sorted
 
+call_building_fun = (i, sized, level) ->
+    if sized[i][2] == 1
+        build_pub(sized[i][3], level)
+
+building_factory = (level, building_size) ->
+    call_building_fun(i, building_size, level) for building, i in building_size
+
+
+build_pub = (room, level) ->
+    to_place = ["table", "chair", "table", "chair"]
+    # keep the building's outskirts empty
+    x_min = room.x1+3
+    x_max = room.x2-3
+    y_min = room.y1+3
+    y_max = room.y2-3
+    # this is inclusive
+    for x in [x_min..x_max]
+        for y in [y_min..y_max]
+            if to_place.length > 0 && State.rng.roller("1d3") == 1
+                level.spawns.push [[x,y], to_place[0] ]
+                to_place = remove_list(to_place, to_place[0])
+            
+
+
+# doors
 find_rooms = (leaf, tree, level) ->
     if (leaf.lchild != undefined) or (leaf.rchild != undefined)
         # recursively search for children until you hit the end of the branch

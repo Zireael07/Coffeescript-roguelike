@@ -10,5 +10,24 @@
         "blocks_tile" : true,
         "blocks_visibility" : true,
         "door_open" : true
+    },
+    "table": {
+        "name" : "Table",
+        "renderable": {
+            "glyph" : "╦",
+            "fg" : [170, 170, 170],
+            "bg" : [0,0,0],
+            "order" : 2
+        }
+    },
+
+    "chair": {
+        "name" : "Chair",
+        "renderable": {
+            "glyph" : "└",
+            "fg" : [170, 170, 170],
+            "bg" : [0,0,0],
+            "order" : 2
+        }
     }
 }
