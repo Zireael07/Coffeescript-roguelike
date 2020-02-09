@@ -132,10 +132,15 @@ function setup() {
     // Create entities and assign components
     spawn_player(world);
 
-    //Props if any
+    //Anything from level spawns
     for (let i = 0; i < level.spawns.length; i++){
       var spawn = level.spawns[i]
-      spawn_prop(world, spawn[0], spawn[1]);
+      if (spawn[1][1] == "prop"){
+        spawn_prop(world, spawn[0], spawn[1][0]);
+      }
+      if (spawn[1][1] == "npc"){
+        spawn_npc(world, spawn[0], spawn[1][0])
+      }
     }
 
     // Create some npcs

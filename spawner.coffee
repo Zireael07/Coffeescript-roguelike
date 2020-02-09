@@ -26,15 +26,17 @@ spawn_player = (world) ->
 
     return # avoid implicit return
 
-spawn_npc = (world) ->
-	# Choose a random free location in the map
-    #x = State.rng.range(1, 18);
-    #y = State.rng.range(1, 18);
-    loc = random_free_tile(State.map);
+spawn_npc = (world, loc=null, choice=null) ->
+    if loc == null
+        # Choose a random free location in the map
+        #x = State.rng.range(1, 18);
+        #y = State.rng.range(1, 18);
+        loc = random_free_tile(State.map);
     # destructuring assignment
     [x,y] = loc
-      
-    choice = generate_random_NPC();
+    
+    if choice == null
+        choice = generate_random_NPC();
 
     # things that all NPCs share
     npc = world.create_entity(
@@ -50,9 +52,11 @@ spawn_npc = (world) ->
     for i in [0..add.length-1]
         world.add_component(npc, add[i])
 
-    for i in [0..equip_list.length-1]
-        id = equip_list[i]
-        spawn_named_item(world, [x,y], id, npc)
+    # not every NPC has an equipment list!
+    if equip_list.length > 0
+        for i in [0..equip_list.length-1]
+            id = equip_list[i]
+            spawn_named_item(world, [x,y], id, npc)
 
     return # avoid implicit return
 

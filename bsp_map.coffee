@@ -136,7 +136,8 @@ building_factory = (level, building_size) ->
 
 
 build_pub = (room, level) ->
-    to_place = ["table", "chair", "table", "chair"]
+    to_place_props = ["table", "chair", "table", "chair"]
+    to_place_npcs = [ "barkeep", 'shady', "patron", "patron"]
     # keep the building's outskirts empty
     x_min = room.x1+3
     x_max = room.x2-3
@@ -145,10 +146,13 @@ build_pub = (room, level) ->
     # this is inclusive
     for x in [x_min..x_max]
         for y in [y_min..y_max]
-            if to_place.length > 0 && State.rng.roller("1d3") == 1
-                level.spawns.push [[x,y], to_place[0] ]
-                to_place = remove_list(to_place, to_place[0])
+            if to_place_props.length > 0 && State.rng.roller("1d3") == 1
+                level.spawns.push [[x,y], [to_place_props[0], "prop"] ]
+                to_place_props = remove_list(to_place_props, to_place_props[0])
             
+            if to_place_npcs.length > 0 && State.rng.roller("1d3") == 2
+                level.spawns.push [[x,y], [to_place_npcs[0], "npc"] ]
+                to_place_npcs = remove_list(to_place_npcs, to_place_npcs[0])
 
 
 # doors
@@ -233,7 +237,7 @@ room_doors = (room, level) ->
 
         level.mapa[wallX][wallY] = TileTypes.FLOOR
         # spawn the prop
-        level.spawns.push [[wallX, wallY], "door"]
+        level.spawns.push [[wallX, wallY], ["door", "prop"] ]
 
 
 export { map_create }
