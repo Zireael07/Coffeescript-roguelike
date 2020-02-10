@@ -48,6 +48,12 @@ class Faction {
   }
 }
 
+// class WantToApproach {
+//   constructor(pos){
+//     this.position = pos;
+//   }
+// }
+
 class TileBlocker {
   constructor() {}
 }
