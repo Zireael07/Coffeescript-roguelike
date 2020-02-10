@@ -35,4 +35,9 @@ const TileTypes = Object.freeze({
     ACTOR: 2,
   })
 
- export { TileTypes, Directions, RenderOrder } 
+  const Movement = Object.freeze({
+    STATIC: 1,
+    RANDOM: 2,
+  })
+
+ export { TileTypes, Directions, RenderOrder, Movement } 
