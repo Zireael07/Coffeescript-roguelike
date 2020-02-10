@@ -1,7 +1,7 @@
-import { Renderable, Name, Stats, Faction, MedItem, Ranged, Wearable, Weapon, MeleeBonus,
+import { Renderable, Name, Stats, Faction, AIMovement, MedItem, Ranged, Wearable, Weapon, MeleeBonus,
 TileBlocker, VisibilityBlocker, Door } from './components.js';
 import { State } from './js_game_vars.js';
-import { RenderOrder } from './enums.js';
+import { RenderOrder, Movement } from './enums.js';
 
 generate_npc = (m_id) ->
     #console.log("Generating...")
@@ -33,6 +33,11 @@ generate_npc = (m_id) ->
     else
         comps.push new Faction("enemy")
 
+    m_lookup = { "random" : Movement.RANDOM, "static": Movement.STATIC}
+    if 'movement' of State.npc_data[m_id]
+        comps.push new AIMovement(m_lookup[State.npc_data[m_id]['movement'].toLowerCase()])
+    else
+        comps.push new AIMovement(Movement.STATIC)
 
     # equip equipment
     equip_list = []

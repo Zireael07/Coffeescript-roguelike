@@ -6,6 +6,7 @@ import {
   Name,
   Stats,
   Faction,
+  AIMovement,
   MedItem,
   Ranged,
   Wearable,
@@ -21,11 +22,12 @@ import {
 } from './js_game_vars.js';
 
 import {
-  RenderOrder
+  RenderOrder,
+  Movement
 } from './enums.js';
 
 generate_npc = function(m_id) {
-  var comps, e_id, equip_list, i, len, lookup, npc_equip_id, ref;
+  var comps, e_id, equip_list, i, len, lookup, m_lookup, npc_equip_id, ref;
   //console.log("Generating...")
   if (m_id === 'None' || m_id === null) {
     console.log("Wanted id of None, aborting");
@@ -54,6 +56,15 @@ generate_npc = function(m_id) {
     comps.push(new Faction(State.npc_data[m_id]['faction'].toLowerCase()));
   } else {
     comps.push(new Faction("enemy"));
+  }
+  m_lookup = {
+    "random": Movement.RANDOM,
+    "static": Movement.STATIC
+  };
+  if ('movement' in State.npc_data[m_id]) {
+    comps.push(new AIMovement(m_lookup[State.npc_data[m_id]['movement'].toLowerCase()]));
+  } else {
+    comps.push(new AIMovement(Movement.STATIC));
   }
   // equip equipment
   equip_list = [];

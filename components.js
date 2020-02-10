@@ -1,4 +1,4 @@
-import { RenderOrder } from './enums.js';
+import { RenderOrder, Movement } from './enums.js';
 
 // Velocity component
 class Velocity {
@@ -36,11 +36,23 @@ class NPC {
   constructor() {}
 }
 
+class AIMovement {
+  constructor(move=Movement.STATIC) {
+    this.move = move;
+  }
+}
+
 class Faction {
   constructor(faction="enemy") {
     this.faction = faction;
   }
 }
+
+// class WantToApproach {
+//   constructor(pos){
+//     this.position = pos;
+//   }
+// }
 
 class TileBlocker {
   constructor() {}
@@ -174,7 +186,7 @@ class Door {
 
 
   export { Velocity, Position, Player, TurnComponent, Renderable, TileBlocker,
-    NPC, Faction, Combat, Stats, Attributes, Skills, Name, Dead, Skip,
+    NPC, AIMovement, Faction, Combat, Stats, Attributes, Skills, Name, Dead, Skip,
     Item, WantToPickup, InBackpack, Equipped, Wearable, Weapon, MeleeBonus, WantToUseItem, MedItem, 
     WantToDrop, Ranged, Cursor, VisibilityBlocker, Door
    }

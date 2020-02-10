@@ -58,14 +58,20 @@ spawn_player = function(world) {
   }
 };
 
-spawn_npc = function(world) {
-  var add, choice, equip_list, i, id, j, k, loc, npc, ref, ref1, x, y;
-  // Choose a random free location in the map
-  //x = State.rng.range(1, 18);
-  //y = State.rng.range(1, 18);
-  loc = random_free_tile(State.map);
+spawn_npc = function(world, loc = null, choice = null) {
+  var add, equip_list, i, id, j, k, npc, ref, ref1, x, y;
+  if (loc === null) {
+    // Choose a random free location in the map
+    //x = State.rng.range(1, 18);
+    //y = State.rng.range(1, 18);
+    loc = random_free_tile(State.map);
+  }
+  // destructuring assignment
   [x, y] = loc;
-  choice = generate_random_NPC();
+  if (choice === null) {
+    choice = generate_random_NPC();
+  }
+  // things that all NPCs share
   npc = world.create_entity([new Position(x, y), new Velocity(), new NPC(), new TileBlocker(), new Skills(), new Attributes()]);
   if (choice === null || choice === void 0) {
     return;
@@ -76,9 +82,12 @@ spawn_npc = function(world) {
   for (i = j = 0, ref = add.length - 1; (0 <= ref ? j <= ref : j >= ref); i = 0 <= ref ? ++j : --j) {
     world.add_component(npc, add[i]);
   }
-  for (i = k = 0, ref1 = equip_list.length - 1; (0 <= ref1 ? k <= ref1 : k >= ref1); i = 0 <= ref1 ? ++k : --k) {
-    id = equip_list[i];
-    spawn_named_item(world, [x, y], id, npc); // avoid implicit return
+  // not every NPC has an equipment list!
+  if (equip_list.length > 0) {
+    for (i = k = 0, ref1 = equip_list.length - 1; (0 <= ref1 ? k <= ref1 : k >= ref1); i = 0 <= ref1 ? ++k : --k) {
+      id = equip_list[i];
+      spawn_named_item(world, [x, y], id, npc); // avoid implicit return
+    }
   }
 };
 

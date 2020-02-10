@@ -173,8 +173,9 @@ building_factory = function(level, building_size) {
 };
 
 build_pub = function(room, level) {
-  var j, ref, ref1, results, to_place, x, x_max, x_min, y, y_max, y_min;
-  to_place = ["table", "chair", "table", "chair"];
+  var j, ref, ref1, results, to_place_npcs, to_place_props, x, x_max, x_min, y, y_max, y_min;
+  to_place_props = ["table", "chair", "table", "chair"];
+  to_place_npcs = ["barkeep", 'shady', "patron", "patron"];
   // keep the building's outskirts empty
   x_min = room.x1 + 3;
   x_max = room.x2 - 3;
@@ -187,9 +188,13 @@ build_pub = function(room, level) {
       var k, ref2, ref3, results1;
       results1 = [];
       for (y = k = ref2 = y_min, ref3 = y_max; (ref2 <= ref3 ? k <= ref3 : k >= ref3); y = ref2 <= ref3 ? ++k : --k) {
-        if (to_place.length > 0 && State.rng.roller("1d3") === 1) {
-          level.spawns.push([[x, y], to_place[0]]);
-          results1.push(to_place = remove_list(to_place, to_place[0]));
+        if (to_place_props.length > 0 && State.rng.roller("1d3") === 1) {
+          level.spawns.push([[x, y], [to_place_props[0], "prop"]]);
+          to_place_props = remove_list(to_place_props, to_place_props[0]);
+        }
+        if (to_place_npcs.length > 0 && State.rng.roller("1d3") === 2) {
+          level.spawns.push([[x, y], [to_place_npcs[0], "npc"]]);
+          results1.push(to_place_npcs = remove_list(to_place_npcs, to_place_npcs[0]));
         } else {
           results1.push(void 0);
         }
@@ -199,7 +204,6 @@ build_pub = function(room, level) {
   }
   return results;
 };
-
 
 // doors
 find_rooms = function(leaf, tree, level) {
@@ -281,7 +285,7 @@ room_doors = function(room, level) {
     }
     level.mapa[wallX][wallY] = TileTypes.FLOOR;
     // spawn the prop
-    return level.spawns.push([[wallX, wallY], "door"]);
+    return level.spawns.push([[wallX, wallY], ["door", "prop"]]);
   }
 };
 
