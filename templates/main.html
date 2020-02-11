@@ -21,7 +21,9 @@
             <p>Position: x {{position.x }}  y {{ position.y }}</p>
             {%for e in look %}
             <div> {{e[0]}} </div>
-            <div style="width:10px; font-family: mono;"><span style="background-color: black; width:10px; color:rgb({{e[2] }})">{{e[1]}}</span></div>
+            <div style="font-family: mono;">
+              <span style="background-color: black; width:10px;">&nbsp;</span><span style="background-color: black; width:10px; color:rgb({{e[2] }})">{{e[1]}}</span><span style="background-color: black; width:10px;">&nbsp;</span>
+            </div>
             {% if e[3] is not null %} <div class="{{ e[3] }} ">{{e[3]}}</div> {%endif%}
             {%endfor%}
             {% for name in equipped %}

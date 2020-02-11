@@ -74,7 +74,7 @@
             "name" : "Jeans",
             "renderable": {
                 "glyph" : "]",
-                "fg" : [0, 23, 255],
+                "fg" : [25, 55, 255],
                 "bg" : [0,0,0],
                 "order" : 1
             },
@@ -88,7 +88,7 @@
             "name" : "Boots",
             "renderable": {
                 "glyph" : "]",
-                "fg" : [130, 77, 4],
+                "fg" : [140, 77, 14],
                 "bg" : [0,0,0],
                 "order" : 1
             },
@@ -131,7 +131,7 @@
             "name" : "Leather jacket",
             "renderable": {
                 "glyph" : "]",
-                "fg" : "#FF7C00",
+                "fg" : [255, 124, 0],
                 "bg" : [0,0,0],
                 "order" : 1
             },
