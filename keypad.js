@@ -89,6 +89,19 @@ function setup_keypad(inventory) {
     $("#load").click(function(e){
         onStateLoaded(loadJS())
     });
+
+    $("#examine").click(function(e) {
+        console.log("Clicked examine");
+        var code_keypad = nunjucks.render('codepad.html')
+        $('#codepad').html(code_keypad)
+        setup_codepad()
+
+        $(".modal").attr("style", "display:block")
+        $("#close_btn").click(function(e) {
+            console.log("Clicked close")
+            $(".modal").attr("style", "display:none");
+        });
+    });
 }
 
 //In the Flask version this was handled by Jinja, alas, Nunjucks seems to evaluate functions passed to it every frame...
@@ -120,6 +133,14 @@ function setup_inventory(inventory, drop=false){
             }
         });
 
+    }
+}
+
+function setup_codepad(){
+    for (var i = 1; i < 10; i++){
+        $(document.getElementById(i)).click(function(e) {
+            console.log("Clicked " + $(this).val());
+        });
     }
 }
 
