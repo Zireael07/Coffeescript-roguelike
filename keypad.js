@@ -1,5 +1,5 @@
 //ES 6 feature - import
-import { act_and_update, onStateLoaded } from "./game.js"
+import { act_and_update, onStateLoaded, unpause_game, unlock_target } from "./game.js"
 import { State } from './js_game_vars.js'
 import { saveJS, loadJS } from "./save.js"
 
@@ -90,18 +90,10 @@ function setup_keypad(inventory) {
         onStateLoaded(loadJS())
     });
 
-    $("#examine").click(function(e) {
-        console.log("Clicked examine");
-        var code_keypad = nunjucks.render('codepad.html')
-        $('#codepad').html(code_keypad)
-        setup_codepad()
-
-        $(".modal").attr("style", "display:block")
-        $("#close_btn").click(function(e) {
-            console.log("Clicked close")
-            $(".modal").attr("style", "display:none");
-        });
-    });
+    // $("#examine").click(function(e) {
+    //     console.log("Clicked examine");
+    //     show_codepad();
+    // });
 }
 
 //In the Flask version this was handled by Jinja, alas, Nunjucks seems to evaluate functions passed to it every frame...
@@ -144,6 +136,23 @@ function setup_codepad(){
     }
 }
 
+function show_codepad(ent_target){
+    console.log("Show codepad...")
+    var code_keypad = nunjucks.render('codepad.html')
+    $('#codepad').html(code_keypad)
+    setup_codepad()
+
+    $(".modal").attr("style", "display:block")
+    $("#close_btn").click(function(e) {
+        console.log("Clicked close")
+        $(".modal").attr("style", "display:none");
+        //unpause game
+        unpause_game();
+        //unlock target
+        unlock_target(ent_target);
+    });
+}
+
 //});
 
-export { setup_keypad, setup_inventory }
+export { setup_keypad, setup_inventory, show_codepad }
