@@ -186,8 +186,16 @@ var act_and_update = function (action) {
      //run the systems
     State.world.process()
 
-    //redraw
-    draw()
+    //redraw only if no pause
+    var player_ent;
+    //player
+    for (var [ent, player] of State.world.get_component(Player)){
+      player_ent = ent;
+    }
+    if (!State.world.component_for_entity(player_ent, Pause)){
+      draw();
+    }
+
 };
 
 
