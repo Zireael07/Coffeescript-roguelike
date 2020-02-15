@@ -9,7 +9,8 @@
         },
         "blocks_tile" : true,
         "blocks_visibility" : true,
-        "door_open" : true
+        "door_open" : true,
+        "door_locked" : "0451"
     },
     "table": {
         "name" : "Table",

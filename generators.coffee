@@ -1,5 +1,5 @@
 import { Renderable, Name, Stats, Faction, AIMovement, MedItem, Ranged, Wearable, Weapon, MeleeBonus,
-TileBlocker, VisibilityBlocker, Door } from './components.js';
+TileBlocker, VisibilityBlocker, Door, Lock } from './components.js';
 import { State } from './js_game_vars.js';
 import { RenderOrder, Movement } from './enums.js';
 
@@ -125,6 +125,10 @@ generate_prop = (_id) ->
 
     if 'door_open' of State.props_data[_id]
         comps.push new Door(State.props_data[_id]['door_open'])
+    if 'door_locked' of State.props_data[_id]
+        comps.push new Lock("0451")
+        #comps.push new Lock(State.props_data[_id]['door_locked'])
+        #comps.push new Lock(4510)
 
     return comps
 
