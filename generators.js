@@ -14,7 +14,8 @@ import {
   MeleeBonus,
   TileBlocker,
   VisibilityBlocker,
-  Door
+  Door,
+  Lock
 } from './components.js';
 
 import {
@@ -161,6 +162,11 @@ generate_prop = function(_id) {
   if ('door_open' in State.props_data[_id]) {
     comps.push(new Door(State.props_data[_id]['door_open']));
   }
+  if ('door_locked' in State.props_data[_id]) {
+    comps.push(new Lock("0451"));
+  }
+  //comps.push new Lock(State.props_data[_id]['door_locked'])
+  //comps.push new Lock(4510)
   return comps;
 };
 

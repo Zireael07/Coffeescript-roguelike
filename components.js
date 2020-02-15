@@ -20,9 +20,15 @@ class Player {
   constructor() {}
 }
 
+//game loop control
 class TurnComponent {
   constructor() {}
 }
+
+class Pause {
+  constructor() {}
+}
+
 
 class Renderable {
   constructor(char="h", color=[255,255,255], order=RenderOrder.ACTOR) {
@@ -184,9 +190,15 @@ class Door {
   }
 }
 
+class Lock {
+  constructor(keycode) {
+    this.keycode = keycode;
+  }
+}
 
-  export { Velocity, Position, Player, TurnComponent, Renderable, TileBlocker,
+
+  export { Velocity, Position, Player, TurnComponent, Pause, Renderable, TileBlocker,
     NPC, AIMovement, Faction, Combat, Stats, Attributes, Skills, Name, Dead, Skip,
     Item, WantToPickup, InBackpack, Equipped, Wearable, Weapon, MeleeBonus, WantToUseItem, MedItem, 
-    WantToDrop, Ranged, Cursor, VisibilityBlocker, Door
+    WantToDrop, Ranged, Cursor, VisibilityBlocker, Door, Lock
    }

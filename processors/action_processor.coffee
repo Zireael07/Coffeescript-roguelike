@@ -68,11 +68,10 @@ class ActionProcessor
                     # toggle it off
                     @world.remove_component(ent, Cursor)
 
-            unless @world.component_for_entity(ent, Cursor)
-                # no longer our turn, AI now acts
-                @world.remove_component(ent, TurnComponent)
-            #@world.add_and_run_processor(new AIProcessor())
-            #console.log @world.processors
+            # unless @world.component_for_entity(ent, Cursor)
+            #     console.log("Removing turn component...")
+            #     # no longer our turn, AI now acts
+            #     @world.remove_component(ent, TurnComponent)
             
             return # avoid coffeescript's implicit return
 

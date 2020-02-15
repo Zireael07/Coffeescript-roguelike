@@ -93,12 +93,8 @@ ActionProcessor = class ActionProcessor {
           this.world.add_component(ent, new Cursor(pos.x, pos.y, null));
         } else {
           // toggle it off
-          this.world.remove_component(ent, Cursor);
+          this.world.remove_component(ent, Cursor); // avoid coffeescript's implicit return
         }
-      }
-      if (!this.world.component_for_entity(ent, Cursor)) {
-        // no longer our turn, AI now acts
-        this.world.remove_component(ent, TurnComponent); // avoid coffeescript's implicit return
       }
       return;
     }
@@ -107,7 +103,9 @@ ActionProcessor = class ActionProcessor {
 };
 
 export {
-  //@world.add_and_run_processor(new AIProcessor())
-  //console.log @world.processors
+  // unless @world.component_for_entity(ent, Cursor)
+  //     console.log("Removing turn component...")
+  //     # no longer our turn, AI now acts
+  //     @world.remove_component(ent, TurnComponent)
   ActionProcessor
 };

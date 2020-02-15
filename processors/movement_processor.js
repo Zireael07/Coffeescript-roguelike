@@ -6,9 +6,13 @@ import {
   Velocity,
   TileBlocker,
   Combat,
+  Pause,
+  Cursor,
+  TurnComponent,
   Door,
   VisibilityBlocker,
-  Renderable
+  Renderable,
+  Lock
 } from '../components.js';
 
 import {
@@ -18,6 +22,10 @@ import {
 import {
   State
 } from '../js_game_vars.js';
+
+import {
+  show_codepad
+} from '../keypad.js';
 
 MovementProcessor = class MovementProcessor {
   
@@ -60,6 +68,16 @@ MovementProcessor = class MovementProcessor {
         [ent_target, comps] = ref1[j];
         [blocker, pos_tg] = comps;
         if (pos_tg.x === tx && pos_tg.y === ty) {
+          if (this.world.component_for_entity(ent_target, Lock)) {
+            // can't go through, message 
+            //State.messages.push [ "This is protected by a lock", [255,255,255] ]
+            show_codepad(ent_target);
+            tx = pos.x;
+            ty = pos.y;
+            // stays our turn
+            this.world.add_component(ent, new Pause());
+            continue;
+          }
           if (this.world.component_for_entity(ent_target, Door)) {
             // open, unblock visibility and movement
             this.world.component_for_entity(ent_target, Door).open = true;
@@ -79,8 +97,14 @@ MovementProcessor = class MovementProcessor {
       if (!this.world.component_for_entity(ent, Combat)) {
         console.log("move...");
         pos.x = tx;
-        pos.y = ty; // avoid implicit return
+        pos.y = ty;
       }
+    }
+    // the next processor is AI so remove the turn component
+    // no longer our turn, AI now acts
+    if (!(this.world.component_for_entity(ent, Pause) || this.world.component_for_entity(ent, Cursor))) {
+      console.log("Removing turn component...");
+      this.world.remove_component(ent, TurnComponent); // avoid implicit return
     }
   }
 
