@@ -4,13 +4,13 @@
         <tr>
           <td>
     <!-- simple HTML console-->
-    <div id="console" style="font-family: mono;">
+    <div id="console" style="font-family: mono; background-color: black;">
   <!-- For loop logic of jinja template -->
-          <!-- 18 px for Source Code Pro-->
+          <!-- 18 px for Source Code Pro + 4 px for 2*2px border-->
       <!--https://stackoverflow.com/questions/45719062/jinja-docx-template-avoiding-new-line-in-nested-for-->
     {%for y in range(0, 20)%} 
-    <div style="height:18px;">
-    {%for x in range(0, 20)%}<span class="{{terminal[x][y][2] }}" style="color:rgb({{terminal[x][y][1]}});">{{terminal[x][y][0]|safe}}</span>{%endfor%}
+    <div style="height:24px;">
+    {%for x in range(0, 20)%}<span class="{{terminal[x][y][2] | join(' ') }}" style="color:rgb({{terminal[x][y][1]}});">{{terminal[x][y][0]|safe}}</span>{%endfor%}
     </div>
     {%endfor%} 
     </div>

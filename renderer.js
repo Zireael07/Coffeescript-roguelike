@@ -110,10 +110,10 @@ redraw_terminal = function(position, inc_map, fov) {
       }
     }
     // draw (subtracting camera start to draw in screen space)
-    terminal[pos.x - width_start][pos.y - height_start] = [visual.char, visual.color, ret];
+    terminal[pos.x - width_start][pos.y - height_start] = [visual.char, visual.color, ["normal", ret]];
   }
   // draw player
-  terminal[position.x - width_start][position.y - height_start] = ['@', [255, 255, 255], "friendly"];
+  terminal[position.x - width_start][position.y - height_start] = ['@', [255, 255, 255], ["normal", "friendly"]];
   // cursor
   cursor = null;
   ref1 = State.world.get_components(Player, Cursor);
@@ -123,7 +123,7 @@ redraw_terminal = function(position, inc_map, fov) {
     cursor = cur;
   }
   if (cursor !== null) {
-    terminal[cursor.x - width_start][cursor.y - height_start][2] = "cursor"; // change style to cursor 
+    terminal[cursor.x - width_start][cursor.y - height_start][2].push("cursor"); // change style to cursor 
   }
   return [terminal];
 };
@@ -137,7 +137,7 @@ get_terminal = function(inc_map, fov) {
   for (x = i = 0; i <= 21; x = ++i) {
     mapa.push([]);
     for (y = j = 0; j <= 21; y = ++j) {
-      mapa[x].push(["&nbsp;", [255, 255, 255], "normal"]);
+      mapa[x].push(["&nbsp;", [255, 255, 255], ["normal"]]);
     }
   }
   //mapa = ((["&nbsp;", [255,255,255]] for num in [0..21]) for num in [0..21])
@@ -171,10 +171,10 @@ get_terminal = function(inc_map, fov) {
         //console.log("x: " + tx + " y: " + ty + " glyph: " + glyph)
         if (fov[tx][ty] === 1) { // visible
           //console.log TileTypes.data[inc_map[x][y]].map_str
-          mapa[x][y] = [glyph, TileTypes.data[inc_map[tx][ty]].color, "normal"];
+          mapa[x][y] = [glyph, TileTypes.data[inc_map[tx][ty]].color, ["normal"]];
         // explored
         } else if (State.explored[tx][ty] === 1) {
-          mapa[x][y] = [glyph, [], "explored"];
+          mapa[x][y] = [glyph, [], ["explored"]];
         }
       }
       x += 1;
