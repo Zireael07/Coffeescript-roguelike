@@ -15,16 +15,27 @@
     color: #b3b3b3;
     background-color: black;
     font-weight:bold;
+    /* Add border to mitigate offsets with border-style cursor */
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
 }
 
 .normal {
     /*color: white; */
     background-color: black;
     font-weight:bold;
+    /* Add border to mitigate offsets with border-style cursor */
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
 }
 
 .cursor {
-    background-color: blue;
+    /*background-color: blue; */
+    border-color: blue;
+    border-style: solid;
+    border-width: 2px;
     color: white;
 }
 
