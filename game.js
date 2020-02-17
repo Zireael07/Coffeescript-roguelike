@@ -74,6 +74,8 @@ function loadData() {
               success: function(res){
                 State.props_data = res;
                 setup();
+                //welcome message
+                State.messages.push(["Welcome to Neon Twilight!", [0, 255, 255]])
                 initial_draw();
               }
             })

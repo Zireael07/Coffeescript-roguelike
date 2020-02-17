@@ -20,13 +20,15 @@ function initial_draw() {
     //camera
     State.camera.update(pos)
     var term = redraw_terminal(pos, get_map(), get_fov())[0];
+    //HUD
+    var msgs = get_messages();
     var stat = get_stats();
     var inventory = get_inventory();
     var equipped = get_equipped();
 
     var env = nunjucks.configure('templates', { autoescape: true });
 
-    var maintem = nunjucks.render('main.html', { position: pos, terminal: term, messages: [], stats: stat, inventory: inventory, equipped: equipped })
+    var maintem = nunjucks.render('main.html', { position: pos, terminal: term, messages: msgs, stats: stat, inventory: inventory, equipped: equipped })
     //force updates the whole page
     //document.write(
     $('#output').html(maintem)
