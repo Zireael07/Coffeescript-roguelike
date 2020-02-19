@@ -4,7 +4,7 @@ import { Tree } from './bsp.js';
 import { State } from './js_game_vars.js';
 import { remove_list } from './intersection.js'
 
-building_tag = { 1: "PUB", 2: "HOVEL", 3: "UNASSIGNED" }
+building_tag = { 1: "PUB", 2: "HOVEL", 3: "CAPSULE", 4: "UNASSIGNED" }
 
 
 paint_leaf = (leaf, tree, level) ->
@@ -111,17 +111,19 @@ sort_fun = (a,b) ->
     return b[1]-a[1]
 
 make_hovel = (sorted, i, max) ->
-    if i > 0 and i < max
+    if i > 1 and i <= max
         sorted[i][2] = 2
         console.log(i + " is hovel")
 
 sort_buildings = (rooms) ->
     building_size = []
-    # 3 means unassigned (see beginning of file)
-    building_size.push [i, r.w*r.h, 3, r] for r, i in rooms
+    # 4 means unassigned (see beginning of file)
+    building_size.push [i, r.w*r.h, 4, r] for r, i in rooms
     sorted = building_size.sort(sort_fun)
-    # biggest is pub
-    sorted[0][2] = 1
+    # biggest is capsule
+    sorted[0][2] = 3
+    # then comes pub
+    sorted[1][2] = 1
     # others are hovels
     make_hovel(sorted, i, sorted.length-1) for s, i in sorted
     console.log sorted 
@@ -130,6 +132,8 @@ sort_buildings = (rooms) ->
 call_building_fun = (i, sized, level) ->
     if sized[i][2] == 1
         build_pub(sized[i][3], level)
+    if sized[i][2] == 3
+        build_capsule(sized[i][3], level)
 
 building_factory = (level, building_size) ->
     call_building_fun(i, building_size, level) for building, i in building_size
@@ -154,6 +158,25 @@ build_pub = (room, level) ->
                 level.spawns.push [[x,y], [to_place_npcs[0], "npc"] ]
                 to_place_npcs = remove_list(to_place_npcs, to_place_npcs[0])
 
+build_capsule = (room, level) ->
+    start_x = room.x1+1
+    end_x = room.x2-1
+    start_y = room.y1+1
+    end_y = room.y2-1
+    # place dividing walls
+    for x in [start_x..end_x]
+        # if divides by 3, put a wall
+        # this ensures equal sized capsules
+        if (x-start_x) > 1 and (x-start_x) %% 3 == 0
+            for y in [start_y..end_y]
+                level.mapa[x][y] = TileTypes.WALL
+        # if not
+        # if first partition or second
+        if ((x-start_x) < 3+1 or (x-start_x) > 6+1) and (x-start_x) %% 3 != 0
+            for y in [start_y..end_y]
+                # same trick as above
+                if (y-start_y) > 1 and (y-start_y) %% 3 == 0
+                    level.mapa[x][y] = TileTypes.WALL
 
 # doors
 find_rooms = (leaf, tree, level) ->
