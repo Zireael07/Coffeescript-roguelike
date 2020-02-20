@@ -1,5 +1,6 @@
 //ES 6 feature - import
-import { act_and_update, onStateLoaded, unpause_game, unlock_target } from "./game.js"
+import { act_and_update, onStateLoaded, unpause_game, 
+    unlock_target, reveal_map } from "./game.js"
 import { State } from './js_game_vars.js'
 import { saveJS, loadJS } from "./save.js"
 
@@ -94,6 +95,10 @@ function setup_keypad(inventory) {
     //     console.log("Clicked examine");
     //     show_codepad();
     // });
+    $("#debug").click(function(e) {
+        console.log("Clicked debug")
+        show_debug();
+    });
 }
 
 //In the Flask version this was handled by Jinja, alas, Nunjucks seems to evaluate functions passed to it every frame...
@@ -151,6 +156,25 @@ function show_codepad(ent_target){
         //unlock target
         unlock_target(ent_target);
     });
+}
+
+function show_debug(){
+    var debug = nunjucks.render('debug.html')
+    $('#debug_menu').html(debug)
+
+    $("#debug-view").click(function(e) {
+        console.log("Clicked debug view");
+        reveal_map();
+    })
+
+    $(".modal").attr("style", "display:block")
+    $("#close_btn").click(function(e) {
+        console.log("Clicked close")
+        $(".modal").attr("style", "display:none");
+        //unpause game
+        //unpause_game();
+    });
+
 }
 
 //});
