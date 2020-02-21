@@ -172,11 +172,17 @@ build_capsule = (room, level) ->
                 level.mapa[x][y] = TileTypes.WALL
         # if not
         # if first partition or second
-        if ((x-start_x) < 3+1 or (x-start_x) > 6+1) and (x-start_x) %% 3 != 0
+        if ((x-start_x) < 3+1 or (x-start_x) > 5+1) and (x-start_x) %% 3 != 0
             for y in [start_y..end_y]
                 # same trick as above
                 if (y-start_y) > 1 and (y-start_y) %% 3 == 0
                     level.mapa[x][y] = TileTypes.WALL
+
+    # force door
+    [x, y] = room.center()
+    level.mapa[x][room.y2-1] = TileTypes.FLOOR
+    # spawn the prop
+    level.spawns.push [[x, room.y2-1], ["door", "prop"] ]
 
 # doors
 find_rooms = (leaf, tree, level) ->

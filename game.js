@@ -3,7 +3,7 @@ import { World } from './ecs.js';
 import {Position, Player, Cursor, Pause, Stats, Name, Dead, InBackpack, Skip, Equipped, Lock} from './components.js'
 import { MovementProcessor } from './processors/movement_processor.js'
 import {ActionProcessor} from './processors/action_processor.js'
-import { FovProcessor, init_FOV, init_explored, transparent, explore } from './processors/fov_processor.js'
+import { FovProcessor, init_FOV, init_explored, transparent, explore, all_explored } from './processors/fov_processor.js'
 import { AIProcessor } from './processors/ai_processor.js'
 import { CombatProcessor } from './processors/combat_processor.js'
 import { DeathProcessor } from './processors/death_processor.js'
@@ -215,6 +215,12 @@ var unlock_target = function (ent) {
   State.messages.push(["Door was unlocked!", [255, 255, 255]])
 }
 
+var reveal_map = function() {
+  all_explored(State.world.get_processor(FovProcessor).fov_ob);
+  //console.log(State.explored)
+}
+
+
 var get_position = function () {
     var player, pos;
     for (var [ent, comps] of State.world.get_components(Player, Position)) {
@@ -371,4 +377,5 @@ function onStateLoaded(loaded_State){
   draw()
 }
 
-export { get_position, get_cursor_position, get_stats, get_inventory, get_equipped, get_map, get_fov, loadData, setup, act_and_update, unpause_game, unlock_target, get_faction_reaction, onStateLoaded }
+export { get_position, get_cursor_position, get_stats, get_inventory, get_equipped, get_map, get_fov, loadData, setup, act_and_update, unpause_game, 
+  unlock_target, reveal_map, get_faction_reaction, onStateLoaded }

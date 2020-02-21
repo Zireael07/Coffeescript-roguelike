@@ -213,13 +213,12 @@ build_pub = function(room, level) {
 };
 
 build_capsule = function(room, level) {
-  var end_x, end_y, j, k, ref, ref1, ref2, ref3, results, start_x, start_y, x, y;
+  var end_x, end_y, j, k, l, ref, ref1, ref2, ref3, ref4, ref5, start_x, start_y, x, y;
   start_x = room.x1 + 1;
   end_x = room.x2 - 1;
   start_y = room.y1 + 1;
   end_y = room.y2 - 1;
 // place dividing walls
-  results = [];
   for (x = j = ref = start_x, ref1 = end_x; (ref <= ref1 ? j <= ref1 : j >= ref1); x = ref <= ref1 ? ++j : --j) {
     // if divides by 3, put a wall
     // this ensures equal sized capsules
@@ -230,25 +229,20 @@ build_capsule = function(room, level) {
     }
     // if not
     // if first partition or second
-    if (((x - start_x) < 3 + 1 || (x - start_x) > 6 + 1) && modulo(x - start_x, 3) !== 0) {
-      results.push((function() {
-        var l, ref4, ref5, results1;
-        results1 = [];
-        for (y = l = ref4 = start_y, ref5 = end_y; (ref4 <= ref5 ? l <= ref5 : l >= ref5); y = ref4 <= ref5 ? ++l : --l) {
-          // same trick as above
-          if ((y - start_y) > 1 && modulo(y - start_y, 3) === 0) {
-            results1.push(level.mapa[x][y] = TileTypes.WALL);
-          } else {
-            results1.push(void 0);
-          }
+    if (((x - start_x) < 3 + 1 || (x - start_x) > 5 + 1) && modulo(x - start_x, 3) !== 0) {
+      for (y = l = ref4 = start_y, ref5 = end_y; (ref4 <= ref5 ? l <= ref5 : l >= ref5); y = ref4 <= ref5 ? ++l : --l) {
+        // same trick as above
+        if ((y - start_y) > 1 && modulo(y - start_y, 3) === 0) {
+          level.mapa[x][y] = TileTypes.WALL;
         }
-        return results1;
-      })());
-    } else {
-      results.push(void 0);
+      }
     }
   }
-  return results;
+  // force door
+  [x, y] = room.center();
+  level.mapa[x][room.y2 - 1] = TileTypes.FLOOR;
+  // spawn the prop
+  return level.spawns.push([[x, room.y2 - 1], ["door", "prop"]]);
 };
 
 // doors

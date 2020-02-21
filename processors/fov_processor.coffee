@@ -53,6 +53,14 @@ init_explored = (fov_ob) ->
 
     return explored
 
+all_explored = (fov_ob) ->
+    for x in [0..fov_ob.mapWidth]
+        for y in [0..fov_ob.mapHeight]
+            State.explored[x][y] = 1
+            #console.log State.explored[x][y]
+
+    return # explored
+
 update_FOV = (src_x, src_y, fov_ob) ->
 
     # Generate FOV
@@ -84,4 +92,4 @@ class FovProcessor
             update_FOV(pos.x, pos.y, this.fov_ob)
 
 
-export { FovProcessor, init_FOV, init_explored, explore, block_sight, transparent, update_FOV }
+export { FovProcessor, init_FOV, init_explored, explore, block_sight, transparent, update_FOV, all_explored }
