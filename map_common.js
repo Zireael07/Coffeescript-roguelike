@@ -96,7 +96,8 @@ glyph_lookup = {
   11: "╠", // wall to the south, north and east
   12: "═", // wall to the east and west
   13: "╩", // wall to the east, west and south
-  14: "╦" // wall to the east, west and north
+  14: "╦", // wall to the east, west and north
+  15: "╬" // wall on all sides
 };
 
 drawn_wall_glyph = function(inc_map, x, y) {
