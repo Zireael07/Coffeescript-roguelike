@@ -213,7 +213,7 @@ build_pub = function(room, level) {
 };
 
 build_capsule = function(room, level) {
-  var end_x, end_y, j, k, l, ref, ref1, ref2, ref3, ref4, ref5, start_x, start_y, x, y;
+  var end_x, end_y, j, k, l, m, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, start_x, start_y, x, y;
   start_x = room.x1 + 1;
   end_x = room.x2 - 1;
   start_y = room.y1 + 1;
@@ -237,8 +237,21 @@ build_capsule = function(room, level) {
         }
       }
     }
+    
+    // doors to capsules
+    if ((x - start_x) > 1 && modulo(x - start_x, 3) === 0) {
+      for (y = m = ref6 = start_y, ref7 = end_y; (ref6 <= ref7 ? m <= ref7 : m >= ref7); y = ref6 <= ref7 ? ++m : --m) {
+        if ((y - start_y) > 1 && y < end_y && modulo(y - start_y, 3) === 1) {
+          level.mapa[x][y] = TileTypes.FLOOR;
+          // spawn the prop
+          level.spawns.push([[x, y], ["door", "prop"]]);
+        }
+      }
+    }
   }
-  // force door
+  //console.log("Door @ " + x + " " + y)
+
+    // force door
   [x, y] = room.center();
   level.mapa[x][room.y2 - 1] = TileTypes.FLOOR;
   // spawn the prop

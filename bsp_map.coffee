@@ -177,6 +177,15 @@ build_capsule = (room, level) ->
                 # same trick as above
                 if (y-start_y) > 1 and (y-start_y) %% 3 == 0
                     level.mapa[x][y] = TileTypes.WALL
+        
+        # doors to capsules
+        if (x-start_x) > 1 and (x-start_x) %% 3 == 0
+            for y in [start_y..end_y]
+                if (y-start_y) > 1 and y < end_y and (y-start_y) %% 3 == 1
+                    level.mapa[x][y] = TileTypes.FLOOR
+                    # spawn the prop
+                    level.spawns.push [[x, y], ["door", "prop"] ]
+                    #console.log("Door @ " + x + " " + y)
 
     # force door
     [x, y] = room.center()
