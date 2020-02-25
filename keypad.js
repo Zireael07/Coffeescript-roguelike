@@ -134,9 +134,15 @@ function setup_inventory(inventory, drop=false){
 }
 
 function setup_codepad(){
-    for (var i = 1; i < 10; i++){
+    for (var i = 0; i < 10; i++){
         $(document.getElementById(i)).click(function(e) {
             console.log("Clicked " + $(this).val());
+            //var txt = $(document.getElementById("code")).text()
+            if ($(document.getElementById("code")).text().length < 5){
+                //console.log("L: " + $(document.getElementById("code")).text().length)
+                //append on click
+                $(document.getElementById("code")).append($(this).val())
+            }
         });
     }
 }
@@ -153,6 +159,7 @@ function show_codepad(ent_target){
         $(".modal").attr("style", "display:none");
         //unpause game
         unpause_game();
+        console.log("Entered code: " + $(document.getElementById("code")).text())
         //unlock target
         unlock_target(ent_target);
     });
