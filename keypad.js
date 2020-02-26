@@ -159,9 +159,10 @@ function show_codepad(ent_target){
         $(".modal").attr("style", "display:none");
         //unpause game
         unpause_game();
-        console.log("Entered code: " + $(document.getElementById("code")).text())
+        var code = $(document.getElementById("code")).text().trim();
+        console.log("Entered code: " + code);
         //unlock target
-        unlock_target(ent_target);
+        unlock_target(code, ent_target);
     });
 }
 

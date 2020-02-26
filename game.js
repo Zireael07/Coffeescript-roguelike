@@ -210,9 +210,16 @@ var unpause_game = function () {
   State.world.remove_component(player_ent, Pause);
 }
 
-var unlock_target = function (ent) {
-  State.world.remove_component(ent, Lock);
-  State.messages.push(["Door was unlocked!", [255, 255, 255]])
+var unlock_target = function (code, ent) {
+  console.log("Code: " + code);
+  console.log("Entity code: " + State.world.component_for_entity(ent, Lock).keycode)
+  if (State.world.component_for_entity(ent, Lock).keycode == code){
+    State.world.remove_component(ent, Lock);
+    State.messages.push(["Door was unlocked!", [255, 255, 255]])
+  }
+  else{
+    State.messages.push(["Wrong code given, door still locked", [255, 0, 0]])
+  }
 }
 
 var reveal_map = function() {
