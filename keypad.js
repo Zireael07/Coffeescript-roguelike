@@ -157,12 +157,13 @@ function show_codepad(ent_target){
     $("#close_btn").click(function(e) {
         console.log("Clicked close")
         $(".modal").attr("style", "display:none");
-        //unpause game
-        unpause_game();
+
         var code = $(document.getElementById("code")).text().trim();
         console.log("Entered code: " + code);
         //unlock target
         unlock_target(code, ent_target);
+        //unpause game
+        unpause_game();
     });
 }
 

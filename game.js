@@ -208,6 +208,8 @@ var unpause_game = function () {
     player_ent = ent;
   }
   State.world.remove_component(player_ent, Pause);
+  //force redraw
+  act_and_update({'move': [0,0] })
 }
 
 var unlock_target = function (code, ent) {
