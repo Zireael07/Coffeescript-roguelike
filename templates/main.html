@@ -1,5 +1,5 @@
 <div id="output">
-    <table>
+    <table style="float: left;">
       <tbody>
         <tr>
           <td>
@@ -33,9 +33,16 @@
         </tr>
       </tbody>
     </table>
-  
+    <div style="margin-left: 410px">
+      <h1 style="background-color: lightslategray; color:aqua"> Neon Twilight </h1>
+      <p>This is a tech demo of a turn-based roguelike using only HTML and JS.</p>
+      <p>Small display size due to:</p>
+      <p>  a) mobile support </p>
+      <p>  b) HTML DOM doesn't scale up for bigger projects.</p>
     </div>
-    <div id="messages" style="font-family: mono; padding-top: 20px;">
+
+    </div>
+    <div id="messages" style="font-family: mono; padding-top: 20px; clear: both;">
       {%for message in messages %}
       <div>
       <span style="background-color: black; color:rgb({{message[1]}})">{{message[0]}}</span>
